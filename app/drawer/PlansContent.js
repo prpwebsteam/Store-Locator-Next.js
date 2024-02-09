@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 function PlansContent() {
-  const pricingTiers = [
+  const initialPricingTiers = [
     {
       title: 'Free',
       price: 'Free',
@@ -14,6 +14,7 @@ function PlansContent() {
         'Edit from theme customizer',
         'Search Nearby Stores',
       ],
+      isPaid: false,
     },
     {
       title: 'Basic',
@@ -28,6 +29,7 @@ function PlansContent() {
         'Edit from theme customizer',
         'Search Nearby Stores',
       ],
+      isPaid: false,
     },
     {
       title: 'Plus',
@@ -42,6 +44,7 @@ function PlansContent() {
         'Edit from theme customizer',
         'Search Nearby Stores',
       ],
+      isPaid: false,
     },
     {
       title: 'Pro',
@@ -56,33 +59,38 @@ function PlansContent() {
         'Edit from theme customizer',
         'Search Nearby Stores',
       ],
+      isPaid: false,
     },
   ];
 
   return (
     <>
-          <div className="mx-auto min-h-screen transition-margin duration-300 ease-in-out">
-            <div className=" max-w-[1440px] mx-auto py-12 px-4 sm:px-6 lg:px-8">
-    
-              {/* Pricing Tiers */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-                {pricingTiers.map((tier, index) => (
-                  <div key={index} className="shadow-2xl p-6 flex flex-col gap-6 rounded-xl bg-white">
-                    <h3 className="text-lg font-bold">{tier.title}</h3>
-                    <p className="text-lg">{tier.price}</p>
-                    <ul className="list-disc pl-6">
-                      {tier.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="text-sm">{feature}</li>
-                      ))}
-                    </ul>
-                    <button className="mt-auto hover:bg-slate-400 bg-[#0040A9] hover:text-black text-white px-4 py-2 hover:shadow-xl rounded-lg font-bold">
-                      Choose Plan
-                    </button>
-                  </div>
-                ))}
+      <div className="mx-auto min-h-screen transition-margin duration-300 ease-in-out">
+        <div className="max-w-[1440px] mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+            {pricingTiers.map((tier, index) => (
+              <div key={index} className="shadow-2xl p-6 flex flex-col gap-6 rounded-xl bg-white">
+                <h3 className="text-lg font-bold">{tier.title}</h3>
+                <p className="text-lg">{tier.price}</p>
+                <ul className="list-disc pl-6">
+                  {tier.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="text-sm">{feature}</li>
+                  ))}
+                </ul>
+                {tier.isPaid ? (
+                  <button className="mt-auto bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-bold">
+                    Paid
+                  </button>
+                ) : (
+                  <button className="mt-auto bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-bold">
+                    Upgrade
+                  </button>
+                )}
               </div>
-            </div>
+            ))}
           </div>
+        </div>
+      </div>
     </>
   );
 }

@@ -14,6 +14,7 @@ const Map = () => {
   const [unit, setUnit] = useState("mi");
   const [filters, setFilters] = useState([]);
   const [stores, setStores] = useState([]);
+  const [selectedStore, setSelectedStore] = useState(null);
   const [searchBtnDisabled, setSearchBtnDisabled] = useState(false);
   const [autocomplete, setAutocomplete] = useState(null);
   const searchInputRef = useRef(null);
@@ -276,7 +277,7 @@ const Map = () => {
       var match = false;
 
       for (var i = 0; i < tags.length; i++) {
-        tag = tags[i].toLowerCase().trim();
+        var tag = tags[i].toLowerCase().trim();
 
         if ($.inArray(tag, filters) != -1) {
           match = true;
@@ -608,7 +609,7 @@ const Map = () => {
 
   console.log("pawan", map)
   return (
-    <div className="container-pw-store-locator pw-locator" id="store-search-form">
+    <div className="container-pw-store-locator pw-locator p-4" id="store-search-form">
       <div className="pw-horizontal-map">
         { console.log("bhairav", stores)}
         <form onSubmit={handleSubmit}>

@@ -8,6 +8,8 @@ import StoreList from '../drawer/StoreList';
 import Settings from '../drawer/Settings';
 import Instructions from '../drawer/Instructions';
 import { useRouter } from 'next/navigation';
+import Account from '../drawer/Account';
+import ImportExport from '../drawer/Import-Export';
 
 function Dashboard() {
   const [selectedContent, setSelectedContent] = useState(null);
@@ -48,8 +50,19 @@ function Dashboard() {
             >
               Settings
             </a>
-            <a href="#" style={{color: '#000', 'font-weight': '700', padding: '8px 8px 8px 32px', textDecoration: 'none', display: 'block'}}>Import/Export</a>
-            <a href="#" style={{color: '#000', 'font-weight': '700', padding: '8px 8px 8px 32px', textDecoration: 'none', display: 'block'}}>Account</a>
+
+            <a
+              style={{ color: '#000', 'font-weight': '700', padding: '8px 8px 8px 32px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
+              onClick={() => selectContent('ImportExport')} 
+            >
+              Import/Export
+            </a>
+            <a
+              style={{ color: '#000', 'font-weight': '700', padding: '8px 8px 8px 32px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
+              onClick={() => selectContent('Account')} 
+            >
+              Account
+            </a>
             <a
               style={{ color: '#000', 'font-weight': '700', padding: '8px 8px 8px 32px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('Plans')} 
@@ -71,10 +84,11 @@ function Dashboard() {
               {selectedContent === 'Stores' && <StoreList />}
               {selectedContent === 'Settings' && <Settings />}
               {selectedContent === 'Instructions' && <Instructions />}
+              {selectedContent === 'ImportExport' && <ImportExport />}
+              {selectedContent === 'Account' && <Account />}
             </div>
           </div>
         </div>
-        
       <Footer />
     </>
   );

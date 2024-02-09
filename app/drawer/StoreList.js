@@ -65,7 +65,7 @@ const StoreList = () => {
     <div>
         <div className='flex flex-row gap-8 items-center justify-between'>
           <div>
-            <h2>Stores</h2>
+            <h2 className='text-black text-[20px] font-bold'>Stores</h2>
           </div>
           <div className='flex gap-4'>
             <button
