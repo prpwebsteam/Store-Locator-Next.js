@@ -8,7 +8,7 @@ const StoreList = () => {
   const [selectedStores, setSelectedStores] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState(''); 
+  const [filterStatus, setFilterStatus] = useState('');
 
   useEffect(() => {
     fetch('/api/getStores')
@@ -23,6 +23,10 @@ const StoreList = () => {
 
   const handleCreateStoreClick = () => {
     router.push('/createStore');
+  };
+
+  const handleEditStore = (storeId) => {
+    router.push(`/editStore/${storeId}`);
   };
 
   const handleSelectStore = (storeId) => {
@@ -130,13 +134,13 @@ const StoreList = () => {
                       className='w-4 mt-2 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                     />
                   </td>
-                  <td className="text-left px-4" style={{ verticalAlign: 'middle' }}>{store.name}</td>
-                  <td className="text-left px-4" style={{ verticalAlign: 'middle' }}>{store.status}</td>
-                  <td className="text-left px-4" style={{ verticalAlign: 'middle' }}>
+                  <td className="text-left px-4 cursor-pointer" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>{store.name}</td>
+                  <td className="text-left px-4 cursor-pointer" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>{store.status}</td>
+                  <td className="text-left px-4 cursor-pointer" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>
                     {truncateAddress(`${store.addressLine1}, ${store.addressLine2}, ${store.city}, ${store.stateProvince}, ${store.country}`)}
                   </td>
-                  <td className="text-left px-4" style={{ verticalAlign: 'middle' }}>{store.phone}</td>
-                  <td className="text-left px-4" style={{ verticalAlign: 'middle' }}>{store.postalCode}</td>
+                  <td className="text-left px-4 cursor-pointer" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>{store.phone}</td>
+                  <td className="text-left px-4 cursor-pointer" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>{store.postalCode}</td>
                 </tr>
               ))}
             </tbody>

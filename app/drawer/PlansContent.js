@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 function PlansContent() {
-  const initialPricingTiers = [
+  const pricingTiers = [
     {
       title: 'Free',
       price: 'Free',
