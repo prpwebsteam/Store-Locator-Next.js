@@ -73,7 +73,6 @@ const Map = () => {
     const searchInput = searchInputRef.current;
 
     if (searchInput) {
-      console.log("rahul",searchInput.value); 
     }
   }, []);
 
@@ -194,8 +193,8 @@ const Map = () => {
   };
 
   const initialRequestConfig = {
-    url: "/api/getStores", 
-    method: "GET", 
+    url: "/api/getStores",
+    method: "GET",
   };
 
   useEffect(() => {
@@ -312,10 +311,8 @@ const Map = () => {
       const map = new window.google.maps.Map(mapRef.current, mapOptions);
       setMap(map);
   
-      console.log("mohit sir", map)
       // Load default stores and markers
       if (map) { 
-        console.log("Map is now loaded:", map);
     
         showOnLoadLocations(lat, lng, searchDefaults.radius);
       }
@@ -517,7 +514,6 @@ const Map = () => {
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted');
   };
 
   const handleRadiusChange = (e) => {
@@ -530,7 +526,6 @@ const Map = () => {
 
   function renderStores(stores) {
     let storesHtml = "";
-    console.log("vikas sir", stores);
     if (stores && stores.length > 0) {
       stores.forEach(function (store) {
         
@@ -602,16 +597,13 @@ const Map = () => {
   }
 
   if(stores.length>0){
-    console.log(stores,"kk sir");
     renderStores(stores);
   }
 
 
-  console.log("pawan", map)
   return (
     <div className="container-pw-store-locator pw-locator p-4" id="store-search-form">
       <div className="pw-horizontal-map">
-        { console.log("bhairav", stores)}
         <form onSubmit={handleSubmit}>
           <input type="hidden" name="_csrf" value={csrfToken} />
           <div className="pw-top-bar pw-layout">

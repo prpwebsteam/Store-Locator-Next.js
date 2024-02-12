@@ -1,4 +1,4 @@
-// pages/api/payment/create-checkout-session.js
+// pages/api/create-checkout-session.js
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -22,8 +22,8 @@ export default async function handler(req, res) {
         quantity: 1,
       }],
       mode: 'subscription',
-      success_url: `${req.headers.origin}/dashboard/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.origin}/dashboard/cancel`,
+      success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.headers.origin}/cancel`,
     });
 
     return res.status(200).json({ sessionId: session.id });

@@ -36,13 +36,13 @@ function PaymentCard() {
         }
     };
       
-    const redirectToUrl = (priceId) => {
+      const redirectToUrl = async (priceId) => {
         if (!priceId) {
             alert('Free tier selected');
         } else if (priceId.startsWith('http')) {
             window.location.href = priceId;
         } else {
-            console.error('Invalid priceId or URL');
+            await handleCheckout(priceId);
         }
     };
 
