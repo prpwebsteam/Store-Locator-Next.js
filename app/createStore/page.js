@@ -1,9 +1,11 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header2 from '../components/Header2';
 import Footer from '../components/Footer';
+import { useRouter } from 'next/navigation'; 
 
 const CreateStore = () => {
+  const router = useRouter();
   const initialStoreInfo = {
     name: '',
     searchAddress: '',
@@ -25,6 +27,27 @@ const CreateStore = () => {
   };
 
   const [storeInfo, setStoreInfo] = useState(initialStoreInfo);
+
+  useEffect(() => {
+    const fetchStoreDetails = async () => {
+      const { storeId } = router?.query || {};
+      if (storeId) {
+        try {
+          const response = await fetch(`/api/editStore/${storeId}`);
+          if (response.ok) {
+            const data = await response.json();
+            setStoreInfo(data);
+          } else {
+            console.error('Failed to fetch store details');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
+    };
+  
+    fetchStoreDetails();
+  }, [router?.query?.storeId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

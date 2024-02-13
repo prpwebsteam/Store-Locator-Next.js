@@ -1,9 +1,12 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Header2 from '../components/Header2';
 import Footer from '../components/Footer';
 
 const editStore = () => {
+  const router = useRouter();
+  const { storeId } = router?.query || {};
   const initialStoreInfo = {
     name: '',
     searchAddress: '',
@@ -23,8 +26,27 @@ const editStore = () => {
     website: '',
     fax: '',
   };
-
   const [storeInfo, setStoreInfo] = useState(initialStoreInfo);
+
+  useEffect(() => {
+    const fetchStoreDetails = async () => {
+      try {
+        const response = await fetch(`/api/getStore/${storeId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setStoreInfo(data);
+        } else {
+          console.error('Failed to fetch store details');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    if (storeId) {
+      fetchStoreDetails();
+    }
+  }, [storeId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,8 +60,8 @@ const editStore = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/createStore', {
-        method: 'POST',
+      const response = await fetch(`/api/updateStore/${storeId}`, { 
+        method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
         },
@@ -47,21 +69,20 @@ const editStore = () => {
       });
 
       if (response.ok) {
-        console.log('Store created successfully');
-        setStoreInfo(initialStoreInfo);
+        console.log('Store updated successfully');
       } else {
-        console.error('Failed to create store');
+        console.error('Failed to update store');
       }
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  return (
+return (
   <>
   <Header2 />
-  <div className="px-12 py-12 max-w-[1440px] mx-auto">
-    <h2 className="mb-8 font-bold text-xl">Create a Store</h2>
+    <div className="px-12 py-12 max-w-[1440px] mx-auto">
+    <h2 className="mb-8 font-bold text-xl">Edit Store</h2>
     <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-8">
       <div className="col-span-1">
         <div className="flex flex-col">

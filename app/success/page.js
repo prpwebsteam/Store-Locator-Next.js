@@ -1,16 +1,19 @@
+// /success/page.js
 'use client'
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import success from "../assests/success.png"
 import Image from 'next/image';
+import { usePaymentStatus } from '@/contexts/PaymentStatusContext'; 
 
 const Success = () => {
   const router = useRouter();
   const [sessionDetails, setSessionDetails] = useState(null);
+  const  markPlanAsPaid  = usePaymentStatus();
 
   useEffect(() => {
-    if (router.isReady) {
-      const sessionId = router.query.session_id;
+    if (router?.isReady) {
+      const sessionId = router?.query?.session_id;
 
       if (sessionId) {
         const fetchSessionDetails = async () => {
@@ -25,6 +28,7 @@ const Success = () => {
           if (response.ok) {
             const data = await response.json();
             setSessionDetails(data);
+            markPlanAsPaid(data.priceId);
             console.log('Session details:', data);
           } else {
             console.error('Failed to fetch session details');
@@ -34,7 +38,8 @@ const Success = () => {
         fetchSessionDetails();
       }
     }
-  }, [router.isReady]);
+  }, [router?.isReady]);
+
 
   return (
     <div className='bg-green-200 shadow-xl flex flex-col gap-8 mt-16 mx-auto max-w-[500px] rounded-xl justify-center items-center text-center p-16'>

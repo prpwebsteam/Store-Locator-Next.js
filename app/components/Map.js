@@ -70,7 +70,7 @@ const Map = () => {
   };
 
   useEffect(() => {
-    const searchInput = searchInputRef.current;
+    const searchInput = searchInputRef?.current;
 
     if (searchInput) {
     }
@@ -89,7 +89,7 @@ const Map = () => {
     function searchStore(searchString, { lat, lng }, radius) {
       radius = Number(radius);
       let coordinates = { lat, lng };
-      map.setCenter(coordinates);
+      map?.setCenter(coordinates);
   
       if (searchString) {
         let nearby = findStores(lat, lng, radius);
@@ -258,7 +258,7 @@ const Map = () => {
     var d = R * c; // Distance in km
 
     // convert to miles if needed
-    result = unit === "mi" ? d : d * 0.621371;
+    const result = unit === "mi" ? d : d * 0.621371;
 
     return result;
   }
@@ -330,7 +330,7 @@ const Map = () => {
       }
   
       // Add the markers to the map
-      const markers = stores.map((location, i) => {
+      const markers = stores?.map((location, i) => {
         return new window.google.maps.Marker({
           position: {
             lat: Number(location.latitude),
@@ -348,7 +348,13 @@ const Map = () => {
         // Enable marker clustering for this map and these markers
         const clustor = new MarkerClusterer(map, markers, mcOptions);
       }
-  
+      function toggleBounce() {
+        if (this.getAnimation() !== null) {
+          this.setAnimation(null);
+        } else {
+          this.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      }
       markers.map((marker, i) => {
         marker.addListener("click", toggleBounce);
   
@@ -410,15 +416,15 @@ const Map = () => {
   
   // search maps bounding box on zoom change
   function searchBoundary() {
-    let zoom = map.getZoom();
+    let zoom = map?.getZoom();
     var distance = [
       25000, 25000, 20000, 15000, 8000, 1500, 1200, 600, 200, 150, 100, 75, 50,
     ];
 
     let radius = zoom < 12 ? distance[zoom] : 50;
-    let center = map.getCenter();
+    let center = map?.getCenter();
     // search for nearby stores
-    let nearby = findStores(center.lat(), center.lng(), radius);
+    let nearby = findStores(center?.lat(), center?.lng(), radius);
     // render list of stores
     if (nearby.length > 0) {
       renderStores(nearby);
@@ -476,8 +482,8 @@ const Map = () => {
     };
 
     disableZoomSearch(1000); // Implement disableZoomSearch function
-    mapRef.current.setCenter(coordinates); // Use mapRef to access the map instance
-    mapRef.current.setZoom(15); // Set your desired zoom level
+    mapRef?.current?.setCenter(coordinates); // Use mapRef to access the map instance
+    mapRef?.current?.setZoom(15); // Set your desired zoom level
 
     const findStore = stores.filter(
       (store) =>
@@ -598,6 +604,7 @@ const Map = () => {
 
   if(stores.length>0){
     renderStores(stores);
+    console.log("bhairav", stores);
   }
 
 

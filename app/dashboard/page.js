@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import Header2 from '../components/Header2';
 import Footer from '../components/Footer';
@@ -12,12 +12,24 @@ import Account from '../drawer/Account';
 import ImportExport from '../drawer/Import-Export';
 
 function Dashboard() {
-  const [selectedContent, setSelectedContent] = useState(null);
+  const [selectedContent, setSelectedContent] = useState('Stores');
   const router = useRouter();
 
   const selectContent = (content) => {
     setSelectedContent(content);
   };
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      router.push('/signin'); 
+    }
+
+    const queryContent = router.query?.content;
+    if (queryContent) {
+      setSelectedContent(queryContent);
+    }
+  }, [router]);
 
   return (
     <>
@@ -34,44 +46,49 @@ function Dashboard() {
               overflowY: 'hidden',
               transition: '0.5s',
               paddingTop: '40px',
-              paddingLeft: '50px',
               color: 'white',
             }}
           >
             <a
-              style={{ color: '#000', 'font-weight': '700', padding: '8px 8px 8px 32px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
+              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('Stores')} 
+              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
             >
               Stores
             </a>
             <a
-              style={{ color: '#000', 'font-weight': '700', padding: '8px 8px 8px 32px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
+              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('Settings')} 
+              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
             >
               Settings
             </a>
 
             <a
-              style={{ color: '#000', 'font-weight': '700', padding: '8px 8px 8px 32px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
+              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('ImportExport')} 
+              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
             >
               Import/Export
             </a>
             <a
-              style={{ color: '#000', 'font-weight': '700', padding: '8px 8px 8px 32px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
+              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('Account')} 
+              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
             >
               Account
             </a>
             <a
-              style={{ color: '#000', 'font-weight': '700', padding: '8px 8px 8px 32px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
+              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('Plans')} 
+              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
             >
               Plans
             </a>
             <a
-              style={{ color: '#000', 'font-weight': '700', padding: '8px 8px 8px 32px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
+              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('Instructions')} 
+              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
             >
               Instructions
             </a>

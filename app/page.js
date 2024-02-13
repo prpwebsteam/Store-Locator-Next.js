@@ -8,10 +8,11 @@ import ClientLogos from "./components/clientLogos";
 import Footer from "./components/Footer";
 import PaymentCard from "./components/paymentCard";
 import Map from "./components/Map";
+import { PaymentStatusProvider } from '@/contexts/PaymentStatusContext'; 
 
 export default function Home() {
   return (
-    <main>
+    <PaymentStatusProvider>
       <Header />
       <Homepage />
       <ClientLogos />
@@ -21,6 +22,6 @@ export default function Home() {
       <PaymentCard />
       <Owner />
       <Footer />
-    </main>
+    </PaymentStatusProvider>
   );
 }

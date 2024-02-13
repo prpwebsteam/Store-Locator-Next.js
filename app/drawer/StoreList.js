@@ -26,7 +26,7 @@ const StoreList = () => {
   };
 
   const handleEditStore = (storeId) => {
-    router.push(`/editStore/${storeId}`);
+    router.push(`/editStore?storeId=${storeId}`);
   };
 
   const handleSelectStore = (storeId) => {
@@ -107,20 +107,20 @@ const StoreList = () => {
                   </div>
                 </td>
               </tr>
-              <tr>
+              <tr class="border-b border-gray-400">
                 <th>
                   <input
                     type="checkbox"
                     checked={selectAll}
                     onChange={handleSelectAll}
-                    className='w-4 mt-2 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                    className='mb-4 w-4 mt-2 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                   />
                 </th>
-                <th className="text-left px-4">Store Name</th>
-                <th className="text-left px-4">Status</th>
-                <th className="text-left px-4">Address</th>
-                <th className="text-left px-4">Phone</th>
-                <th className="text-left px-4">Zip Code</th>
+                <th className="pb-2 text-left px-4">Store Name</th>
+                <th className="pb-2 text-left px-4">Status</th>
+                <th className="pb-2 text-left px-4">Address</th>
+                <th className="pb-2 text-left px-4">Phone</th>
+                <th className="pb-2 text-left px-4">Zip Code</th>
               </tr>
             </thead>
             <tbody>

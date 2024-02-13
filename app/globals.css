@@ -592,3 +592,20 @@ a.gradient, h1.gradient, h2.gradient {
     text-decoration: none;
     cursor: pointer;
   }
+
+.pw-address-link {
+  color: #0047ab;
+  font-weight: 700;
+}
+
+#pw-radius {
+  border: 1px solid #d3d3d3;
+}
+
+.map-icon svg{
+  fill: #008060;
+}
+
+.pw-list-map-icon {
+  align-items: center !important;
+}
