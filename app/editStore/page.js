@@ -291,7 +291,7 @@ return (
         </div>
       </div>
       <div className="col-span-2">
-        <button type="submit" className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black">Create Store</button>
+        <button type="submit" className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black">Update Store</button>
       </div>
     </form>
   </div>

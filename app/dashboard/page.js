@@ -5,10 +5,11 @@ import Header2 from '../components/Header2';
 import Footer from '../components/Footer';
 import PlansContent from '../drawer/PlansContent';
 import StoreList from '../drawer/StoreList';
-import Settings from '../drawer/Settings';
+import Guidelines from '../drawer/Guidelines';
 import Instructions from '../drawer/Instructions';
 import { useRouter } from 'next/navigation';
 import Account from '../drawer/Account';
+import Settings from '../drawer/Settings';
 import ImportExport from '../drawer/Import-Export';
 
 function Dashboard() {
@@ -58,10 +59,10 @@ function Dashboard() {
             </a>
             <a
               style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
-              onClick={() => selectContent('Settings')} 
+              onClick={() => selectContent('Guidelines')} 
               className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
             >
-              Settings
+              Guidelines
             </a>
 
             <a
@@ -92,6 +93,13 @@ function Dashboard() {
             >
               Instructions
             </a>
+            <a
+              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
+              onClick={() => selectContent('Settings')} 
+              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
+            >
+              Settings
+            </a>
           </div>
 
           <div className="max-w-[1240px] scroll-bar min-h-screen transition-margin duration-300 ease-in-out">
@@ -99,10 +107,11 @@ function Dashboard() {
     
               {selectedContent === 'Plans' && <PlansContent />}
               {selectedContent === 'Stores' && <StoreList />}
-              {selectedContent === 'Settings' && <Settings />}
+              {selectedContent === 'Guidelines' && <Guidelines />}
               {selectedContent === 'Instructions' && <Instructions />}
               {selectedContent === 'ImportExport' && <ImportExport />}
               {selectedContent === 'Account' && <Account />}
+              {selectedContent === 'Settings' && <Settings />}
             </div>
           </div>
         </div>

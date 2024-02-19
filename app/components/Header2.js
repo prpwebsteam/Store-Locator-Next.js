@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'; 
-import Logo from '../assests/logo-1.svg'; 
+import Logo from '../assests/logo-removebg-preview.png'; 
 
 function Header2() {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -37,8 +37,8 @@ function Header2() {
     <nav className='bg-[#0040A9]'>
       <div className="max-w-[1440px] mx-auto flex flex-row justify-between">
         <div className="flex justify-between items-center p-4 w-[100%]">
-          <a href='/'>
-            <Image src={Logo} alt="Logo" width={128} height={64} /> 
+          <a href='/' className='text-[32px] text-white font-bold'>
+            <Image src={Logo} alt="Logo" width={200} height={100} />
           </a>
           <div className="relative">
             <button

@@ -1,48 +1,207 @@
-'use client'
-import React from 'react';
+import React, { useState } from 'react';
 
 const Settings = () => {
-  const videoSrc = "https://www.example.com/path-to-your-video.mp4";
+  const [formData, setFormData] = useState({
+    apiKey: '',
+    googleMapsApiKey: '',
+    layout: 'left',
+    mapTheme: 'retro',
+    zoomLevel: 5,
+    mapBackground: '#FFFFFF',
+    searchIconButton: '#FFFFFF',
+    searchButtonBackground: '#752E3D',
+    markersBehavior: 'group',
+    markerType: 'icon',
+    markerImage: '',
+    iconButtonColor: '#000000',
+  });
+  const [submitMessage, setSubmitMessage] = useState('');
+  const [messageType, setMessageType] = useState('success');
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, markerImage: e.target.files[0] });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const updatedFormData = { ...formData, userId: 'yourUserId' };
+  
+    const response = await fetch('/api/settings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedFormData),
+    });
+  
+    const data = await response.json();
+    if (response.ok) {
+        setSubmitMessage(data.message);
+        setMessageType('success');
+        setTimeout(() => {
+          setSubmitMessage('');
+        }, 3000);
+      } else {
+        setSubmitMessage(data.message);
+        setMessageType('error');
+        setTimeout(() => {
+          setSubmitMessage('');
+        }, 3000);
+      }
+  };
   
   return (
-    <div className="flex items-center flex-col p-5 gap-8">
-      <div className='w-[100%] flex flex-row gap-4 justify-between shadow-xl px-8 py-8 rounded-lg'>
-        <div className="flex-1">
-            <video src={videoSrc} controls className="w-full max-w-md h-auto rounded-lg">
-            Your browser does not support the video tag.
-            </video>
+    <div>
+      <form className='shadow-2xl px-8 py-8 rounded-lg' onSubmit={handleSubmit}>
+        <div className='flex justify-between mb-4 items-center'>
+          <label>API Key:</label>
+          <input
+            className='cursor-pointer px-2 py-1 w-[50%] border-[1px] rounded-lg border-black'
+            type="text"
+            name="apiKey"
+            value={formData.apiKey}
+            onChange={handleInputChange}
+          />
         </div>
-        
-        <div className="flex-1 text-left">
-            <h2 className="text-2xl font-bold">Step 1. Get your Google Api key</h2>
-            <p className="mt-4 mb-8">To enable the Store Locator functionality, you need to obtain a Google Maps API key. The good news is that these keys are available for free and can be set up within a few minutes.</p>
-            <button className="px-6 py-2 text-lg bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors duration-150 ease-in-out">Watch Now</button>
+        <div className='flex justify-between mb-4 items-center'>
+          <label>Google Maps API Key:</label>
+          <input
+            className='cursor-pointer px-2 py-1 w-[50%] border-[1px] rounded-lg border-black'
+            type="text"
+            name="googleMapsApiKey"
+            value={formData.googleMapsApiKey}
+            onChange={handleInputChange}
+          />
         </div>
-      </div>
-      <div className='w-[100%] flex flex-row gap-4 justify-between shadow-xl px-8 py-8 rounded-lg'>
-        <div className="flex-1">
-            <video src={videoSrc} controls className="w-full max-w-md h-auto rounded-lg">
-            Your browser does not support the video tag.
-            </video>
+        <div className='flex justify-between mb-4 items-center'>
+        <label>Select Layout:</label>
+        <select className='cursor-pointer w-[50%] px-2 py-1 border-[1px] border-black rounded-lg' name="layout" value={formData.layout} onChange={handleInputChange}>
+            <option value="layout-1">Search and results on left</option>
+            <option value="layout-2">Search and results on right</option>
+            <option value="layout-3">Search bar on top, results on left</option>
+            <option value="layout-4">Search bar on top, results on right</option>
+            <option value="layout-5">Search bar on top, results on Bottom</option>
+        </select>
         </div>
-        
-        <div className="flex-1 text-left">
-            <h2 className="text-2xl font-bold">Step 2. Add PW Store Locator to your theme</h2>
-            <p className="mt-4 mb-8">We have created a store locator page for you</p>
-            <button className="px-6 py-2 text-lg bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors duration-150 ease-in-out">Watch Now</button>
+        <div className='flex justify-between mb-4 items-center'>
+          <label>Map Theme:</label>
+          <select className='cursor-pointer px-2 py-1 w-[50%] border-[1px] border-black rounded-lg' name="mapTheme" value={formData.mapTheme} onChange={handleInputChange}>
+            <option value="standard">Standard</option>
+            <option value="silver">Silver</option>
+            <option value="retro">Retro</option>
+            <option value="dark">Dark</option>
+            <option value="night">Night</option>
+            <option value="aubergine">Aubergine</option>
+          </select>
         </div>
-      </div>
-      <div className='w-[100%] flex flex-row gap-4 justify-between shadow-xl px-8 py-8 rounded-lg'>
-        <div className="flex-1">
-            <h2 className="text-2xl font-bold">API Key</h2>
-            <p className="mt-4 mb-8">To enable the Store Locator functionality, you need to obtain a Google Maps API key. The good news is that these keys are available for free and can be set up within a few minutes. Essentially, the API key serves as the means through which your store can request information from Google, such as address lookup.</p>
+        <div className='flex justify-between mb-4 items-center'>
+            <label>Zoom Level:</label>
+            <div className='flex flex-row gap-2 w-[50%]'>
+                <input
+                    className='cursor-pointer w-[90%]'
+                    type="range"
+                    name="zoomLevel"
+                    min="5"
+                    max="30"
+                    value={formData.zoomLevel}
+                    onChange={handleInputChange}
+                />
+                <span className='ml-2'>{formData.zoomLevel}</span>
+            </div>
         </div>
-        
-        <div className="flex-1 text-left shadow-xl p-4 rounded-lg">
-            <h2 className="text-2xl font-bold">Google Maps API Key</h2>
-            <p className="mt-4 mb-8">Follow our instructions for creating a Google Api key, then paste your key above. If you run into trouble, please get in touch for assistance.</p>
+        <div className='flex justify-between mb-4 items-center'>
+          <label>Map Background:</label>
+          <input
+            className='cursor-pointer'
+            type="color"
+            name="mapBackground"
+            value={formData.mapBackground}
+            onChange={handleInputChange}
+          />
         </div>
-      </div>
+        <div className='flex justify-between mb-4 items-center'>
+          <label>Search Icon Button:</label>
+          <input
+            className='cursor-pointer'
+            type="color"
+            name="searchIconButton"
+            value={formData.searchIconButton}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className='flex justify-between mb-4 items-center'>
+          <label>Search Button Background:</label>
+          <input
+            className='cursor-pointer'
+            type="color"
+            name="searchButtonBackground"
+            value={formData.searchButtonBackground}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className='flex justify-between mb-4 items-center'>
+          <label>Markers Behavior:</label>
+          <select name="markersBehavior" value={formData.markersBehavior} onChange={handleInputChange} className='px-2 py-1 w-[50%] border-[1px] border-black rounded-lg cursor-pointer'>
+            <option value="group">Group locations when zoomed out</option>
+            <option value="noGroup">No grouping</option>
+          </select>
+        </div>
+        <div className='flex justify-between mb-4 items-center'>
+          <label>Choose Map Marker:</label>
+          <div className='flex gap-4 items-center justify-center'>
+            <div className='flex gap-2'>
+                <input
+                className='cursor-pointer'
+                type="radio"
+                name="markerType"
+                value="icon"
+                checked={formData.markerType === 'icon'}
+                onChange={handleInputChange}
+                />
+                <label>Icon</label>
+            </div>
+            <div className='flex gap-2'>
+                <input
+                className='cursor-pointer'
+                type="radio"
+                name="markerType"
+                value="image"
+                checked={formData.markerType === 'image'}
+                onChange={handleInputChange}
+                />
+                <label>Image</label>
+            </div>
+          </div>
+        </div>
+        <div className='flex justify-between mb-4 items-center'>
+          <label>Marker Image:</label>
+          <input className='cursor-pointer w-[220px]' type="file" name="markerImage" onChange={handleFileChange} />
+        </div>
+        <div className='flex justify-between'>
+          <label>Icon Button Color:</label>
+          <input
+            className='cursor-pointer'
+            type="color"
+            name="iconButtonColor"
+            value={formData.iconButtonColor}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className='flex justify-center'>
+            <button className='mt-8 bg-[#0040A9] text-white px-8 py-2 rounded-lg' type="submit">Save Settings</button>
+        </div>
+        {submitMessage && (
+          <div className='flex justify-center mt-4'>
+            <span className={messageType === 'success' ? 'text-green-500' : 'text-red-500'}>{submitMessage}</span>
+          </div>
+        )}
+      </form>
     </div>
   );
 };

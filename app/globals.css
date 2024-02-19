@@ -75,14 +75,15 @@ a.gradient, h1.gradient, h2.gradient {
   }
   
   .pw-layout{
-    display: grid;
+    width: 100%;
+    /* display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-rows: repeat(3,minmax(40px,auto));
       grid-gap: 10px;
       grid-template-areas:
       "search search search"
       "results results results"
-      "map map map";
+      "map map map"; */
   }
   
   .popup-group p {
@@ -90,10 +91,11 @@ a.gradient, h1.gradient, h2.gradient {
   }
   
   .pw-locator{
-    padding: 3rem 0;
+    padding: 58px 0;
     max-width: 1500px;
     margin: 0 auto;
-    }
+    background: #fff;
+  }
   
     @media(min-width:1200px){
       .pw-locator{
@@ -175,6 +177,7 @@ a.gradient, h1.gradient, h2.gradient {
   }
   
   #store-map{
+    width: 100%;
     grid-area: map;
     position: relative;
   }
@@ -608,4 +611,8 @@ a.gradient, h1.gradient, h2.gradient {
 
 .pw-list-map-icon {
   align-items: center !important;
+}
+
+.focus\:ring-2:focus {
+  --tw-ring-shadow: none !important;
 }

@@ -86,7 +86,7 @@ const StoreList = () => {
           <table className="border-collapse w-full">
             <thead>
               <tr>
-                <td colspan="6">
+                <td colSpan="6">
                   <div className='flex gap-4 mb-8 justify-between'>
                     <input
                       type="text"
@@ -107,7 +107,7 @@ const StoreList = () => {
                   </div>
                 </td>
               </tr>
-              <tr class="border-b border-gray-400">
+              <tr className="border-b border-gray-400">
                 <th>
                   <input
                     type="checkbox"

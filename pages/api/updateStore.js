@@ -27,8 +27,9 @@ export default async function handler(req, res) {
       } = req.body;
 
       const db = await connectDB();
+      const { priceId } = req.body;
 
-      const filter = { _id: id }; 
+      const filter = { _id: priceId }; 
 
       const updateDoc = {
         $set: {

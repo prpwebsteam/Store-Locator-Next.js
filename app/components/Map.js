@@ -13,7 +13,7 @@ const Map = () => {
   const [zooming, setZooming] = useState(false);
   const [unit, setUnit] = useState("mi");
   const [filters, setFilters] = useState([]);
-  const [stores, setStores] = useState([]);
+  var [stores, setStores] = useState([]);
   const [selectedStore, setSelectedStore] = useState(null);
   const [searchBtnDisabled, setSearchBtnDisabled] = useState(false);
   const [autocomplete, setAutocomplete] = useState(null);
@@ -154,6 +154,38 @@ const Map = () => {
       });
   }, []);
   
+  async function initMap() {
+
+    // let result = await requestCall({
+    //   url: "/apps/pw-express-proxy/locator/",
+    //   method: "GET",
+    //   headers: { Accept: "*/*", "Ngrok-Skip-Browser-Warning": "6024" },
+    // });
+  
+    stores =[{
+      "_id": {
+        "$oid": "65c0da424ed1400407fd95b5"
+      },
+      "name": "punit pareek",
+      "searchAddress": "Churu",
+      "addressLine1": "1234567890 Level 2, K2/4 Behind Central Arcade,DLF Phase 2",
+      "addressLine2": "Jaipur, Rajasthan 302020",
+      "city": "Churu",
+      "stateProvince": "1258899",
+      "country": "India",
+      "postalCode": "122002",
+      "latitude": "",
+      "longitude": "",
+      "description": "hye",
+      "serviceOptions": "hye",
+      "hours": "12",
+      "phone": "01234567890",
+      "email": "punitpareek@tt.com",
+      "website": "https://shopmytiara.com/",
+      "fax": "123456"
+      }
+    ];
+  }
   // grab default map center if it is
   var lat = "";
   var lng = "";
@@ -492,8 +524,8 @@ const Map = () => {
     );
     const marker = markers.filter(
       (marker) =>
-        Number(findStore[0].latitude) === marker.position.lat() &&
-        Number(findStore[0].longitude) === marker.position.lng()
+        Number(findStore[0]?.latitude) === marker?.position?.lat() &&
+        Number(findStore[0]?.longitude) === marker?.position?.lng()
     );
 
     showStoreInfo(findStore[0], marker[0]); // Use the showStoreInfo function
@@ -614,6 +646,8 @@ const Map = () => {
         <form onSubmit={handleSubmit}>
           <input type="hidden" name="_csrf" value={csrfToken} />
           <div className="pw-top-bar pw-layout">
+            <div className='flex flex-row gap-4'>
+            <div className='flex flex-col gap-4 w-[50%]'>
             <div className="pw-search">
               <div className="form-group pw-search-bar-12 pw-search-bar-6 pw-search-bar-3 pw-search-bar">
                 <input
@@ -624,7 +658,7 @@ const Map = () => {
                   placeholder="street, city, zip code, or state"
                   ref={searchInputRef}
                 />
-                <button className="btn btn-primary store-search" type="submit">
+                <button className="btn btn-primary store-search" type="submit" id='search_btn'>
                     Map
                 </button>
               </div>
@@ -641,11 +675,13 @@ const Map = () => {
                 </select>
               </div>
             </div>
+            
             <div className="col-12" id="store-list">
               <div className="pw-loader">
                 <span></span>
               </div>
               <ul className="list-unstyled" ref={storeWrapperRef}></ul>
+            </div>
             </div>
             <div className="col-12" id="store-map">
               <div id="map" ref={mapRef}></div>
@@ -663,6 +699,9 @@ const Map = () => {
                 </div>
               )}
             </div>
+            </div>
+
+            
           </div>
         </form>
       </div>

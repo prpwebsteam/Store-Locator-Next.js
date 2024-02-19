@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link';
 import Image from 'next/image';
-import Logo from '../assests/logo-1.svg'; 
+import Logo from '../assests/logo-removebg-preview.png'; 
 import FB from '../assests/fb.png';
 import LinkedIn from '../assests/linkedin.png';
 import Insta from '../assests/insta.png';
@@ -12,9 +12,9 @@ function Footer() {
       <div className='max-w-[1440px] mx-auto'>
       <div className="logo mb-8 flex flex-col lg:flex-row justify-between w-[100%] gap-8 items-start lg:items-center">
         <div>
-            <a href='/'>
-              <Image src={Logo} alt="Logo" width={128} height={64} /> 
-            </a>
+          <a href='/' className='text-[32px] text-white font-bold'>
+            <Image src={Logo} alt="Logo" width={200} height={100} />
+          </a>
         </div>
         <div className='flex flex-row mt-4 lg:mt-0 lg:w-[30%] justify-end lg:p-4'>
           <a href="https://www.facebook.com" className="mr-4 w-[40px] lg:w-[30px]">
