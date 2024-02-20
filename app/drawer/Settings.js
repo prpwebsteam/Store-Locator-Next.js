@@ -30,7 +30,20 @@ const Settings = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    const updatedFormData = { ...formData, userId: 'yourUserId' };
+    // Get email from local storage
+    const user = JSON.parse(localStorage.getItem('user'));
+    const email = user?.email;
+
+    if (!email) {
+      setSubmitMessage('User email is required');
+      setMessageType('error');
+      setTimeout(() => {
+        setSubmitMessage('');
+      }, 3000);
+      return;
+    }
+
+    const updatedFormData = { ...formData, email };
   
     const response = await fetch('/api/settings', {
       method: 'POST',
@@ -42,19 +55,20 @@ const Settings = () => {
   
     const data = await response.json();
     if (response.ok) {
-        setSubmitMessage(data.message);
-        setMessageType('success');
-        setTimeout(() => {
-          setSubmitMessage('');
-        }, 3000);
-      } else {
-        setSubmitMessage(data.message);
-        setMessageType('error');
-        setTimeout(() => {
-          setSubmitMessage('');
-        }, 3000);
-      }
+      setSubmitMessage(data.message);
+      setMessageType('success');
+      setTimeout(() => {
+        setSubmitMessage('');
+      }, 3000);
+    } else {
+      setSubmitMessage(data.message);
+      setMessageType('error');
+      setTimeout(() => {
+        setSubmitMessage('');
+      }, 3000);
+    }
   };
+  
   
   return (
     <div>

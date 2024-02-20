@@ -24,9 +24,24 @@ const Map = () => {
   const [map, setMap] = useState(null);
   const [googleMapsLoaded, setGoogleMapsLoaded] = useState(false);
   const [markers, setMarkers] = useState([]);
+  const [settings, setSettings] = useState({});
+
   const Gkey = "AIzaSyBe_A3Q0aV6QUqZLzJS8g3UAOYUDtNVh_4";
   let chooseMarkerOption = `<svg height="60" viewBox="0 0 64 64" width="60" xmlns="http://www.w3.org/2000/svg"><g id="Locator"><path d="m32 8a18.02069 18.02069 0 0 0 -18 18c0 5.61 2.3 9.06 4.37 12.15l12 17a1.98788 1.98788 0 0 0 3.26 0l12-17c.01-.01.02-.03.03-.04 2.04-3.05 4.34-6.5 4.34-12.11a18.02069 18.02069 0 0 0 -18-18zm-9 18a9 9 0 1 1 9 9 9.01356 9.01356 0 0 1 -9-9z" fill="#000"/><path d="m32 17a9 9 0 1 0 9 9 9.01356 9.01356 0 0 0 -9-9zm0 14a5 5 0 1 1 5-5 5.00182 5.00182 0 0 1 -5 5z" fill="#000"/><circle cx="32" cy="26" fill="#fff" r="5"/></g></svg>`;
   let colorIconBtn = "#000";
+  const getSearchIcon = (fillColor) => {
+    return `<svg xmlns="http://www.w3.org/2000/svg" fill="${fillColor}" height="10px" width="10px" viewBox="0 0 488.4 488.4">
+              <g>
+                <g>
+                  <path d="M0,203.25c0,112.1,91.2,203.2,203.2,203.2c51.6,0,98.8-19.4,134.7-51.2l129.5,129.5c2.4,2.4,5.5,3.6,8.7,3.6    s6.3-1.2,8.7-3.6c4.8-4.8,4.8-12.5,0-17.3l-129.6-129.5c31.8-35.9,51.2-83,51.2-134.7c0-112.1-91.2-203.2-203.2-203.2    S0,91.15,0,203.25z M381.9,203.25c0,98.5-80.2,178.7-178.7,178.7s-178.7-80.2-178.7-178.7s80.2-178.7,178.7-178.7    S381.9,104.65,381.9,203.25z"/>
+                </g>
+              </g>
+            </svg>`;
+  };
+  const getFlexDirection = (layout) => {
+    return layout === 'layout-2' ? 'row-reverse' : 'row';
+  };
+  
   let mapImage = "";
   let sideIcons = "";
   let mapThemeliquid = "silver";
@@ -62,6 +77,64 @@ const Map = () => {
     ]
   };
   
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        // Get email from local storage
+        const user = JSON.parse(localStorage.getItem('user'));
+        const email = user?.email;
+  
+        if (!email) {
+          console.error('User email is not available');
+          return;
+        }
+  
+        const response = await fetch(`/api/settings?email=${email}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch settings');
+        }
+        const {
+          apiKey,
+          googleMapsApiKey,
+          iconButtonColor,
+          layout,
+          mapBackground,
+          mapTheme,
+          markerImage,
+          markerType,
+          markersBehavior,
+          searchButtonBackground,
+          searchIconButton,
+          zoomLevel
+        } = await response.json();
+  
+        setSettings({
+          apiKey,
+          googleMapsApiKey,
+          iconButtonColor,
+          layout,
+          mapBackground,
+          mapTheme,
+          markerImage,
+          markerType,
+          markersBehavior,
+          searchButtonBackground,
+          searchIconButton,
+          zoomLevel
+        });
+      } catch (error) {
+        console.error('Error fetching settings:', error);
+      }
+    };
+  
+    fetchSettings();
+  }, []);  
+  
+  // useEffect(() => {
+  //   console.log('Settings:', settings);
+  // }, [settings]);
+
+
   // search defaults when no query set
   var searchDefaults = {
     lat: "",
@@ -590,10 +663,10 @@ const Map = () => {
             <div class="pw-list-map-data">
               <div class="pw-result-store-name" style="color:${sideIcons}">${store.name}</div>
               <div class="pw-result-store-address">${store.address ? store.address + ', ' : ''} ${
-                store.addressext ? store.addressext + ', ' : ''
-              } ${store.city ? store.city + ', ' : ''} ${store.state ? store.state + ', ' : ''} ${
+                store.searchAddress ? store.searchAddress + ', ' : ''
+              } ${store.city ? store.city + ', ' : ''} ${store.stateProvince ? store.stateProvince + ', ' : ''} ${
                 store.country ? store.country + ', ' : ''
-              } ${store.zipcode ? store.zipcode : ''}</div>
+              } ${store.postalCode ? store.postalCode : ''}</div>
               <div class="pw-address-link" ><a href="https://maps.google.com?saddr=Current+Location&daddr=${Number(
                 store.latitude
               )}, ${Number(store.longitude)}" target="_blank" style="color:${sideIcons}">Directions</a></div>
@@ -641,12 +714,16 @@ const Map = () => {
 
 
   return (
-    <div className="container-pw-store-locator pw-locator p-4" id="store-search-form">
+  <section className='w-[100%]' id="map-integration"
+  style={{ background: settings.mapBackground || '#fff' }}>
+    <div className="container-pw-store-locator pw-locator p-4" 
+         id="store-search-form" 
+    >
       <div className="pw-horizontal-map">
         <form onSubmit={handleSubmit}>
           <input type="hidden" name="_csrf" value={csrfToken} />
           <div className="pw-top-bar pw-layout">
-            <div className='flex flex-row gap-4'>
+          <div id="map-style" style={{ display: 'flex', flexDirection: getFlexDirection(settings.layout), gap: '1rem' }}>
             <div className='flex flex-col gap-4 w-[50%]'>
             <div className="pw-search">
               <div className="form-group pw-search-bar-12 pw-search-bar-6 pw-search-bar-3 pw-search-bar">
@@ -658,9 +735,13 @@ const Map = () => {
                   placeholder="street, city, zip code, or state"
                   ref={searchInputRef}
                 />
-                <button className="btn btn-primary store-search" type="submit" id='search_btn'>
-                    Map
-                </button>
+                <button
+                  className="btn btn-primary store-search"
+                  type="submit"
+                  id="search_btn"
+                  style={{ background: settings.searchButtonBackground || '#fff' }}
+                  dangerouslySetInnerHTML={{ __html: getSearchIcon(settings.searchIconButton || '#000000') }}
+                />
               </div>
               <div className="hidden-xs form-group pw-search-bar-12 pw-search-bar-6 pw-search-bar-3 pw-search-raduis">
                 <label className="control-label" htmlFor="radius">Search radius</label>
@@ -706,6 +787,7 @@ const Map = () => {
         </form>
       </div>
     </div>
+  </section>
   );
 };
 

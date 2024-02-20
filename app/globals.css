@@ -94,7 +94,6 @@ a.gradient, h1.gradient, h2.gradient {
     padding: 58px 0;
     max-width: 1500px;
     margin: 0 auto;
-    background: #fff;
   }
   
     @media(min-width:1200px){
@@ -615,4 +614,10 @@ a.gradient, h1.gradient, h2.gradient {
 
 .focus\:ring-2:focus {
   --tw-ring-shadow: none !important;
+}
+
+#map-style {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }

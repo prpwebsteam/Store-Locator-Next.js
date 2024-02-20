@@ -10,13 +10,14 @@ export default async function handler(req, res) {
 
       // Create or update settings document
       const result = await db.collection('settings').updateOne(
-        { userId: formData.userId },
+        { email: formData.email },
         { $set: formData },
         { upsert: true }
       );
 
       if (result.upsertedCount > 0 || result.modifiedCount > 0) {
         res.status(200).json({ message: 'Settings saved successfully' });
+        console.log("Bhairavvvvv",result);
       } else {
         res.status(500).json({ message: 'Failed to save settings' });
       }
@@ -29,7 +30,7 @@ export default async function handler(req, res) {
       const db = await connectDB();
 
       // Retrieve settings document
-      const settings = await db.collection('settings').findOne({ userId: req.query.userId });
+      const settings = await db.collection('settings').findOne({ email: req.query.email });
 
       if (settings) {
         res.status(200).json(settings);
