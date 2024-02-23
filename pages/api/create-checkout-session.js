@@ -22,12 +22,12 @@ export default async function handler(req, res) {
         quantity: 1,
       }],
       mode: 'subscription',
-      success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${req.headers.origin}/success?session_id={payment_intent.id}`,
       cancel_url: `${req.headers.origin}/cancel`,
     });
 
     console.log("bhairav22", session.id)
-    return res.status(200).json({ sessionId: session.id });
+    return res.status(200).json({ sessionId: session.id, successUrl: successUrlWithPaymentId });
   } catch (error) {
     console.error('Stripe error:', error);
     return res.status(500).json({ error: error.message });

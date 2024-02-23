@@ -116,7 +116,7 @@ const Settings = () => {
         </div>
         <div className='flex justify-between mb-4 items-center'>
             <label>Zoom Level:</label>
-            <div className='flex flex-row gap-2 w-[50%]'>
+            <div className='flex flex-row-reverse gap-2 w-[53%]'>
                 <input
                     className='cursor-pointer w-[90%]'
                     type="range"

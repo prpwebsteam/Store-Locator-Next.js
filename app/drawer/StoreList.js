@@ -25,9 +25,11 @@ const StoreList = () => {
     router.push('/createStore');
   };
 
-  const handleEditStore = (storeId) => {
-    router.push(`/editStore?storeId=${storeId}`);
+  const handleEditStore = (store) => {
+    const query = new URLSearchParams(store).toString();
+    router.push(`/editStore?${query}`);
   };
+  
 
   const handleSelectStore = (storeId) => {
     if (selectedStores.includes(storeId)) {

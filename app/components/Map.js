@@ -10,7 +10,7 @@ const Map = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const elementRef = useRef(null);
   const [myMapCenter, setMyMapCenter] = useState({ lat: 40.785091, lng: -73.968285 });
-  const [zooming, setZooming] = useState(false);
+  const [zooming, setZooming] = useState(50);
   const [unit, setUnit] = useState("mi");
   const [filters, setFilters] = useState([]);
   var [stores, setStores] = useState([]);
@@ -30,7 +30,7 @@ const Map = () => {
   let chooseMarkerOption = `<svg height="60" viewBox="0 0 64 64" width="60" xmlns="http://www.w3.org/2000/svg"><g id="Locator"><path d="m32 8a18.02069 18.02069 0 0 0 -18 18c0 5.61 2.3 9.06 4.37 12.15l12 17a1.98788 1.98788 0 0 0 3.26 0l12-17c.01-.01.02-.03.03-.04 2.04-3.05 4.34-6.5 4.34-12.11a18.02069 18.02069 0 0 0 -18-18zm-9 18a9 9 0 1 1 9 9 9.01356 9.01356 0 0 1 -9-9z" fill="#000"/><path d="m32 17a9 9 0 1 0 9 9 9.01356 9.01356 0 0 0 -9-9zm0 14a5 5 0 1 1 5-5 5.00182 5.00182 0 0 1 -5 5z" fill="#000"/><circle cx="32" cy="26" fill="#fff" r="5"/></g></svg>`;
   let colorIconBtn = "#000";
   const getSearchIcon = (fillColor) => {
-    return `<svg xmlns="http://www.w3.org/2000/svg" fill="${fillColor}" height="10px" width="10px" viewBox="0 0 488.4 488.4">
+    return `<svg xmlns="http://www.w3.org/2000/svg" fill="${fillColor}" height="20px" width="20px" viewBox="0 0 488.4 488.4">
               <g>
                 <g>
                   <path d="M0,203.25c0,112.1,91.2,203.2,203.2,203.2c51.6,0,98.8-19.4,134.7-51.2l129.5,129.5c2.4,2.4,5.5,3.6,8.7,3.6    s6.3-1.2,8.7-3.6c4.8-4.8,4.8-12.5,0-17.3l-129.6-129.5c31.8-35.9,51.2-83,51.2-134.7c0-112.1-91.2-203.2-203.2-203.2    S0,91.15,0,203.25z M381.9,203.25c0,98.5-80.2,178.7-178.7,178.7s-178.7-80.2-178.7-178.7s80.2-178.7,178.7-178.7    S381.9,104.65,381.9,203.25z"/>
@@ -42,7 +42,7 @@ const Map = () => {
     return layout === 'layout-2' ? 'row-reverse' : 'row';
   };
   
-  let mapImage = "";
+  let mapImage = `<svg height="60" viewBox="0 0 64 64" width="60" xmlns="http://www.w3.org/2000/svg"><g id="Locator"><path d="m32 8a18.02069 18.02069 0 0 0 -18 18c0 5.61 2.3 9.06 4.37 12.15l12 17a1.98788 1.98788 0 0 0 3.26 0l12-17c.01-.01.02-.03.03-.04 2.04-3.05 4.34-6.5 4.34-12.11a18.02069 18.02069 0 0 0 -18-18zm-9 18a9 9 0 1 1 9 9 9.01356 9.01356 0 0 1 -9-9z" fill="${colorIconBtn}"/><path d="m32 17a9 9 0 1 0 9 9 9.01356 9.01356 0 0 0 -9-9zm0 14a5 5 0 1 1 5-5 5.00182 5.00182 0 0 1 -5 5z" fill="${colorIconBtn}96"/><circle cx="32" cy="26" fill="#fff" r="5"/></g></svg>`;
   let sideIcons = "";
   let mapThemeliquid = "silver";
   let groups = "false";
@@ -130,9 +130,9 @@ const Map = () => {
     fetchSettings();
   }, []);  
   
-  // useEffect(() => {
-  //   console.log('Settings:', settings);
-  // }, [settings]);
+  useEffect(() => {
+    console.log('Settings:', settings);
+  }, [settings]);
 
 
   // search defaults when no query set
@@ -159,27 +159,27 @@ const Map = () => {
       });
   }, []);
 
-    function searchStore(searchString, { lat, lng }, radius) {
-      radius = Number(radius);
-      let coordinates = { lat, lng };
-      map?.setCenter(coordinates);
+  function searchStore(searchString, { lat, lng }, radius) {
+    const coordinates = { lat, lng };
+    map.setCenter(coordinates);
   
-      if (searchString) {
-        let nearby = findStores(lat, lng, radius);
-        renderStores(nearby);
-      } else {
-        renderStores(stores);
-      }
-  
-      disableZoomSearch(1000);
-      map.setZoom(zoom[radius]);
-  
-      let inRangeMarkers = getInRangeMarkers();
-      setMarkersVisible(inRangeMarkers);
-  
-      let outRangeMarkers = getOutRangeMarkers();
-      setMarkersDeVisible(outRangeMarkers);
+    const nearbyStores = findStores(lat, lng, radius);
+    if (nearbyStores.length > 0) {
+      renderStores(nearbyStores);
+    } else {
+      renderStores([]); // No stores found
     }
+  
+    disableZoomSearch(1000);
+    map.setZoom(12); // Adjust zoom level as needed
+  
+    const inRangeMarkers = getInRangeMarkers();
+    setMarkersVisible(inRangeMarkers);
+  
+    const outRangeMarkers = getOutRangeMarkers();
+    setMarkersDeVisible(outRangeMarkers);
+  }
+  
 
     function disableZoomSearch(duration) {
       setZooming(true)
@@ -188,27 +188,28 @@ const Map = () => {
       }, duration);
     }  
 
-  useEffect(() => {
-    if (searchInputRef.current && googleMapsLoaded) {
-      const autocompleteInstance = new window.google.maps.places.Autocomplete(
-        searchInputRef.current
-      );
-
-      autocompleteInstance.addListener('place_changed', function () {
-        const place = autocompleteInstance.getPlace();
-        const searchRadius = Number(searchRadiusInputRef.current.value);
-
-        if (!place) return;
-        const origin = new window.google.maps.LatLng(
-          place.geometry.location.lat(),
-          place.geometry.location.lng()
+    useEffect(() => {
+      if (searchInputRef.current && googleMapsLoaded) {
+        const autocompleteInstance = new window.google.maps.places.Autocomplete(
+          searchInputRef.current,
+          { types: ['(cities)'] }
         );
-        const lat = origin.lat();
-        const lng = origin.lng();
-        searchStore(place.formatted_address, { lat, lng }, searchRadius);
-      });
-    }
-  }, [googleMapsLoaded]);
+    
+        autocompleteInstance.addListener('place_changed', function () {
+          const place = autocompleteInstance.getPlace();
+          if (!place.geometry) {
+            console.error('No details available for input:', place.name);
+            return;
+          }
+    
+          const location = place.geometry.location;
+          const lat = location.lat();
+          const lng = location.lng();
+          searchStore(place.name, { lat, lng }, selectedRadius);
+        });
+      }
+    }, [googleMapsLoaded, map, selectedRadius]);    
+    
 
 
   useEffect(() => {
@@ -422,9 +423,9 @@ const Map = () => {
         showOnLoadLocations(lat, lng, searchDefaults.radius);
       }
   
-      let mapIcon = "";
+      let mapIcon = `<svg height="60" viewBox="0 0 64 64" width="60" xmlns="http://www.w3.org/2000/svg"><g id="Locator"><path d="m32 8a18.02069 18.02069 0 0 0 -18 18c0 5.61 2.3 9.06 4.37 12.15l12 17a1.98788 1.98788 0 0 0 3.26 0l12-17c.01-.01.02-.03.03-.04 2.04-3.05 4.34-6.5 4.34-12.11a18.02069 18.02069 0 0 0 -18-18zm-9 18a9 9 0 1 1 9 9 9.01356 9.01356 0 0 1 -9-9z" fill="${colorIconBtn}"/><path d="m32 17a9 9 0 1 0 9 9 9.01356 9.01356 0 0 0 -9-9zm0 14a5 5 0 1 1 5-5 5.00182 5.00182 0 0 1 -5 5z" fill="${colorIconBtn}96"/><circle cx="32" cy="26" fill="#fff" r="5"/></g></svg>`;
   
-      if (chooseMarkerOption === "icon") {
+      if (settings?.markerType === "icon") {
         let svg = `<svg height="60" viewBox="0 0 64 64" width="60" xmlns="http://www.w3.org/2000/svg"><g id="Locator"><path d="m32 8a18.02069 18.02069 0 0 0 -18 18c0 5.61 2.3 9.06 4.37 12.15l12 17a1.98788 1.98788 0 0 0 3.26 0l12-17c.01-.01.02-.03.03-.04 2.04-3.05 4.34-6.5 4.34-12.11a18.02069 18.02069 0 0 0 -18-18zm-9 18a9 9 0 1 1 9 9 9.01356 9.01356 0 0 1 -9-9z" fill="${colorIconBtn}"/><path d="m32 17a9 9 0 1 0 9 9 9.01356 9.01356 0 0 0 -9-9zm0 14a5 5 0 1 1 5-5 5.00182 5.00182 0 0 1 -5 5z" fill="${colorIconBtn}96"/><circle cx="32" cy="26" fill="#fff" r="5"/></g></svg>`;
   
         mapIcon = {

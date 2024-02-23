@@ -87,6 +87,7 @@ export default async function handler(req, res) {
         const result = await db.collection('stores').insertOne(newStore);
 
         res.status(200).json({ message: 'Store created successfully', storeId: result.insertedId });
+        console.log("rahul",storeId)
       }
     } catch (error) {
       console.error('Create/Edit Store Error:', error);

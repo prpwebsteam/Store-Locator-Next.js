@@ -276,10 +276,7 @@ a.gradient, h1.gradient, h2.gradient {
     border-radius: 5px;
     cursor: pointer;
   }
-  .store-search svg{
-    height: 2rem;
-    width: 2rem;
-  }
+
   #store-list{
     padding: 10px 0;
     max-height: 400px;
