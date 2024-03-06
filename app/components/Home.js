@@ -42,7 +42,7 @@ export default function Homepage() {
               <div className="content-overlay flex justify-center flex-col md:flex-row text-center w-full md:px-8 pt-12 md:pt-24">
                       <div className="banner-content mx-auto p-4 w-full md:w-[57%]">
                           <h1 className="text-white text-left text-[32px] md:text-[4rem] leading-[1.2] mb-8 font-bold">A Beautiful Store Locator App, Customized For Your Website.</h1>
-                          <p className="text-white text-left text-[24px] mb-12 font-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                          <p className="text-white text-left text-[18px] mb-8 font-normal">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                           <div className='flex justify-start'>
                             <a href='/signup' className='bg-transparent hover:bg-white font-semibold text-white hover:text-[#0046B5] px-4 py-2 border border-white hover:border-[#0046B5] rounded-lg'>Book a demo</a>
                           </div>

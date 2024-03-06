@@ -41,7 +41,6 @@ function Dashboard() {
               width: '100%',
               height: '100vh',
               position: 'relative',
-              zIndex: '1',
               top: '0', 
               backgroundColor: '#e6edf8',
               overflowY: 'hidden',
@@ -51,52 +50,51 @@ function Dashboard() {
             }}
           >
             <a
-              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
+              style={{ color: '#000', fontWeight: '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('Stores')} 
-              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
+              className={`${selectedContent === 'Stores' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`} 
             >
               Stores
             </a>
             <a
-              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
+              style={{ color: '#000', fontWeight: '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('Guidelines')} 
-              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
+              className={`${selectedContent === 'Guidelines' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`} 
             >
               Guidelines
             </a>
-
             <a
               style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('ImportExport')} 
-              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
+              className={`${selectedContent === 'ImportExport' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`} 
             >
               Import/Export
             </a>
             <a
               style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('Account')} 
-              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
+              className={`${selectedContent === 'Account' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`}
             >
               Account
             </a>
             <a
               style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('Plans')} 
-              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
+              className={`${selectedContent === 'Plans' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`}
             >
               Plans
             </a>
             <a
               style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('Instructions')} 
-              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
+              className={`${selectedContent === 'Instructions' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`}
             >
               Instructions
             </a>
             <a
               style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
               onClick={() => selectContent('Settings')} 
-              className="hover:bg-[#add8e6] transition-colors duration-300 hover:text-white" 
+              className={`${selectedContent === 'Settings' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`}
             >
               Settings
             </a>

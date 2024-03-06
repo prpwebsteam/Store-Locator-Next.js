@@ -1,6 +1,8 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import CreateStore from '../createStore/page';
+import Modal from '../components/Modal';
 
 const StoreList = () => {
   const router = useRouter();
@@ -9,6 +11,7 @@ const StoreList = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetch('/api/getStores')
@@ -21,9 +24,8 @@ const StoreList = () => {
       });
   }, []);
 
-  console.log("PAWAN", stores);
   const handleCreateStoreClick = () => {
-    router.push('/createStore');
+    setIsModalOpen(true);
   };
 
   const handleEditStore = (store) => {
@@ -86,7 +88,9 @@ const StoreList = () => {
             </button>
           </div>
         </div>
-
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <CreateStore />
+        </Modal>
         <div className='w-full mt-8 shadow-2xl rounded-lg px-8 py-12'>
           <table className="border-collapse w-full">
             <thead>

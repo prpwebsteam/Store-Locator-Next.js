@@ -76,7 +76,7 @@ const Settings = () => {
   return (
     <div>
       <form className='shadow-2xl px-8 py-8 rounded-lg' onSubmit={handleSubmit}>
-        <div className='flex gap-8 justify-between'>
+        <div className='flex gap-8 justify-between my-4'>
           <div className='flex w-[50%] flex-col justify-center mb-4 items-left'>
             <label>API Key:</label>
             <input
@@ -98,7 +98,7 @@ const Settings = () => {
             />
           </div>
         </div>
-        <div className='flex gap-8 justify-between'>
+        <div className='flex gap-8 justify-between my-4'>
           <div className='flex w-[50%] flex-col justify-center mb-4 items-left'>
             <label>Select Layout:</label>
             <select className='cursor-pointer px-2 py-1 border-[1px] border-black rounded-lg' name="layout" value={formData.layout} onChange={handleInputChange}>
@@ -121,7 +121,7 @@ const Settings = () => {
             </select>
           </div>
         </div>
-        <div className='flex gap-8 justify-between'>
+        <div className='flex gap-8 justify-between my-4'>
           <div className='flex flex-col w-[50%] justify-center mb-4 items-left'>
               <label>Zoom Level:</label>
               <div className='flex flex-row gap-2'>
@@ -148,7 +148,7 @@ const Settings = () => {
             />
           </div>
         </div>
-        <div className='flex gap-8 justify-between'>
+        <div className='flex gap-8 justify-between my-4'>
           <div className='flex flex-col w-[50%] justify-center mb-4 items-left'>
             <label>Search Icon Button:</label>
             <input
@@ -170,7 +170,7 @@ const Settings = () => {
             />
           </div>
         </div>
-        <div className='flex gap-8 justify-between'>
+        <div className='flex gap-8 justify-between my-4'>
           <div className='flex flex-col w-[50%] justify-center mb-4 items-left'>
             <label>Markers Behavior:</label>
             <select name="markersBehavior" value={formData.markersBehavior} onChange={handleInputChange} className='px-2 py-1 w-[100%] border-[1px] border-black rounded-lg cursor-pointer'>
@@ -206,7 +206,7 @@ const Settings = () => {
               </div>
           </div>
         </div>
-        <div className='flex gap-8 justify-between'>
+        <div className='flex gap-8 justify-between my-4'>
           <div className='flex flex-col w-[50%] justify-center mb-4 items-left'>
             <label>Marker Image:</label>
             <input className='cursor-pointer' type="file" name="markerImage" onChange={handleFileChange} />

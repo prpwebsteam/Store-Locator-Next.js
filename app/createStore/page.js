@@ -82,7 +82,6 @@ const CreateStore = () => {
 
   return (
   <>
-  <Header2 />
   <div className="px-12 py-12 max-w-[1440px] mx-auto">
     <h2 className="mb-8 font-bold text-xl">Create a Store</h2>
     <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-8">
@@ -292,12 +291,11 @@ const CreateStore = () => {
           />
         </div>
       </div>
-      <div className="col-span-2">
+      <div className="col-span-3 justify-center flex">
         <button type="submit" className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black">Create Store</button>
       </div>
     </form>
   </div>
-  <Footer />
   </>
   );
 };
