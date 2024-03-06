@@ -4,10 +4,11 @@ import Homepage from "./components/Home";
 import IntroSection from "./components/Intro";
 import Owner from "./components/Owner";
 import TabComponent from "./components/tabContent";
-import ClientLogos from "./components/clientLogos";
+import CTA from "./components/CTA";
 import Footer from "./components/Footer";
 import PaymentCard from "./components/paymentCard";
 import Map from "./components/Map";
+import ClientSlider from "./components/ClientSlider";
 import { PaymentStatusProvider } from '@/contexts/PaymentStatusContext'; 
 
 export default function Home() {
@@ -15,12 +16,13 @@ export default function Home() {
     <PaymentStatusProvider>
       <Header />
       <Homepage />
-      <ClientLogos />
       <IntroSection />
       <TabComponent />
-      <Map />
+      <CTA />
+      {/* <Map /> */}
+      {/* <Owner /> */}
+      <ClientSlider />
       <PaymentCard />
-      <Owner />
       <Footer />
     </PaymentStatusProvider>
   );

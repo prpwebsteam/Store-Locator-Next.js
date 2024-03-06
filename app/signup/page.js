@@ -46,7 +46,7 @@ function SignUp() {
   return (
     <>
     <Header2 />
-    <div className="flex flex-col items-center justify-center py-10 min-h-[49vh] overflow-hidden bg-white">
+    <div className="flex flex-col items-center justify-center py-10 min-h-[100vh] overflow-hidden bg-white">
       <h2 className="text-2xl font-bold py-4">Sign Up</h2>
       <form onSubmit={handleSubmit} className="flex flex-col items-center w-[90%] md:w-[45%]">
         <div className="input-wrapper w-full">

@@ -96,6 +96,43 @@ a.gradient, h1.gradient, h2.gradient {
     margin: 0 auto;
   }
   
+  .page-width {
+    max-width: 1440px;
+  }
+
+  .page-width2 {
+    max-width: 1240px;
+  }
+
+  .slick-next {
+    position: absolute;
+    background: #fff !important;
+    padding: 10px !important;
+    border-radius: 100% !important;
+    right: 0% !important;
+  }
+
+  .slick-next::before {
+    content: none !important;
+  }
+
+  .slick-prev {
+    position: absolute;
+    background: #fff !important;
+    border-radius: 100% !important;
+    padding: 10px !important;
+    left: -2% !important;
+  }
+
+  .slick-prev::before {
+    content: none !important;
+  }
+
+  .margin-slider {
+    margin: 50px auto !important;
+  }
+
+  
     @media(min-width:1200px){
       .pw-locator{
       width: 1100px;
@@ -107,7 +144,12 @@ a.gradient, h1.gradient, h2.gradient {
       }
     }
   
-  
+    @media(max-width:769px) {
+      .margin-slider {
+        margin: 20px auto !important;
+      }
+    }
+    
   @media(min-width:769px){
     .pw-layout-1{
       grid-template-areas: 

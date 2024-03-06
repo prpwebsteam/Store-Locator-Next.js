@@ -108,26 +108,32 @@ function PaymentCard() {
 
 
   return (
-    <div className="flex flex-col items-center max-w-[1440px] mx-auto p-4 lg:p-8 gap-2 lg:gap-8 bg-white">      
+    <div id="payment-card" className="flex flex-col items-center max-w-[1440px] mx-auto my-12 p-4 lg:p-8 gap-2 lg:gap-8 bg-white">      
       <div className='px-4 mt-8 flex flex-col gap-2 mb-8 items-center'>
-        <strong className='text-[48px]'>Plan</strong>
+        <strong className='text-[48px]'>Pricing Plan</strong>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
           {pricingTiers.map((tier, index) => (
-            <div key={index} className="shadow-2xl p-6 flex flex-col gap-6 rounded-xl bg-white">
-              <h3 className="text-lg font-bold">{tier.title}</h3>
-              <p className="text-lg">{tier.price}</p>
-              <ul className="list-disc pl-6">
-                {tier.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="text-sm">{feature}</li>
-                ))}
-              </ul>
+            <div key={index} className="shadow-xl hover:shadow-2xl flex flex-col justify-between gap-6 rounded-lg bg-white">
+              <div className='bg-[#D9E8FF] hover:bg-[#0040A9] hover:text-white p-6 rounded-t-lg'>
+                <h3 className="text-[16px] font-semibold">{tier.title}</h3>
+                <p className="text-[24px] font-bold">{tier.price}</p>
+              </div>
+              <div>
+                <ul className="list-disc pl-6">
+                  {tier.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="text-sm px-6 py-2 list-none ml-[-20px]">{feature}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className='p-6'>
                 <button 
-                    className="mt-auto hover:bg-slate-400 bg-[#0040A9] hover:text-black text-white px-4 py-2 hover:shadow-xl rounded-lg font-bold"
+                    className="mt-auto rounded-md bg-white text-black border border-[#0040A9] hover:bg-[#0040A9] hover:text-white px-6 py-2 hover:shadow-xl font-bold"
                     onClick={() => redirectToUrl(tier.priceId)}
                 >
-                    Choose Plan
+                    Buy Now
                 </button>
+              </div>
             </div>
           ))}
         </div>

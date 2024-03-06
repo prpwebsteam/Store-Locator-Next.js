@@ -3,7 +3,8 @@ import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'; 
-import Logo from '../assests/logo-removebg-preview.png'; 
+import Logo from '../assests/Logo.png'; 
+import { GiHamburgerMenu } from "react-icons/gi";
 
 function Header() {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -35,10 +36,10 @@ function Header() {
 
   return (
     <nav className='absolute top-0 left-0 w-full z-10'>
-      <div className="max-w-[1440px] mx-auto flex flex-row justify-between">
-        <div className="flex justify-between items-center p-4 w-[100%]">
+      <div className="page-width mx-auto flex flex-row justify-between">
+        <div className="flex bg-white rounded-lg justify-between items-center mx-4 md:mx-8 mt-8 py-2 px-4 w-full">
           <a href='/' className='text-[32px] text-white font-bold'>
-            <Image src={Logo} alt="Logo" width={200} height={100} />
+            <Image src={Logo} alt="Logo" width={40} height={40} />
           </a>
           <div className="relative">
             <button
@@ -47,26 +48,32 @@ function Header() {
               aria-expanded={isDropdownVisible}
               aria-label="Toggle navigation menu"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
+              <GiHamburgerMenu className='w-7 h-7 text-black' />
             </button>
-            <div className={`absolute right-0 mt-2 bg-white border border-gray-300 z-1 rounded-lg shadow-lg ${isDropdownVisible ? 'block' : 'hidden'}`} ref={dropdownRef}>
+            <div className={`absolute right-[-15px] mt-[0.6rem] bg-white border border-gray-300 z-1 rounded-lg shadow-lg ${isDropdownVisible ? 'block' : 'hidden'}`} ref={dropdownRef}>
               <ul className={`py-2 px-4 ${isDropdownVisible ? 'block' : 'hidden'}`}>
-                <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#0040A9]">
-                  <Link href="/" className="block font-bold">Home</Link>
+                <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#000]">
+                  <Link href="/" className="block font-bold">Features</Link>
                 </li>
+                <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#000]">
+                  <Link href="/" className="block font-bold">Pricing</Link>
+                </li>
+                {!isLoggedIn && (
+                  <li className="bg-[#0046B5] hover:bg-[#96b6e9] py-2 mx-2 px-4 rounded-lg hover:text-[#000] text-[#fff]">
+                    <Link href="/signin" className="block font-bold">Free Trial</Link>
+                  </li>
+                )}
                 {isLoggedIn && (
-                  <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#0040A9]">
+                  <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#000]">
                     <Link href="/dashboard" className="block font-bold">Dashboard</Link>
                   </li>
                 )}
                 {!isLoggedIn ? (
-                  <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#0040A9]">
+                  <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#000]">
                     <Link href="/signin" className="block font-bold">SignIn</Link>
                   </li>
                 ) : (
-                  <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#0040A9]">
+                  <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#000]">
                     <button onClick={handleLogout} className="block font-bold">SignOut</button>
                   </li>
                 )}
@@ -74,20 +81,28 @@ function Header() {
             </div>
             <div className='lg:flex hidden'>
               <ul className='flex'>
-                <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-white">
-                  <Link href="/" className="block font-bold">Home</Link>
+                <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#000]">
+                  <Link href="#about-card" className="block font-bold">Features</Link>
                 </li>
+                <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#000]">
+                  <Link href="#payment-card" className="block font-bold">Pricing</Link>
+                </li>
+                {!isLoggedIn && (
+                  <li className="bg-[#0046B5] hover:bg-[#96b6e9] py-2 mx-2 px-4 rounded-lg hover:text-[#000] text-[#fff]">
+                    <Link href="/signin" className="block font-bold">Free Trial</Link>
+                  </li>
+                )}
                 {isLoggedIn && (
-                  <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-white">
+                  <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#000]">
                     <Link href="/dashboard" className="block font-bold">Dashboard</Link>
                   </li>
                 )}
                 {!isLoggedIn ? (
-                  <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-white">
+                  <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#000]">
                     <Link href="/signin" className="block font-bold">SignIn</Link>
                   </li>
                 ) : (
-                  <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-white">
+                  <li className="hover:bg-[#96b6e9] py-2 px-4 rounded-lg text-[#000]">
                     <button onClick={handleLogout} className="block font-bold">SignOut</button>
                   </li>
                 )}

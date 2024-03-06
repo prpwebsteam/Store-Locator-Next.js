@@ -27,7 +27,10 @@ const Map = () => {
   const [settings, setSettings] = useState({});
 
   const Gkey = "AIzaSyBe_A3Q0aV6QUqZLzJS8g3UAOYUDtNVh_4";
-  let chooseMarkerOption = `<svg height="60" viewBox="0 0 64 64" width="60" xmlns="http://www.w3.org/2000/svg"><g id="Locator"><path d="m32 8a18.02069 18.02069 0 0 0 -18 18c0 5.61 2.3 9.06 4.37 12.15l12 17a1.98788 1.98788 0 0 0 3.26 0l12-17c.01-.01.02-.03.03-.04 2.04-3.05 4.34-6.5 4.34-12.11a18.02069 18.02069 0 0 0 -18-18zm-9 18a9 9 0 1 1 9 9 9.01356 9.01356 0 0 1 -9-9z" fill="#000"/><path d="m32 17a9 9 0 1 0 9 9 9.01356 9.01356 0 0 0 -9-9zm0 14a5 5 0 1 1 5-5 5.00182 5.00182 0 0 1 -5 5z" fill="#000"/><circle cx="32" cy="26" fill="#fff" r="5"/></g></svg>`;
+  let chooseMarkerOption = `<svg height="60" viewBox="0 0 64 64" width="60" xmlns="http://www.w3.org/2000/svg"><g id="Locator">
+  <path d="m32 8a18.02069 18.02069 0 0 0 -18 18c0 5.61 2.3 9.06 4.37 12.15l12 17a1.98788 1.98788 0 0 0 3.26 0l12-17c.01-.01.02-.03.03-.04 2.04-3.05 4.34-6.5 4.34-12.11a18.02069 
+  18.02069 0 0 0 -18-18zm-9 18a9 9 0 1 1 9 9 9.01356 9.01356 0 0 1 -9-9z" fill="#000"/><path d="m32 17a9 9 0 1 0 9 9 9.01356 9.01356 0 0 0 -9-9zm0 14a5 5 0 1 1 5-5 5.00182 5.00182
+   0 0 1 -5 5z" fill="#000"/><circle cx="32" cy="26" fill="#fff" r="5"/></g></svg>`;
   let colorIconBtn = "#000";
   const getSearchIcon = (fillColor) => {
     return `<svg xmlns="http://www.w3.org/2000/svg" fill="${fillColor}" height="20px" width="20px" viewBox="0 0 488.4 488.4">
@@ -161,7 +164,7 @@ const Map = () => {
 
   function searchStore(searchString, { lat, lng }, radius) {
     const coordinates = { lat, lng };
-    map.setCenter(coordinates);
+    map?.setCenter(coordinates);
   
     const nearbyStores = findStores(lat, lng, radius);
     if (nearbyStores.length > 0) {
@@ -209,7 +212,6 @@ const Map = () => {
         });
       }
     }, [googleMapsLoaded, map, selectedRadius]);    
-    
 
 
   useEffect(() => {
@@ -602,7 +604,7 @@ const Map = () => {
         Number(findStore[0]?.longitude) === marker?.position?.lng()
     );
 
-    showStoreInfo(findStore[0], marker[0]); // Use the showStoreInfo function
+    showStoreInfo(findStore[0], marker[0]);
     
     let inRangeMarkers = getInRangeMarkers(); 
     setMarkersVisible(inRangeMarkers);
@@ -726,44 +728,43 @@ const Map = () => {
           <div className="pw-top-bar pw-layout">
           <div id="map-style" style={{ display: 'flex', flexDirection: getFlexDirection(settings.layout), gap: '1rem' }}>
             <div className='flex flex-col gap-4 w-[50%]'>
-            <div className="pw-search">
-              <div className="form-group pw-search-bar-12 pw-search-bar-6 pw-search-bar-3 pw-search-bar">
-                <input
-                  className="form-control"
-                  type="text"
-                  name="location"
-                  id="pw-location"
-                  placeholder="street, city, zip code, or state"
-                  ref={searchInputRef}
-                />
-                <button
-                  className="btn btn-primary store-search"
-                  type="submit"
-                  id="search_btn"
-                  style={{ background: settings.searchButtonBackground || '#fff' }}
-                  dangerouslySetInnerHTML={{ __html: getSearchIcon(settings.searchIconButton || '#000000') }}
-                />
+              <div className="pw-search">
+                <div className="form-group pw-search-bar-12 pw-search-bar-6 pw-search-bar-3 pw-search-bar">
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="location"
+                    id="pw-location"
+                    placeholder="street, city, zip code, or state"
+                    ref={searchInputRef}
+                  />
+                  <button
+                    className="btn btn-primary store-search"
+                    type="submit"
+                    id="search_btn"
+                    style={{ background: settings.searchButtonBackground || '#fff' }}
+                    dangerouslySetInnerHTML={{ __html: getSearchIcon(settings.searchIconButton || '#000000') }}
+                  />
+                </div>
+                <div className="hidden-xs form-group pw-search-bar-12 pw-search-bar-6 pw-search-bar-3 pw-search-raduis">
+                  <label className="control-label" htmlFor="radius">Search radius</label>
+                  <select className="form-control" id="pw-radius" value={selectedRadius} onChange={handleRadiusChange} ref={searchRadiusInputRef}>
+                    <option value="5">5 miles</option>
+                    <option value="10">10 miles</option>
+                    <option value="20">20 miles</option>
+                    <option value="40">40 miles</option>
+                    <option value="60">60 miles</option>
+                    <option value="100">100 miles</option>
+                    <option value="200">200 miles</option>
+                  </select>
+                </div>
               </div>
-              <div className="hidden-xs form-group pw-search-bar-12 pw-search-bar-6 pw-search-bar-3 pw-search-raduis">
-                <label className="control-label" htmlFor="radius">Search radius</label>
-                <select className="form-control" id="pw-radius" value={selectedRadius} onChange={handleRadiusChange} ref={searchRadiusInputRef}>
-                  <option value="5">5 miles</option>
-                  <option value="10">10 miles</option>
-                  <option value="20">20 miles</option>
-                  <option value="40">40 miles</option>
-                  <option value="60">60 miles</option>
-                  <option value="100">100 miles</option>
-                  <option value="200">200 miles</option>
-                </select>
+              <div className="col-12" id="store-list">
+                <div className="pw-loader">
+                  <span></span>
+                </div>
+                <ul className="list-unstyled" ref={storeWrapperRef}></ul>
               </div>
-            </div>
-            
-            <div className="col-12" id="store-list">
-              <div className="pw-loader">
-                <span></span>
-              </div>
-              <ul className="list-unstyled" ref={storeWrapperRef}></ul>
-            </div>
             </div>
             <div className="col-12" id="store-map">
               <div id="map" ref={mapRef}></div>
@@ -781,7 +782,7 @@ const Map = () => {
                 </div>
               )}
             </div>
-            </div>
+          </div>
 
             
           </div>

@@ -21,13 +21,16 @@ const StoreList = () => {
       });
   }, []);
 
+  console.log("PAWAN", stores);
   const handleCreateStoreClick = () => {
     router.push('/createStore');
   };
 
   const handleEditStore = (store) => {
     const query = new URLSearchParams(store).toString();
-    router.push(`/editStore?${query}`);
+    const storeId = query.split('=')[0];
+    console.log("pawan", storeId); 
+    router.push(`/editStore?${storeId}`);
   };
   
 
