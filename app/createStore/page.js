@@ -87,7 +87,7 @@ const CreateStore = () => {
     <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-8">
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Name*</label>
+          <label className='text-[#737373] mb-2 text-sm'>Name*</label>
           <input
             type="text"
             name="name"
@@ -100,7 +100,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Search Address, Suburb, or Landmark</label>
+          <label className='text-[#737373] mb-2 text-sm'>Search Address, Suburb, or Landmark</label>
           <input
             type="text"
             name="searchAddress"
@@ -113,7 +113,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Address Line 1</label>
+          <label className='text-[#737373] mb-2 text-sm'>Address Line 1</label>
           <input
             type="text"
             name="addressLine1"
@@ -125,7 +125,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Address Line 2</label>
+          <label className='text-[#737373] mb-2 text-sm'>Address Line 2</label>
           <input
             type="text"
             name="addressLine2"
@@ -137,7 +137,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>City</label>
+          <label className='text-[#737373] mb-2 text-sm'>City</label>
           <input
             type="text"
             name="city"
@@ -149,7 +149,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>State / Province</label>
+          <label className='text-[#737373] mb-2 text-sm'>State / Province</label>
           <input
             type="text"
             name="stateProvince"
@@ -161,7 +161,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Country</label>
+          <label className='text-[#737373] mb-2 text-sm'>Country</label>
           <input
             type="text"
             name="country"
@@ -173,7 +173,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Postal / ZIP code</label>
+          <label className='text-[#737373] mb-2 text-sm'>Postal / ZIP code</label>
           <input
             type="text"
             name="postalCode"
@@ -185,7 +185,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Latitude</label>
+          <label className='text-[#737373] mb-2 text-sm'>Latitude</label>
           <input
             type="text"
             name="latitude"
@@ -197,7 +197,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Longitude</label>
+          <label className='text-[#737373] mb-2 text-sm'>Longitude</label>
           <input
             type="text"
             name="longitude"
@@ -209,7 +209,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Description</label>
+          <label className='text-[#737373] mb-2 text-sm'>Description</label>
           <input
             type="text"
             name="description"
@@ -221,7 +221,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Service Options</label>
+          <label className='text-[#737373] mb-2 text-sm'>Service Options</label>
           <input
             type="text"
             name="serviceOptions"
@@ -233,7 +233,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Hours</label>
+          <label className='text-[#737373] mb-2 text-sm'>Hours</label>
           <input
             type="text"
             name="hours"
@@ -245,7 +245,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Phone</label>
+          <label className='text-[#737373] mb-2 text-sm'>Phone</label>
           <input
             type="text"
             name="phone"
@@ -257,7 +257,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Email</label>
+          <label className='text-[#737373] mb-2 text-sm'>Email</label>
           <input
             type="text"
             name="email"
@@ -269,7 +269,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Website</label>
+          <label className='text-[#737373] mb-2 text-sm'>Website</label>
           <input
             type="text"
             name="website"
@@ -281,7 +281,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label>Fax</label>
+          <label className='text-[#737373] mb-2 text-sm'>Fax</label>
           <input
             type="text"
             name="fax"

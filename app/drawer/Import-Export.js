@@ -69,44 +69,57 @@ const ImportExport = () => {
     const templateUrl = `${window.location.origin}/stores.xlsx`;
     window.open(templateUrl);
   };
+
   return (
     <>
-      <div className='flex flex-row justify-between'>
-        <div>
-          <h4 className='text-black text-[20px] font-bold'>
-            Bulk Import/Export
-          </h4>
-          <p className='text-black text-[14px] mt-4'>
-            Download a sample file to bulk import the stores.
-          </p>
+      <div className='flex flex-col justify-between'>
+        <div className='flex flex-row mb-8 justify-between items-center'>
+          <div>
+            <h4 className='text-black text-[20px] font-bold'>
+              Bulk Import/Export
+            </h4>
+            <p className='text-black text-[14px] mt-2'>
+              Download a sample file to bulk import the stores.
+            </p>
+          </div>
+          
           <button
             onClick={handleDownloadTemplate} 
-            className="bg-[#0040A9] font-bold text-[12px] text-white mt-4 py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black"
+            className="hover:bg-[#0040A9] font-bold border border-[#0040A9] text-[12px] hover:text-white py-2 px-4 rounded bg-transparent text-[#0040A9]"
           >
             Download Excel Format
           </button>
         </div>
-        <div className='shadow-xl rounded-xl p-8'>
-          <div className='flex flex-row gap-4'>
-            <input
-              type="file"
-              accept=".xlsx, .xls"
-              onChange={handleImport}
-              id="file"
-              style={{ display: 'none' }}
-            />
-            <label
-              htmlFor="file"
-              className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black cursor-pointer flex justify-center items-center"
-            >
-              {fileName} 
-            </label>
-            <button
-              onClick={handleExport}
-              className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black"
-            >
-              Export to Excel
-            </button>
+        <div className='flex flex-row text-center w-full justify-between gap-4 p-8'>
+          <div className='bg-white w-1/2 rounded-md flex py-8 px-8 flex-col gap-4'>
+            <p className='text-black text-[16px] font-semibold pb-4'>Bulk Import</p>
+            <div className='border-dashed border-2 border-gray-300 p-24 rounded-lg'>
+              <input
+                type="file"
+                accept=".xlsx, .xls"
+                onChange={handleImport}
+                id="file"
+                style={{ display: 'none' }}
+              />
+              <label
+                htmlFor="file"
+                className="bg-[#0040A9] font-bold text-white py-2 px-2 rounded hover:bg-[#e6edf8] hover:text-black cursor-pointer flex justify-center items-center"
+              >
+                Add File
+              </label>
+              <p className='text-[#505050] text-sm mt-4 '>Accept CSV File</p>
+            </div>
+          </div>
+          <div className='bg-white rounded-md py-8 px-8 w-1/2'>
+            <p className='text-black text-[16px] font-semibold pb-4'>Bulk Export</p>
+            <div className='p-24'>
+              <button
+                onClick={handleExport}
+                className="bg-[#0040A9] font-bold text-white  py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black"
+              > 
+                Export Stores
+              </button>
+            </div>          
           </div>
         </div>
       </div>

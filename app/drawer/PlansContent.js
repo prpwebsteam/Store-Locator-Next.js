@@ -114,12 +114,13 @@ function PlansContent() {
   return (
     <>
       <div className="mx-auto min-h-screen transition-margin duration-300 ease-in-out">
-        <div className="max-w-[1440px] mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+            <p className='text-[18px] mb-8 font-semibold'>Plans</p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
             {pricingTiers.map((tier, index) => (
-              <div key={index} className="shadow-2xl p-6 flex flex-col gap-6 rounded-xl bg-white">
-                <h3 className="text-lg font-bold">{tier.title}</h3>
-                <p className="text-lg">{tier.price}</p>
+              <div key={index} className="p-6 flex flex-col gap-4 rounded-xl bg-white">
+                <h3 className="text-md font-normal text-[#505050]">{tier.title}</h3>
+                <p className="text-lg font-bold">{tier.price}</p>
                 <ul className="list-disc pl-6">
                   {tier.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="text-sm">{feature}</li>

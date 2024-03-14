@@ -8,7 +8,6 @@ const editStore = () => {
   const router = useRouter();
   const queryString = window.location.href.split('?')[1]; 
   const storeId = queryString?.split('=')[0];
-  console.log("Vikash sir", storeId)
   const initialStoreInfo = {
     name: '',
     searchAddress: '',
@@ -80,6 +79,7 @@ const editStore = () => {
     }
   };
 
+  console.log("VVVVVVVV", storeInfo)
 return (
   <>
   <Header2 />

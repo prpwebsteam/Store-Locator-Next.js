@@ -1,8 +1,5 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { useContext } from 'react';
-import Header2 from '../components/Header2';
-import Footer from '../components/Footer';
 import PlansContent from '../drawer/PlansContent';
 import StoreList from '../drawer/StoreList';
 import Guidelines from '../drawer/Guidelines';
@@ -11,10 +8,26 @@ import { useRouter } from 'next/navigation';
 import Account from '../drawer/Account';
 import Settings from '../drawer/Settings';
 import ImportExport from '../drawer/Import-Export';
+import { IoStorefrontOutline, IoSettingsOutline } from "react-icons/io5";
+import { PiNotepadLight } from "react-icons/pi";
+import { MdOutlineImportantDevices, MdOutlineIntegrationInstructions } from "react-icons/md";
+import { FaRegUser } from "react-icons/fa6";
+import { GrPlan } from "react-icons/gr";
+import Image from 'next/image';
+import Logo from '../assests/Logo.png'; 
+import { PiSignOutFill } from "react-icons/pi";
+
 
 function Dashboard() {
   const [selectedContent, setSelectedContent] = useState('Stores');
   const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogout = async () => {
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    router.push('/'); 
+  };
 
   const selectContent = (content) => {
     setSelectedContent(content);
@@ -34,7 +47,6 @@ function Dashboard() {
 
   return (
     <>
-    <Header2 />
       <div className='grid' style={{ gridTemplateColumns: '1fr 3fr', height: '100vh' }}>
           <div
             style={{
@@ -42,67 +54,91 @@ function Dashboard() {
               height: '100vh',
               position: 'relative',
               top: '0', 
-              backgroundColor: '#e6edf8',
+              backgroundColor: '#0046B5',
               overflowY: 'hidden',
               transition: '0.5s',
               paddingTop: '40px',
               color: 'white',
             }}
           >
-            <a
-              style={{ color: '#000', fontWeight: '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
-              onClick={() => selectContent('Stores')} 
-              className={`${selectedContent === 'Stores' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`} 
-            >
-              Stores
-            </a>
-            <a
-              style={{ color: '#000', fontWeight: '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
-              onClick={() => selectContent('Guidelines')} 
-              className={`${selectedContent === 'Guidelines' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`} 
-            >
-              Guidelines
-            </a>
-            <a
-              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
-              onClick={() => selectContent('ImportExport')} 
-              className={`${selectedContent === 'ImportExport' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`} 
-            >
-              Import/Export
-            </a>
-            <a
-              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
-              onClick={() => selectContent('Account')} 
-              className={`${selectedContent === 'Account' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`}
-            >
-              Account
-            </a>
-            <a
-              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
-              onClick={() => selectContent('Plans')} 
-              className={`${selectedContent === 'Plans' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`}
-            >
-              Plans
-            </a>
-            <a
-              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
-              onClick={() => selectContent('Instructions')} 
-              className={`${selectedContent === 'Instructions' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`}
-            >
-              Instructions
-            </a>
-            <a
-              style={{ color: '#000', 'font-weight': '700', padding: '10px 8px 10px 100px', textDecoration: 'none', display: 'block', cursor: 'pointer' }}
-              onClick={() => selectContent('Settings')} 
-              className={`${selectedContent === 'Settings' ? 'bg-[#add8e6] text-white' : ''} hover:bg-[#add8e6] transition-colors duration-300 hover:text-white`}
-            >
-              Settings
-            </a>
+            <div className='ml-12 mb-4 cursor-pointer'>
+              <a href='/' className='text-[32px] text-white font-bold'>
+                <Image src={Logo} alt="Logo" width={60} height={60} />
+              </a>
+            </div>
+            <div>
+              <a
+                onClick={() => selectContent('Stores')} 
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Stores' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`} 
+              >
+                <IoStorefrontOutline className='w-7 h-[25px]' />
+                Stores
+              </a>
+              <a
+                onClick={() => selectContent('Guidelines')} 
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Guidelines' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`} 
+              >
+                <PiNotepadLight className='w-7 h-[25px]' />
+                Guidelines
+              </a>
+              <a
+                onClick={() => selectContent('ImportExport')} 
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'ImportExport' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`} 
+              >
+                <MdOutlineImportantDevices className='w-7 h-[25px]' />
+                Import/Export
+              </a>
+              <a
+                onClick={() => selectContent('Account')} 
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Account' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
+              >
+              <FaRegUser className='w-7 h-[25px]' />
+                Account
+              </a>
+              <a
+                onClick={() => selectContent('Plans')} 
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Plans' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
+              >
+              <GrPlan className='w-7 h-[25px]' />
+                Plans
+              </a>
+              <a
+                onClick={() => selectContent('Instructions')} 
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Instructions' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
+              >
+              <MdOutlineIntegrationInstructions className='w-7 h-[25px]' />
+                Instructions
+              </a>
+              <a
+                onClick={() => selectContent('Settings')} 
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Settings' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
+              >
+              <IoSettingsOutline className='w-7 h-[25px]' />
+                Settings
+              </a>
+            </div>
+            <div>
+              <a
+                onClick={handleLogout}  
+                className={`flex absolute bottom-6 flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer transition-colors duration-300`}
+              >
+              <PiSignOutFill className='w-7 h-[25px]' />
+                Signout
+              </a>
+            </div>
           </div>
 
-          <div className="max-w-[1240px] scroll-bar min-h-screen transition-margin duration-300 ease-in-out">
-            <div className="w-[100%] mx-auto py-12 px-4 sm:px-6 lg:px-8">
-    
+          <div className="w-full scroll-bar min-h-screen transition-margin duration-300 ease-in-out">
+            <div className='bg-white sticky max-h-28 h-full flex items-center px-4'>
+              <div className="relative flex items-center w-[40%]">
+                <input type='search' placeholder="Search" className='h-12 bg-[#F2F2F7] flex-1 px-4 border rounded-lg focus:outline-none'></input>
+                <svg className="absolute right-0 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </div>
+            </div>
+            <div className="bg-[#F2F2F7] w-full py-12 px-4 min-h-[100vh]">
               {selectedContent === 'Plans' && <PlansContent />}
               {selectedContent === 'Stores' && <StoreList />}
               {selectedContent === 'Guidelines' && <Guidelines />}
@@ -113,7 +149,6 @@ function Dashboard() {
             </div>
           </div>
         </div>
-      <Footer />
     </>
   );
 }

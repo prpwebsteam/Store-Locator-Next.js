@@ -44,7 +44,7 @@ const CTA = () => {
               ENTER YOUR EMAIL FOR 15% OFF YOUR FIRST PURCHASE
             </div>
           </div>
-          <div className="sm:col-span-4 flex items-center md:w-1/2 justify-end py-2 pr-4">
+          <div className="sm:col-span-4 flex items-center md:w-1/2 md:justify-end py-2 pr-4">
             <input 
               type="email" 
               placeholder="Enter your email" 

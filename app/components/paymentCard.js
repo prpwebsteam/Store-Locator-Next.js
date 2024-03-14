@@ -6,7 +6,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 function PaymentCard() {
 
-    const handleCheckout = async (priceId) => {
+      const handleCheckout = async (priceId) => {
         const stripe = await stripePromise;
         if (!stripe) {
           console.error('Stripe.js has not loaded yet.');
@@ -29,12 +29,15 @@ function PaymentCard() {
       
           if (result.error) {
             console.error(result.error.message);
+          } else {
+            // Return the sessionId on successful payment
+            return session.sessionId;
           }
         } else {
           const error = await response.json();
           console.error('Error during session creation:', error);
         }
-    };
+      };
       
       const redirectToUrl = async (priceId) => {
         if (!priceId) {
@@ -42,9 +45,14 @@ function PaymentCard() {
         } else if (priceId.startsWith('http')) {
             window.location.href = priceId;
         } else {
-            await handleCheckout(priceId);
+            const sessionId = await handleCheckout(priceId);
+            if (sessionId) {
+                const paymentSuccessfulId = sessionId;
+                console.log('Payment Successful ID:', paymentSuccessfulId);
+            }
         }
-    };
+      };
+    
 
   const pricingTiers = [
     {
