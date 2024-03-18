@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 
 const editStore = () => {
   const router = useRouter();
-  const queryString = window.location.href.split('?')[1]; 
+  const queryString = window?.location?.href?.split('?')[1]; 
   const storeId = queryString?.split('=')[0];
   const initialStoreInfo = {
     name: '',
