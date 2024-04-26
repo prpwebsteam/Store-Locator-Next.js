@@ -4,28 +4,32 @@ import { ObjectId } from 'mongodb';
 import { connectDB } from '../../db';
 
 export default async function handler(req, res) {
-  if (req.method === 'GET') {
-    try {
-      const db = await connectDB();
+  if (req.method !== 'GET') {
+    return res.status(405).json({ message: 'Method Not Allowed' });
+  }
 
-      const { storeId } = req.query;
+  const db = await connectDB();
+  const { storeId } = req.query;
 
-      if (storeId) {
-        const store = await db.collection('stores').findOne({ _id: ObjectId(storeId) });
-        if (!store) {
-          res.status(404).json({ message: 'Store not found' });
-        } else {
-          res.status(200).json(store);
-        }
-      } else {
-        const stores = await db.collection('stores').find({}).toArray();
-        res.status(200).json(stores);
+  try {
+    if (storeId) {
+      console.log("Bhairav", storeId)
+      // Ensure the storeId is a valid ObjectId before querying
+      if (!ObjectId.isValid(storeId)) {
+        return res.status(400).json({ message: 'Invalid store ID' });
       }
-    } catch (error) {
-      console.error('Get Stores Error:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+      const store = await db.collection('stores').findOne({ _id: new ObjectId(storeId) });
+      console.log("Bhairav-1", store)
+      if (!store) {
+        return res.status(404).json({ message: 'Store not found' });
+      }
+      res.status(200).json(store);
+    } else {
+      const stores = await db.collection('stores').find({}).toArray();
+      res.status(200).json(stores);
     }
-  } else {
-    res.status(405).end();
+  } catch (error) {
+    console.error('Get Stores Error:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 }

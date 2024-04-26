@@ -8,6 +8,7 @@ const editStore = () => {
   const router = useRouter();
   const queryString = window?.location?.href?.split('?')[1]; 
   const storeId = queryString?.split('=')[0];
+  console.log("BBBBBBB", queryString, storeId)
   const initialStoreInfo = {
     name: '',
     searchAddress: '',
@@ -31,8 +32,10 @@ const editStore = () => {
 
   useEffect(() => {
     const fetchStoreDetails = async () => {
+      if (!storeId) return; // Exit if no storeId
+
       try {
-        const response = await fetch(`/api/getStore/${storeId}`);
+        const response = await fetch(`/api/getStores?storeId=${storeId}`);
         if (response.ok) {
           const data = await response.json();
           setStoreInfo(data);
@@ -44,10 +47,8 @@ const editStore = () => {
       }
     };
 
-    if (storeId) {
-      fetchStoreDetails();
-    }
-  }, [storeId]);
+    fetchStoreDetails();
+  }, [storeId]); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,7 +62,7 @@ const editStore = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`/api/updateStore/${storeId}`, { 
+      const response = await fetch(`/api/updateStore?storeId=${storeId}`, { 
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',

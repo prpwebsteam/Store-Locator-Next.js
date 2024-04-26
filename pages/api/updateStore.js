@@ -1,70 +1,74 @@
 // pages/api/updateStore.js
 
+import { ObjectId } from 'mongodb';
 import { connectDB } from '../../db';
 
 export default async function handler(req, res) {
-  if (req.method === 'PUT') {
-    try {
-      const {
-        id,
-        name,
-        searchAddress,
-        addressLine1,
-        addressLine2,
-        city,
-        stateProvince,
-        country,
-        postalCode,
-        latitude,
-        longitude,
-        description,
-        serviceOptions,
-        hours,
-        phone,
-        email,
-        website,
-        fax,
-      } = req.body;
+  if (req.method !== 'PUT') {
+    return res.status(405).json({ message: 'Method Not Allowed' });
+  }
 
-      const db = await connectDB();
-      const { priceId } = req.body;
+  const db = await connectDB();
 
-      const filter = { _id: priceId }; 
+  const {
+    _id,
+    name,
+    searchAddress,
+    addressLine1,
+    addressLine2,
+    city,
+    stateProvince,
+    country,
+    postalCode,
+    latitude,
+    longitude,
+    description,
+    serviceOptions,
+    hours,
+    phone,
+    email,
+    website,
+    fax,
+  } = req.body;
 
-      const updateDoc = {
-        $set: {
-          name,
-          searchAddress,
-          addressLine1,
-          addressLine2,
-          city,
-          stateProvince,
-          country,
-          postalCode,
-          latitude,
-          longitude,
-          description,
-          serviceOptions,
-          hours,
-          phone,
-          email,
-          website,
-          fax,
-        },
-      };
+  // Validate the ObjectId
+  if (!_id || !ObjectId.isValid(_id)) {
+    return res.status(400).json({ message: 'Invalid store ID' });
+  }
 
-      const result = await db.collection('stores').updateOne(filter, updateDoc);
+  const filter = { _id: new ObjectId(_id) };
+  const updateDoc = {
+    $set: {
+      name,
+      searchAddress,
+      addressLine1,
+      addressLine2,
+      city,
+      stateProvince,
+      country,
+      postalCode,
+      latitude,
+      longitude,
+      description,
+      serviceOptions,
+      hours,
+      phone,
+      email,
+      website,
+      fax,
+    },
+  };
 
-      if (result.modifiedCount === 0) {
-        return res.status(404).json({ message: 'Store not found or data not changed' });
-      }
+  try {
+    const result = await db.collection('stores').updateOne(filter, updateDoc);
 
-      res.status(200).json({ message: 'Store updated successfully', storeId: id });
-    } catch (error) {
-      console.error('Update Store Error:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ message: 'Store not found or data not changed' });
     }
-  } else {
-    res.status(405).end();
+
+    res.status(200).json({ message: 'Store updated successfully', storeId: _id });
+  } catch (error) {
+    console.error('Update Store Error:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 }

@@ -6,7 +6,6 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const {
-        // Assuming an `id` field is used for edits. Adjust as necessary.
         id,
         name,
         searchAddress,
@@ -25,6 +24,7 @@ export default async function handler(req, res) {
         email,
         website,
         fax,
+        isActive,  // Add isActive here to destructuring
       } = req.body;
 
       const db = await connectDB();
@@ -51,6 +51,7 @@ export default async function handler(req, res) {
             email,
             website,
             fax,
+            isActive  // Include isActive in the update document
           },
         };
 
@@ -82,12 +83,12 @@ export default async function handler(req, res) {
           email,
           website,
           fax,
+          isActive  // Include isActive in the new store data structure
         };
 
         const result = await db.collection('stores').insertOne(newStore);
 
         res.status(200).json({ message: 'Store created successfully', storeId: result.insertedId });
-        console.log("rahul",storeId)
       }
     } catch (error) {
       console.error('Create/Edit Store Error:', error);
