@@ -660,3 +660,15 @@ a.gradient, h1.gradient, h2.gradient {
   flex-direction: row;
   gap: 1rem;
 }
+
+#update-msg {
+  color: #008060;
+  padding-top: 5px;
+}
+
+@media (max-width: 768px) {
+  #map-style {
+    flex-direction: column !important;
+    padding: 0px 20px;
+  }
+}

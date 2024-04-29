@@ -84,7 +84,7 @@ const Settings = () => {
           <div className='flex w-[50%] flex-col justify-center mb-4 items-left'>
             <label className='text-[#737373] mb-2 text-sm'>API Key:</label>
             <input
-              className='cursor-pointer px-2 py-1 border-[1px] rounded-md border-[#E1E1E1]'
+              className='cursor-pointer px-2 py-2 border-[1px] rounded-md border-[#E1E1E1]'
               type="text"
               name="apiKey"
               value={formData.apiKey}
@@ -94,7 +94,7 @@ const Settings = () => {
           <div className='flex w-[50%] flex-col justify-center mb-4 items-left'>
             <label className='text-[#737373] mb-2 text-sm'>Google Maps API Key:</label>
             <input
-              className='cursor-pointer px-2 py-1 border-[1px] rounded-md border-[#E1E1E1]'
+              className='cursor-pointer px-2 py-2 border-[1px] rounded-md border-[#E1E1E1]'
               type="text"
               name="googleMapsApiKey"
               value={formData.googleMapsApiKey}
@@ -105,7 +105,7 @@ const Settings = () => {
         <div className='flex gap-8 justify-between my-4'>
           <div className='flex w-[50%] flex-col justify-center mb-4 items-left'>
             <label className='text-[#737373] mb-2 text-sm'>Select Layout:</label>
-            <select className='cursor-pointer px-2 py-1 border-[1px] border-[#E1E1E1] rounded-md' name="layout" value={formData.layout} onChange={handleInputChange}>
+            <select className='cursor-pointer px-2 py-2 border-[1px] border-[#E1E1E1] rounded-md' name="layout" value={formData.layout} onChange={handleInputChange}>
                 <option value="layout-1">Search and results on left</option>
                 <option value="layout-2">Search and results on right</option>
                 <option value="layout-3">Search bar on top, results on left</option>
@@ -115,7 +115,7 @@ const Settings = () => {
           </div>
           <div className='flex w-[50%] flex-col justify-center mb-4 items-left'>
             <label className='text-[#737373] mb-2 text-sm'>Map Theme:</label>
-            <select className='cursor-pointer px-2 py-1 border-[1px] border-[#E1E1E1] rounded-md' name="mapTheme" value={formData.mapTheme} onChange={handleInputChange}>
+            <select className='cursor-pointer px-2 py-2 border-[1px] border-[#E1E1E1] rounded-md' name="mapTheme" value={formData.mapTheme} onChange={handleInputChange}>
               <option value="standard">Standard</option>
               <option value="silver">Silver</option>
               <option value="retro">Retro</option>
@@ -172,7 +172,7 @@ const Settings = () => {
               <label className='text-[#737373] mb-2 text-sm'>Zoom Level:</label>
               <div className='flex flex-row gap-2'>
                   <input
-                      className='cursor-pointer w-[100%]'
+                      className='cursor-pointer w-[100%] h-[2px] mt-[10px]'
                       type="range"
                       name="zoomLevel"
                       min="5"
@@ -214,14 +214,14 @@ const Settings = () => {
         <div className='flex gap-8 justify-between my-4'>
           <div className='flex flex-col w-[50%] justify-center mb-4 items-left'>
             <label className='text-[#737373] mb-2 text-sm'>Markers Behavior:</label>
-            <select name="markersBehavior" value={formData.markersBehavior} onChange={handleInputChange} className='px-2 py-1 w-[100%] border-[1px] border-[#E1E1E1] rounded-md cursor-pointer'>
+            <select name="markersBehavior" value={formData.markersBehavior} onChange={handleInputChange} className='px-2 py-2 w-[100%] border-[1px] border-[#E1E1E1] rounded-md cursor-pointer'>
               <option value="group">Group locations when zoomed out</option>
               <option value="noGroup">No grouping</option>
             </select>
           </div>
           <div className='flex flex-col w-[50%] justify-center mb-4 items-left'>
             <label className='text-[#737373] mb-2 text-sm'>Marker Image:</label>
-            <input className='cursor-pointer border-[1px] rounded-md border-[#E1E1E1]' type="file" name="markerImage" onChange={handleFileChange} />
+            <input className='cursor-pointer border-[1px] rounded-md border-[#E1E1E1] p-[5px]' type="file" name="markerImage" onChange={handleFileChange} />
           </div>
         </div>
         <div className='flex justify-start'>

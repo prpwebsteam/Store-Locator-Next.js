@@ -29,8 +29,11 @@ const editStore = () => {
     fax: '',
   };
   const [storeInfo, setStoreInfo] = useState(initialStoreInfo);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [updateError, setUpdateError] = useState(null);
 
   useEffect(() => {
+    router.refresh();
     const fetchStoreDetails = async () => {
       if (!storeId) return; // Exit if no storeId
 
@@ -60,6 +63,7 @@ const editStore = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let success_msg = document.getElementById("update-msg");
 
     try {
       const response = await fetch(`/api/updateStore?storeId=${storeId}`, { 
@@ -72,11 +76,19 @@ const editStore = () => {
 
       if (response.ok) {
         console.log('Store updated successfully');
+        success_msg.innerHTML = response.message || 'Store updated successfully';
+        setUpdateSuccess(true);
+        setTimeout(()=>{
+          router.push('/dashboard');
+        }, 2000)
       } else {
-        console.error('Failed to update store');
+        const data = await response.json();
+        setUpdateError(data.message || 'Failed to update store');
+        console.error('Failed to update store:', data.message);
       }
     } catch (error) {
       console.error('Error:', error);
+      setUpdateError('An error occurred while updating the store');
     }
   };
 
@@ -84,9 +96,9 @@ const editStore = () => {
 return (
   <>
   <Header2 />
-    <div className="px-12 py-12 max-w-[1440px] mx-auto">
+    <div className="sm:px-12 py-12 px-4 max-w-[1440px] mx-auto">
     <h2 className="mb-8 font-bold text-xl">Edit Store</h2>
-    <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-8">
+    <form onSubmit={handleSubmit} className="sm:grid sm:grid-cols-3 gap-8 flex flex-col">
       <div className="col-span-1">
         <div className="flex flex-col">
           <label>Name*</label>
@@ -297,6 +309,7 @@ return (
         <button type="submit" className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black">Update Store</button>
       </div>
     </form>
+    <div id="update-msg"></div>
   </div>
   <Footer />
   </>

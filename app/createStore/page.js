@@ -82,9 +82,9 @@ const CreateStore = () => {
 
   return (
   <>
-  <div className="px-12 py-12 max-w-[1440px] mx-auto">
+  <div className="sm:px-12 py-12 px-4 max-w-[1440px] mx-auto">
     <h2 className="mb-8 font-bold text-xl">Create a Store</h2>
-    <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-8">
+    <form onSubmit={handleSubmit} className="sm:grid sm:grid-cols-3 gap-8 flex flex-col">
       <div className="col-span-1">
         <div className="flex flex-col">
           <label className='text-[#737373] mb-2 text-sm'>Name*</label>
@@ -100,7 +100,7 @@ const CreateStore = () => {
       </div>
       <div className="col-span-1">
         <div className="flex flex-col">
-          <label className='text-[#737373] mb-2 text-sm'>Search Address, Suburb, or Landmark</label>
+          <label className='text-[#737373] mb-2 text-sm'>Search Address or Landmark</label>
           <input
             type="text"
             name="searchAddress"

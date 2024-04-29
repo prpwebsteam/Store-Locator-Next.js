@@ -712,7 +712,6 @@ const Map = () => {
 
   if(stores.length>0){
     renderStores(stores);
-    console.log("bhairav", stores);
   }
 
 
@@ -727,7 +726,7 @@ const Map = () => {
           <input type="hidden" name="_csrf" value={csrfToken} />
           <div className="pw-top-bar pw-layout">
           <div id="map-style" style={{ display: 'flex', flexDirection: getFlexDirection(settings.layout), gap: '1rem' }}>
-            <div className='flex flex-col gap-4 w-[50%]'>
+            <div className='flex flex-col gap-4 sm:w-[50%] w-[100%]'>
               <div className="pw-search">
                 <div className="form-group pw-search-bar-12 pw-search-bar-6 pw-search-bar-3 pw-search-bar">
                   <input

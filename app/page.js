@@ -19,7 +19,7 @@ export default function Home() {
       <IntroSection />
       <TabComponent />
       <CTA />
-      {/* <Map /> */}
+      <Map />
       {/* <Owner /> */}
       <ClientSlider />
       <PaymentCard />

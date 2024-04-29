@@ -15,7 +15,7 @@ const StoreList = () => {
   const [selectedStore, setSelectedStore] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [entriesPerPage] = useState(10);
+  const [entriesPerPage] = useState(5);
 
   useEffect(() => {
     fetch('/api/getStores')
@@ -65,11 +65,10 @@ const StoreList = () => {
   const handleFilterStatusChange = (e) => {
     setFilterStatus(e.target.value);
   };
-
   const filteredStores = stores.filter(store =>
     ((store.name ? store.name.toLowerCase() : '').includes(searchTerm.toLowerCase()) ||
     (store.status ? store.status.toLowerCase() : '').includes(searchTerm.toLowerCase())) &&
-    (filterStatus ? store.status === filterStatus : true)
+    (!filterStatus || store.status === filterStatus)
   );
 
   const truncateAddress = (address) => {
@@ -111,7 +110,7 @@ const StoreList = () => {
                   value={filterStatus}
                   className="h-[2.5rem] select select-bordered border focus:outline-none select-primary bg-white px-4 py-1 max-w-[200px] rounded"
                 >
-                  <option value="">Postal Code</option>
+                  <option value="">Select option</option>
                   <option value="Active">Active</option>
                   <option value="Inactive">Inactive</option>
                 </select>
