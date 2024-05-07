@@ -584,11 +584,15 @@ a.gradient, h1.gradient, h2.gradient {
     color: inherit;
   }
   
+  .pw-horizontal-map {
+    padding: 0px 20px;
+  }
   @media(max-width:768px){
     .pw-horizontal-map {
-    grid-template-columns: 1fr;
+      grid-template-columns: 1fr;
       width: 100%;
-    display: block;
+      display: block;
+      padding: 0px 20px;
   }
   
   }
@@ -671,4 +675,13 @@ a.gradient, h1.gradient, h2.gradient {
     flex-direction: column !important;
     padding: 0px 20px;
   }
+}
+
+.gm-style-iw {
+  max-width: 620px !important;
+  width: 500px;
+}
+
+.directions-container:hover {
+  background-color: #f6f6f6;
 }

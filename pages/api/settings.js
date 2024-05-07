@@ -17,7 +17,6 @@ export default async function handler(req, res) {
 
       if (result.upsertedCount > 0 || result.modifiedCount > 0) {
         res.status(200).json({ message: 'Settings saved successfully' });
-        console.log("Bhairavvvvv",result);
       } else {
         res.status(500).json({ message: 'Failed to save settings' });
       }

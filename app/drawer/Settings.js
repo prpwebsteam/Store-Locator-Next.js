@@ -108,9 +108,6 @@ const Settings = () => {
             <select className='cursor-pointer px-2 py-2 border-[1px] border-[#E1E1E1] rounded-md' name="layout" value={formData.layout} onChange={handleInputChange}>
                 <option value="layout-1">Search and results on left</option>
                 <option value="layout-2">Search and results on right</option>
-                <option value="layout-3">Search bar on top, results on left</option>
-                <option value="layout-4">Search bar on top, results on right</option>
-                <option value="layout-5">Search bar on top, results on Bottom</option>
             </select>
           </div>
           <div className='flex w-[50%] flex-col justify-center mb-4 items-left'>

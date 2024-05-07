@@ -3,6 +3,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { loadGoogleMapsAPI } from '../utils/googleMapsLoader';
 import mapThemes from '../utils/mapThemes';
 import StoreInfo from './StoreInfo';
+import Direction from '../assests/send.png';
+import Shop from '../assests/shop.png';
+import Link from '../assests/link.png';
 
 const Map = () => {
   const [csrfToken, setCsrfToken] = useState('qyJj4PUdfKvK78fQpXCZQHDPu64P29ifW9aEA=');
@@ -25,6 +28,7 @@ const Map = () => {
   const [googleMapsLoaded, setGoogleMapsLoaded] = useState(false);
   const [markers, setMarkers] = useState([]);
   const [settings, setSettings] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const Gkey = "AIzaSyBe_A3Q0aV6QUqZLzJS8g3UAOYUDtNVh_4";
   let chooseMarkerOption = `<svg height="60" viewBox="0 0 64 64" width="60" xmlns="http://www.w3.org/2000/svg"><g id="Locator">
@@ -41,10 +45,25 @@ const Map = () => {
               </g>
             </svg>`;
   };
+
   const getFlexDirection = (layout) => {
-    return layout === 'layout-2' ? 'row-reverse' : 'row';
+    switch (layout) {
+      case 'layout-2':
+        return 'row-reverse';
+      case 'layout-3':
+        return 'column'; 
+      default:
+        return 'row';
+    }
   };
   
+  const getLayoutClasses = (layout) => {
+    if (layout === 'layout-3') {
+      return 'layout-3-classes'; 
+    }
+    return '';
+  };
+
   let mapImage = `<svg height="60" viewBox="0 0 64 64" width="60" xmlns="http://www.w3.org/2000/svg"><g id="Locator"><path d="m32 8a18.02069 18.02069 0 0 0 -18 18c0 5.61 2.3 9.06 4.37 12.15l12 17a1.98788 1.98788 0 0 0 3.26 0l12-17c.01-.01.02-.03.03-.04 2.04-3.05 4.34-6.5 4.34-12.11a18.02069 18.02069 0 0 0 -18-18zm-9 18a9 9 0 1 1 9 9 9.01356 9.01356 0 0 1 -9-9z" fill="${colorIconBtn}"/><path d="m32 17a9 9 0 1 0 9 9 9.01356 9.01356 0 0 0 -9-9zm0 14a5 5 0 1 1 5-5 5.00182 5.00182 0 0 1 -5 5z" fill="${colorIconBtn}96"/><circle cx="32" cy="26" fill="#fff" r="5"/></g></svg>`;
   let sideIcons = "";
   let mapThemeliquid = "silver";
@@ -134,7 +153,7 @@ const Map = () => {
   }, []);  
   
   useEffect(() => {
-    console.log('Settings:', settings);
+    console.log('MApp Settings:', settings);
   }, [settings]);
 
 
@@ -190,7 +209,7 @@ const Map = () => {
         setZooming(false)
       }, duration);
     }  
-
+ 
     useEffect(() => {
       if (searchInputRef.current && googleMapsLoaded) {
         const autocompleteInstance = new window.google.maps.places.Autocomplete(
@@ -306,12 +325,15 @@ const Map = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     requestCall(initialRequestConfig)
       .then((data) => {
         setStores(data);
+        setLoading(false); 
       })
       .catch((error) => {
         console.error('Fetch Stores Error:', error);
+        setLoading(false);
       });
   }, []);
 
@@ -407,6 +429,80 @@ const Map = () => {
     showOnLoadLocations(initialLat, initialLng, radius);
   }, []);
 
+  const openDirectionToStore = (position) => {
+    const lat = position.lat();
+    const lng = position.lng();
+    const directionUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+  
+    window.open(directionUrl, '_blank');
+  };
+
+  
+  useEffect(() => {
+    if (googleMapsLoaded && map && stores.length > 0) {
+      const newMarkers = stores.map((store, index) => {
+        const marker = new window.google.maps.Marker({
+          position: { lat: Number(store.latitude), lng: Number(store.longitude) },
+          map: map,
+          animation: window.google.maps.Animation.DROP,
+          zIndex: index,
+        });
+  
+        const infoWindow = new window.google.maps.InfoWindow({
+          content: `<div style="padding: 10px 0px; max-width: 640px; width: 100%;">
+                      <div style="display: flex; flex-direction: column; gap: 10px; border: 1px solid #d3d3d3; padding: 10px; margin-bottom: 10px; background-color: #f4f4f4;">
+                        <h4 style="font-size: 32px; font-weight: bold; color: #000;">Target Store</h4>
+                      </div>
+                      <a href="https://maps.google.com?saddr=Current+Location&daddr=${Number(
+                          store.latitude
+                        )}, ${Number(store.longitude)}" target="_blank">
+                        <div class="directions-container" style="hover:background-color: #d3d3d3; display: flex; align-items: center; gap: 10px; padding: 10px; margin: 0px 10px 5px 10px; border: 1px solid #d3d3d3; border-radius: 5px;">
+                          <img src="${Direction.src}" alt="Directions" style="width: 40px; height: 40px;">
+                          <div style="flex-grow: 1;">
+                            <p style="margin-bottom: 3px; color: #000; font-size: 14px; font-weight: semibold;">Address</p>
+                            <p style="margin-bottom: 5px;">${store.searchAddress}, ${store.addressLine1}, ${store.addressLine2}</p>
+                            <p style="margin: 0;">${store.city}, ${store.stateProvince}, ${store.country} ${store.postalCode}</p>
+                          </div>
+                          <p>Directions</p>
+                        </div>
+                      </a>
+                      ${store.email ? `
+                      <div class="directions-container" style="display: flex; align-items: center; gap: 10px; padding: 10px; margin: 0px 10px 5px 10px; border: 1px solid #d3d3d3; border-radius: 5px;">
+                        <img src="${Shop.src}" alt="Directions" style="width: 40px; height: 40px;">
+                        <div style="flex-grow: 1;">
+                          <p style="margin-bottom: 3px; color: #000; font-size: 14px; font-weight: semibold;">Store Info</p>
+                          <p style="margin-bottom: 5px;">Email: ${store.email}</p>
+                        </div>
+                      </div>` : ''}
+                      ${store.website ? `
+                      <div class="directions-container" style="display: flex; align-items: center; gap: 10px; padding: 10px; margin: 0px 10px 10px 10px; border: 1px solid #d3d3d3; border-radius: 5px;">
+                        <img src="${Link.src}" alt="Directions" style="width: 40px; height: 40px;">
+                        <div style="flex-grow: 1;">
+                          <p style="margin-bottom: 3px; color: #000; font-size: 14px; font-weight: semibold;">Website</p>
+                          <p style="margin-bottom: 5px;">${store.website}</p>
+                        </div>
+                      </div>` : ''}
+                    </div>`
+        });
+     
+
+        marker.addListener("click", () => {
+          infoWindow.open(map, marker);
+        });
+  
+        return marker;
+      });
+  
+      setMarkers(newMarkers);
+  
+      markers.forEach(marker => marker.setMap(null));
+  
+      return () => {
+        newMarkers.forEach(marker => marker.setMap(null));
+      };
+    }
+  }, [googleMapsLoaded, map, stores]);
+  
   useEffect(() => {
     if (googleMapsLoaded && !map) { 
       const mapOptions = {
@@ -437,21 +533,29 @@ const Map = () => {
         mapIcon = mapImage;
       }
   
-      // Add the markers to the map
-      const markers = stores?.map((location, i) => {
-        return new window.google.maps.Marker({
-          position: {
-            lat: Number(location.latitude),
-            lng: Number(location.longitude),
-          },
-          animation: window.google.maps.Animation.DROP,
-          zIndex: i,
-          map: map,
-          icon: mapIcon,
-          visible: true,
-        });
-      });
+      // if(stores){
+      //   console.log("bbbbbb", stores)
+      // }
+
+      // // Add the markers to the map
+      // const markers = stores && stores?.map((location, i) => {
+      //   return new window.google.maps.Marker({
+      //     position: {
+      //       lat: Number(location.latitude),
+      //       lng: Number(location.longitude),
+      //     },
+      //     animation: window.google.maps.Animation.DROP,
+      //     zIndex: i,
+      //     map: map,
+      //     icon: mapIcon,
+      //     visible: true,
+      //   });
+      // });
   
+      // setInterval(()=>{
+      //   console.log("Bhairav333", markers)
+      // }, 4000)
+
       if (groups === "true") {
         // Enable marker clustering for this map and these markers
         const clustor = new MarkerClusterer(map, markers, mcOptions);
@@ -716,11 +820,8 @@ const Map = () => {
 
 
   return (
-  <section className='w-[100%]' id="map-integration"
-  style={{ background: settings.mapBackground || '#fff' }}>
-    <div className="container-pw-store-locator pw-locator p-4" 
-         id="store-search-form" 
-    >
+  <section className='w-[100%]' id="map-integration" style={{ background: settings.mapBackground || '#fff' }}>
+    <div className={`container-pw-store-locator pw-locator p-4 ${getLayoutClasses(settings.layout)}`} id="store-search-form">
       <div className="pw-horizontal-map">
         <form onSubmit={handleSubmit}>
           <input type="hidden" name="_csrf" value={csrfToken} />
@@ -782,8 +883,6 @@ const Map = () => {
               )}
             </div>
           </div>
-
-            
           </div>
         </form>
       </div>
