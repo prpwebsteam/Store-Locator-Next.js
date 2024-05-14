@@ -39,7 +39,6 @@ const StoreList = () => {
     console.log("pawan", storeId); 
     router.push(`/editStore?${storeId}`);
   };
-  
 
   const handleSelectStore = (storeId) => {
     if (selectedStores.includes(storeId)) {
