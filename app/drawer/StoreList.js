@@ -15,7 +15,7 @@ const StoreList = () => {
   const [selectedStore, setSelectedStore] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [entriesPerPage] = useState(5);
+  const [entriesPerPage] = useState(10);
 
   useEffect(() => {
     fetch('/api/getStores')
