@@ -18,7 +18,7 @@ function Account() {
 
   return (
     <>
-      <div className="flex flex-col pt-10 overflow-hidden px-8">
+      <div className="flex flex-col overflow-hidden px-5">
           <div className='pb-8'>
             <p className='text-[24px] font-semibold'>Plan details</p>
             <p>Manage or update your subscription plan.</p>
@@ -51,7 +51,7 @@ function Account() {
             </div>
         </div>
       </div>
-      <div class="bg-white rounded-lg mx-8 p-6 w-64">
+      <div class="bg-white rounded-lg mx-5 p-6 w-64">
         <div class="text-sm mb-2 text-gray-700">Current Plan: PRO</div>
         <div class="text-black font-bold text-lg mb-6">$39.99/Month</div>
         <div class="text-sm text-gray-600">

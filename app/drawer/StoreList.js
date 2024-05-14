@@ -92,7 +92,7 @@ const StoreList = () => {
 
   return (
     <div>
-        <div className='flex flex-row gap-8 items-center justify-between'>
+        <div className='flex flex-row gap-8 px-5 items-center justify-between'>
           <div className='flex gap-4 w-full justify-between'>
             <div className="flex items-center gap-4 w-[70%]">
               <div className="relative flex items-center w-[60%]">
@@ -130,7 +130,7 @@ const StoreList = () => {
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <CreateStore />
         </Modal>
-        <div className='w-full mt-8 bg-white rounded-md py-4'>
+        <div className='w-auto mt-8 bg-white rounded-md py-4 mx-5'>
           <table className="border-collapse padding-tab w-full">
             <thead>
               <tr>

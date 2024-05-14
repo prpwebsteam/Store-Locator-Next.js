@@ -114,7 +114,7 @@ function PlansContent() {
   return (
     <>
       <div className="mx-auto min-h-screen transition-margin duration-300 ease-in-out">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1440px] mx-auto px-5">
             <p className='text-[18px] mb-8 font-semibold'>Plans</p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
             {pricingTiers.map((tier, index) => (

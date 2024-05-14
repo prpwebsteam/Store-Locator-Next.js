@@ -73,7 +73,7 @@ const ImportExport = () => {
   return (
     <>
       <div className='flex flex-col justify-between'>
-        <div className='flex flex-row mb-8 justify-between items-center'>
+        <div className='flex flex-row mb-8 px-5 justify-between items-center'>
           <div>
             <h4 className='text-black text-[20px] font-bold'>
               Bulk Import/Export
@@ -90,7 +90,7 @@ const ImportExport = () => {
             Download Excel Format
           </button>
         </div>
-        <div className='flex flex-row text-center w-full justify-between gap-4 p-8'>
+        <div className='flex flex-row text-center w-full justify-between gap-4 py-8 px-5'>
           <div className='bg-white w-1/2 rounded-md flex py-8 px-8 flex-col gap-4'>
             <p className='text-black text-[16px] font-semibold pb-4'>Bulk Import</p>
             <div className='border-dashed border-2 border-gray-300 p-24 rounded-lg'>

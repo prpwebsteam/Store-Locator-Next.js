@@ -51,15 +51,15 @@ const Map = () => {
       case 'layout-2':
         return 'row-reverse';
       case 'layout-3':
-        return 'column'; 
+        return 'column';
       default:
         return 'row';
     }
   };
-  
+
   const getLayoutClasses = (layout) => {
     if (layout === 'layout-3') {
-      return 'layout-3-classes'; 
+      return 'layout-3-classes';
     }
     return '';
   };
@@ -74,7 +74,7 @@ const Map = () => {
   let phoneSvg = "";
   let linkSvg = "";
   let mapBgColor = "#000";
-  let zoom_level ="50";
+  let zoom_level = "50";
 
   let mcOptions = {
     maxZoom: zoom_level,
@@ -98,19 +98,19 @@ const Map = () => {
       }
     ]
   };
-  
+
   useEffect(() => {
     const fetchSettings = async () => {
       try {
         // Get email from local storage
         const user = JSON.parse(localStorage.getItem('user'));
         const email = user?.email;
-  
+
         if (!email) {
           console.error('User email is not available');
           return;
         }
-  
+
         const response = await fetch(`/api/settings?email=${email}`);
         if (!response.ok) {
           throw new Error('Failed to fetch settings');
@@ -129,7 +129,7 @@ const Map = () => {
           searchIconButton,
           zoomLevel
         } = await response.json();
-  
+
         setSettings({
           apiKey,
           googleMapsApiKey,
@@ -148,10 +148,10 @@ const Map = () => {
         console.error('Error fetching settings:', error);
       }
     };
-  
+
     fetchSettings();
-  }, []);  
-  
+  }, []);
+
   useEffect(() => {
     console.log('MApp Settings:', settings);
   }, [settings]);
@@ -184,53 +184,53 @@ const Map = () => {
   function searchStore(searchString, { lat, lng }, radius) {
     const coordinates = { lat, lng };
     map?.setCenter(coordinates);
-  
+
     const nearbyStores = findStores(lat, lng, radius);
     if (nearbyStores.length > 0) {
       renderStores(nearbyStores);
     } else {
       renderStores([]); // No stores found
     }
-  
+
     disableZoomSearch(1000);
     map.setZoom(12); // Adjust zoom level as needed
-  
+
     const inRangeMarkers = getInRangeMarkers();
     setMarkersVisible(inRangeMarkers);
-  
+
     const outRangeMarkers = getOutRangeMarkers();
     setMarkersDeVisible(outRangeMarkers);
   }
-  
 
-    function disableZoomSearch(duration) {
-      setZooming(true)
-      setTimeout(function () {
-        setZooming(false)
-      }, duration);
-    }  
- 
-    useEffect(() => {
-      if (searchInputRef.current && googleMapsLoaded) {
-        const autocompleteInstance = new window.google.maps.places.Autocomplete(
-          searchInputRef.current,
-          { types: ['(cities)'] }
-        );
-    
-        autocompleteInstance.addListener('place_changed', function () {
-          const place = autocompleteInstance.getPlace();
-          if (!place.geometry) {
-            console.error('No details available for input:', place.name);
-            return;
-          }
-    
-          const location = place.geometry.location;
-          const lat = location.lat();
-          const lng = location.lng();
-          searchStore(place.name, { lat, lng }, selectedRadius);
-        });
-      }
-    }, [googleMapsLoaded, map, selectedRadius]);    
+
+  function disableZoomSearch(duration) {
+    setZooming(true)
+    setTimeout(function () {
+      setZooming(false)
+    }, duration);
+  }
+
+  useEffect(() => {
+    if (searchInputRef.current && googleMapsLoaded) {
+      const autocompleteInstance = new window.google.maps.places.Autocomplete(
+        searchInputRef.current,
+        { types: ['(cities)'] }
+      );
+
+      autocompleteInstance.addListener('place_changed', function () {
+        const place = autocompleteInstance.getPlace();
+        if (!place.geometry) {
+          console.error('No details available for input:', place.name);
+          return;
+        }
+
+        const location = place.geometry.location;
+        const lat = location.lat();
+        const lng = location.lng();
+        searchStore(place.name, { lat, lng }, selectedRadius);
+      });
+    }
+  }, [googleMapsLoaded, map, selectedRadius]);
 
 
   useEffect(() => {
@@ -248,7 +248,7 @@ const Map = () => {
         console.error('Fetch Stores Error:', error);
       });
   }, []);
-  
+
   async function initMap() {
 
     // let result = await requestCall({
@@ -256,8 +256,8 @@ const Map = () => {
     //   method: "GET",
     //   headers: { Accept: "*/*", "Ngrok-Skip-Browser-Warning": "6024" },
     // });
-  
-    stores =[{
+
+    stores = [{
       "_id": {
         "$oid": "65c0da424ed1400407fd95b5"
       },
@@ -278,7 +278,7 @@ const Map = () => {
       "email": "punitpareek@tt.com",
       "website": "https://shopmytiara.com/",
       "fax": "123456"
-      }
+    }
     ];
   }
   // grab default map center if it is
@@ -329,7 +329,7 @@ const Map = () => {
     requestCall(initialRequestConfig)
       .then((data) => {
         setStores(data);
-        setLoading(false); 
+        setLoading(false);
       })
       .catch((error) => {
         console.error('Fetch Stores Error:', error);
@@ -381,9 +381,9 @@ const Map = () => {
     var a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c; // Distance in km
 
@@ -422,9 +422,9 @@ const Map = () => {
   }
 
   useEffect(() => {
-    const initialLat = 123.456; 
-    const initialLng = 789.012; 
-    const radius = 10; 
+    const initialLat = 123.456;
+    const initialLng = 789.012;
+    const radius = 10;
 
     showOnLoadLocations(initialLat, initialLng, radius);
   }, []);
@@ -433,11 +433,11 @@ const Map = () => {
     const lat = position.lat();
     const lng = position.lng();
     const directionUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
-  
+
     window.open(directionUrl, '_blank');
   };
 
-  
+
   useEffect(() => {
     if (googleMapsLoaded && map && stores.length > 0) {
       const newMarkers = stores.map((store, index) => {
@@ -447,16 +447,16 @@ const Map = () => {
           animation: window.google.maps.Animation.DROP,
           zIndex: index,
         });
-  
+
         const infoWindow = new window.google.maps.InfoWindow({
           content: `<div style="padding: 10px 0px; max-width: 640px; width: 100%;">
                       <div style="display: flex; flex-direction: column; gap: 10px; border: 1px solid #d3d3d3; padding: 10px; margin-bottom: 10px; background-color: #f4f4f4;">
                         <h4 style="font-size: 32px; font-weight: bold; color: #000;">Target Store</h4>
                       </div>
                       <a href="https://maps.google.com?saddr=Current+Location&daddr=${Number(
-                          store.latitude
-                        )}, ${Number(store.longitude)}" target="_blank">
-                        <div class="directions-container" style="hover:background-color: #d3d3d3; display: flex; align-items: center; gap: 10px; padding: 10px; margin: 0px 10px 5px 10px; border: 1px solid #d3d3d3; border-radius: 5px;">
+            store.latitude
+          )}, ${Number(store.longitude)}" target="_blank">
+                        <div class="directions-container" style="display: flex; align-items: center; gap: 10px; padding: 10px; margin: 0px 10px 5px 10px; border: 1px solid #d3d3d3; border-radius: 5px;">
                           <img src="${Direction.src}" alt="Directions" style="width: 40px; height: 40px;">
                           <div style="flex-grow: 1;">
                             <p style="margin-bottom: 3px; color: #000; font-size: 14px; font-weight: semibold;">Address</p>
@@ -484,55 +484,55 @@ const Map = () => {
                       </div>` : ''}
                     </div>`
         });
-     
+
 
         marker.addListener("click", () => {
           infoWindow.open(map, marker);
         });
-  
+
         return marker;
       });
-  
+
       setMarkers(newMarkers);
-  
+
       markers.forEach(marker => marker.setMap(null));
-  
+
       return () => {
         newMarkers.forEach(marker => marker.setMap(null));
       };
     }
   }, [googleMapsLoaded, map, stores]);
-  
+
   useEffect(() => {
-    if (googleMapsLoaded && !map) { 
+    if (googleMapsLoaded && !map) {
       const mapOptions = {
         center: myMapCenter,
         zoom: parseInt(zoom_level, 10),
         styles: mapThemes(mapThemeliquid),
-    };
-  
+      };
+
       // Create the map
       const map = new window.google.maps.Map(mapRef.current, mapOptions);
       setMap(map);
-  
+
       // Load default stores and markers
-      if (map) { 
-    
+      if (map) {
+
         showOnLoadLocations(lat, lng, searchDefaults.radius);
       }
-  
+
       let mapIcon = `<svg height="60" viewBox="0 0 64 64" width="60" xmlns="http://www.w3.org/2000/svg"><g id="Locator"><path d="m32 8a18.02069 18.02069 0 0 0 -18 18c0 5.61 2.3 9.06 4.37 12.15l12 17a1.98788 1.98788 0 0 0 3.26 0l12-17c.01-.01.02-.03.03-.04 2.04-3.05 4.34-6.5 4.34-12.11a18.02069 18.02069 0 0 0 -18-18zm-9 18a9 9 0 1 1 9 9 9.01356 9.01356 0 0 1 -9-9z" fill="${colorIconBtn}"/><path d="m32 17a9 9 0 1 0 9 9 9.01356 9.01356 0 0 0 -9-9zm0 14a5 5 0 1 1 5-5 5.00182 5.00182 0 0 1 -5 5z" fill="${colorIconBtn}96"/><circle cx="32" cy="26" fill="#fff" r="5"/></g></svg>`;
-  
+
       if (settings?.markerType === "icon") {
         let svg = `<svg height="60" viewBox="0 0 64 64" width="60" xmlns="http://www.w3.org/2000/svg"><g id="Locator"><path d="m32 8a18.02069 18.02069 0 0 0 -18 18c0 5.61 2.3 9.06 4.37 12.15l12 17a1.98788 1.98788 0 0 0 3.26 0l12-17c.01-.01.02-.03.03-.04 2.04-3.05 4.34-6.5 4.34-12.11a18.02069 18.02069 0 0 0 -18-18zm-9 18a9 9 0 1 1 9 9 9.01356 9.01356 0 0 1 -9-9z" fill="${colorIconBtn}"/><path d="m32 17a9 9 0 1 0 9 9 9.01356 9.01356 0 0 0 -9-9zm0 14a5 5 0 1 1 5-5 5.00182 5.00182 0 0 1 -5 5z" fill="${colorIconBtn}96"/><circle cx="32" cy="26" fill="#fff" r="5"/></g></svg>`;
-  
+
         mapIcon = {
           url: "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg),
         };
       } else {
         mapIcon = mapImage;
       }
-  
+
       // if(stores){
       //   console.log("bbbbbb", stores)
       // }
@@ -551,7 +551,7 @@ const Map = () => {
       //     visible: true,
       //   });
       // });
-  
+
       // setInterval(()=>{
       //   console.log("Bhairav333", markers)
       // }, 4000)
@@ -569,7 +569,7 @@ const Map = () => {
       }
       markers.map((marker, i) => {
         marker.addListener("click", toggleBounce);
-  
+
         marker.addListener("click", () => {
           let storeInfo = stores.filter(
             (loc) =>
@@ -579,17 +579,17 @@ const Map = () => {
           showStoreInfo(storeInfo[0], marker);
         });
       });
-  
+
       // map drag nearby search
       map.addListener("dragend", function () {
         searchBoundary();
         let inRangeMarkers = getInRangeMarkers();
         setMarkersVisible(inRangeMarkers);
-  
+
         let outRangeMarkers = getOutRangeMarkers();
         setMarkersDeVisible(outRangeMarkers);
       });
-  
+
       // map zoom nearby search
       map.addListener("zoom_changed", function () {
         if (!zooming) {
@@ -597,20 +597,20 @@ const Map = () => {
           searchBoundary();
           let inRangeMarkers = getInRangeMarkers();
           setMarkersVisible(inRangeMarkers);
-  
+
           let outRangeMarkers = getOutRangeMarkers();
           setMarkersDeVisible(outRangeMarkers);
         }
       });
       setMarkers(markers);
 
-    
-  
+
+
       // Store the map instance if needed
       mapRef.current = map;
     }
   }, [googleMapsLoaded, myMapCenter, zoom_level, mapThemes, mapThemeliquid]);
-  
+
   function getInRangeMarkers() {
     if (mapRef.current) {
       const mapBounds = mapRef.current.getBounds();
@@ -625,7 +625,7 @@ const Map = () => {
     }
     return [];
   }
-  
+
   // search maps bounding box on zoom change
   function searchBoundary() {
     let zoom = map?.getZoom();
@@ -645,7 +645,7 @@ const Map = () => {
     }
   }
 
-  
+
   function getOutRangeMarkers() {
     if (mapRef.current) {
       const mapBounds = mapRef.current.getBounds();
@@ -658,7 +658,7 @@ const Map = () => {
           })
       );
     }
-    return markers; 
+    return markers;
   }
 
   function setMarkersVisible(inRangeMarkers) {
@@ -709,8 +709,8 @@ const Map = () => {
     );
 
     showStoreInfo(findStore[0], marker[0]);
-    
-    let inRangeMarkers = getInRangeMarkers(); 
+
+    let inRangeMarkers = getInRangeMarkers();
     setMarkersVisible(inRangeMarkers);
 
     let outRangeMarkers = getOutRangeMarkers();
@@ -720,16 +720,16 @@ const Map = () => {
   useEffect(() => {
     if (storeWrapperRef.current) {
       const storeWrapper = storeWrapperRef.current;
-  
-  
+
+
       storeWrapper.addEventListener("click", handleStoreClick);
-  
+
       return () => {
         storeWrapper.removeEventListener("click", handleStoreClick);
       };
     }
   }, [stores, markers]);
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -746,7 +746,7 @@ const Map = () => {
     let storesHtml = "";
     if (stores && stores.length > 0) {
       stores.forEach(function (store) {
-        
+
         storesHtml += `<li data-lat="${store.latitude}" data-lng="${store.longitude}">
           <div class="pw-group-field">
             <div class="pw-list-map-icon">
@@ -769,14 +769,12 @@ const Map = () => {
             </div>
             <div class="pw-list-map-data">
               <div class="pw-result-store-name" style="color:${sideIcons}">${store.name}</div>
-              <div class="pw-result-store-address">${store.address ? store.address + ', ' : ''} ${
-                store.searchAddress ? store.searchAddress + ', ' : ''
-              } ${store.city ? store.city + ', ' : ''} ${store.stateProvince ? store.stateProvince + ', ' : ''} ${
-                store.country ? store.country + ', ' : ''
-              } ${store.postalCode ? store.postalCode : ''}</div>
+              <div class="pw-result-store-address">${store.address ? store.address + ', ' : ''} ${store.searchAddress ? store.searchAddress + ', ' : ''
+          } ${store.city ? store.city + ', ' : ''} ${store.stateProvince ? store.stateProvince + ', ' : ''} ${store.country ? store.country + ', ' : ''
+          } ${store.postalCode ? store.postalCode : ''}</div>
               <div class="pw-address-link" ><a href="https://maps.google.com?saddr=Current+Location&daddr=${Number(
-                store.latitude
-              )}, ${Number(store.longitude)}" target="_blank" style="color:${sideIcons}">Directions</a></div>
+            store.latitude
+          )}, ${Number(store.longitude)}" target="_blank" style="color:${sideIcons}">Directions</a></div>
             </div>
           </div>
         </li>`;
@@ -807,87 +805,87 @@ const Map = () => {
           </div>
         </li>`;
     }
-  
+
     const storeWrapper = storeWrapperRef.current;
     if (storeWrapper) {
       storeWrapper.innerHTML = storesHtml;
     }
   }
 
-  if(stores.length>0){
+  if (stores.length > 0) {
     renderStores(stores);
   }
 
 
   return (
-  <section className='w-[100%]' id="map-integration" style={{ background: settings.mapBackground || '#fff' }}>
-    <div className={`container-pw-store-locator pw-locator p-4 ${getLayoutClasses(settings.layout)}`} id="store-search-form">
-      <div className="pw-horizontal-map">
-        <form onSubmit={handleSubmit}>
-          <input type="hidden" name="_csrf" value={csrfToken} />
-          <div className="pw-top-bar pw-layout">
-          <div id="map-style" style={{ display: 'flex', flexDirection: getFlexDirection(settings.layout), gap: '1rem' }}>
-            <div className='flex flex-col gap-4 sm:w-[50%] w-[100%]'>
-              <div className="pw-search">
-                <div className="form-group pw-search-bar-12 pw-search-bar-6 pw-search-bar-3 pw-search-bar">
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="location"
-                    id="pw-location"
-                    placeholder="street, city, zip code, or state"
-                    ref={searchInputRef}
-                  />
-                  <button
-                    className="btn btn-primary store-search"
-                    type="submit"
-                    id="search_btn"
-                    style={{ background: settings.searchButtonBackground || '#fff' }}
-                    dangerouslySetInnerHTML={{ __html: getSearchIcon(settings.searchIconButton || '#000000') }}
-                  />
-                </div>
-                <div className="hidden-xs form-group pw-search-bar-12 pw-search-bar-6 pw-search-bar-3 pw-search-raduis">
-                  <label className="control-label" htmlFor="radius">Search radius</label>
-                  <select className="form-control" id="pw-radius" value={selectedRadius} onChange={handleRadiusChange} ref={searchRadiusInputRef}>
-                    <option value="5">5 miles</option>
-                    <option value="10">10 miles</option>
-                    <option value="20">20 miles</option>
-                    <option value="40">40 miles</option>
-                    <option value="60">60 miles</option>
-                    <option value="100">100 miles</option>
-                    <option value="200">200 miles</option>
-                  </select>
-                </div>
-              </div>
-              <div className="col-12" id="store-list">
-                <div className="pw-loader">
-                  <span></span>
-                </div>
-                <ul className="list-unstyled" ref={storeWrapperRef}></ul>
-              </div>
-            </div>
-            <div className="col-12" id="store-map">
-              <div id="map" ref={mapRef}></div>
-              {/* The Modal */}
-              {isModalOpen && (
-                <div id="myModal" className="modal">
-                  {/* Modal content */}
-                  <div className="modal-content">
-                    <span className="close" onClick={toggleModal}>&times;</span>
-                    <p>
-                      PW Store locator needs a map key from Google to show your map.
-                      To finish setup and remove this notice, add a map key to your PW Store Locator account.
-                    </p>
+    <section className='w-[100%]' id="map-integration" style={{ background: settings.mapBackground || '#fff' }}>
+      <div className={`container-pw-store-locator pw-locator p-4 ${getLayoutClasses(settings.layout)}`} id="store-search-form">
+        <div className="pw-horizontal-map">
+          <form onSubmit={handleSubmit}>
+            <input type="hidden" name="_csrf" value={csrfToken} />
+            <div className="pw-top-bar pw-layout">
+              <div id="map-style" style={{ display: 'flex', flexDirection: getFlexDirection(settings.layout), gap: '1rem' }}>
+                <div className='flex flex-col gap-4 sm:w-[50%] w-[100%]'>
+                  <div className="pw-search">
+                    <div className="form-group pw-search-bar-12 pw-search-bar-6 pw-search-bar-3 pw-search-bar">
+                      <input
+                        className="form-control"
+                        type="text"
+                        name="location"
+                        id="pw-location"
+                        placeholder="street, city, zip code, or state"
+                        ref={searchInputRef}
+                      />
+                      <button
+                        className="btn btn-primary store-search"
+                        type="submit"
+                        id="search_btn"
+                        style={{ background: settings.searchButtonBackground || '#fff' }}
+                        dangerouslySetInnerHTML={{ __html: getSearchIcon(settings.searchIconButton || '#000000') }}
+                      />
+                    </div>
+                    <div className="hidden-xs form-group pw-search-bar-12 pw-search-bar-6 pw-search-bar-3 pw-search-raduis">
+                      <label className="control-label" htmlFor="radius">Search radius</label>
+                      <select className="form-control" id="pw-radius" value={selectedRadius} onChange={handleRadiusChange} ref={searchRadiusInputRef}>
+                        <option value="5">5 miles</option>
+                        <option value="10">10 miles</option>
+                        <option value="20">20 miles</option>
+                        <option value="40">40 miles</option>
+                        <option value="60">60 miles</option>
+                        <option value="100">100 miles</option>
+                        <option value="200">200 miles</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-12" id="store-list">
+                    <div className="pw-loader">
+                      <span></span>
+                    </div>
+                    <ul className="list-unstyled" ref={storeWrapperRef}></ul>
                   </div>
                 </div>
-              )}
+                <div className="col-12" id="store-map">
+                  <div id="map" ref={mapRef}></div>
+                  {/* The Modal */}
+                  {isModalOpen && (
+                    <div id="myModal" className="modal">
+                      {/* Modal content */}
+                      <div className="modal-content">
+                        <span className="close" onClick={toggleModal}>&times;</span>
+                        <p>
+                          PW Store locator needs a map key from Google to show your map.
+                          To finish setup and remove this notice, add a map key to your PW Store Locator account.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
   );
 };
 

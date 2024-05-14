@@ -6,7 +6,7 @@ const Guidelines = () => {
   
   return (
     <>
-    <div className='px-8'>
+    <div className='px-5'>
       <p className='text-[24px] font-semibold'>Guidelines</p>
       <p>Use this personalized guide to get your store locator up and running.</p>
     </div>
