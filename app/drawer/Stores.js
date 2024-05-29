@@ -9,12 +9,10 @@ const Stores = () => {
   const [stores, setStores] = useState([]);
 
   useEffect(() => {
-    console.log("bhairav");
     fetch('/api/getStores')
       .then((response) => response.json())
       .then((data) => {
         setStores(data);
-        console.log("bhairav", data);
       })
       .catch((error) => {
         console.error('Error fetching stores:', error);

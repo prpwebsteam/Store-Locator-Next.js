@@ -31,10 +31,6 @@ const Map = () => {
   const [loading, setLoading] = useState(false);
   const [loadingStores, setLoadingStores] = useState(true);
 
-  useEffect(()=>{
-    console.log("Settings:", settings);
-  }, [settings])
-  
   const Gkey = "AIzaSyBe_A3Q0aV6QUqZLzJS8g3UAOYUDtNVh_4";
   let chooseMarkerOption = `<svg height="60" viewBox="0 0 64 64" width="60" xmlns="http://www.w3.org/2000/svg"><g id="Locator">
   <path d="m32 8a18.02069 18.02069 0 0 0 -18 18c0 5.61 2.3 9.06 4.37 12.15l12 17a1.98788 1.98788 0 0 0 3.26 0l12-17c.01-.01.02-.03.03-.04 2.04-3.05 4.34-6.5 4.34-12.11a18.02069 
@@ -137,11 +133,8 @@ const Map = () => {
         }
         const data = await response.json();
   
-        // Prepend base URL to markerImage if it is a relative URL
         const markerImage = data.markerImage ? `${getBaseURL()}${data.markerImage}` : null;
   
-        // Log the markerImage URL to verify
-        console.log('Marker Image URL:', markerImage);
   
         setSettings({
           apiKey: data.apiKey[0],
@@ -164,10 +157,6 @@ const Map = () => {
   
     fetchSettings();
   }, []);  
-
-  useEffect(() => {
-    console.log('MApp Settings:', settings);
-  }, [settings]);
 
 
   // search defaults when no query set
@@ -195,25 +184,32 @@ const Map = () => {
   }, []);
 
   function searchStore(searchString, { lat, lng }, radius) {
-    const coordinates = { lat, lng };
-    map?.setCenter(coordinates);
-
-    const nearbyStores = findStores(lat, lng, radius);
-    if (nearbyStores.length > 0) {
-      renderStores(nearbyStores);
+   
+    const coordinates = { lat: Number(lat), lng: Number(lng) };
+  
+    if (map) {
+      map.setCenter(coordinates);
+  
+      const nearbyStores = findStores(coordinates.lat, coordinates.lng, radius);
+  
+      if (nearbyStores.length > 0) {
+        renderStores(nearbyStores);
+      } else {
+        renderStores([]); 
+      }
+  
+      disableZoomSearch(1000);
+  
+      map.setZoom(12); 
+      const inRangeMarkers = getInRangeMarkers();
+      setMarkersVisible(inRangeMarkers);
+  
+      const outRangeMarkers = getOutRangeMarkers();
+      setMarkersDeVisible(outRangeMarkers);
     } else {
-      renderStores([]); // No stores found
+      console.error("Map instance is not available.");
     }
-
-    disableZoomSearch(1000);
-    map.setZoom(12); // Adjust zoom level as needed
-
-    const inRangeMarkers = getInRangeMarkers();
-    setMarkersVisible(inRangeMarkers);
-
-    const outRangeMarkers = getOutRangeMarkers();
-    setMarkersDeVisible(outRangeMarkers);
-  }
+  }  
 
 
   function disableZoomSearch(duration) {
@@ -361,54 +357,46 @@ const Map = () => {
 
   function findStores(lat, lng, radius) {
     var results = [];
-
+  
     for (let i = 0; i < stores.length; i++) {
       var store = stores[i];
-      // calculate distance between search area and store
-      var distance = calcDistance(
-        lat,
-        lng,
-        Number(store.latitude),
-        Number(store.longitude)
-      );
-
-      // if location is within search radius add it to results
-      if (distance < radius) {
-        // check if tags have been set and then filter by tags if they do
-        if (filters.length === 0 || filterCheck(store) === true) {
-          stores[i].distance = distance;
+      var storeLat = Number(store.latitude);
+      var storeLng = Number(store.longitude);
+  
+      var distance = calcDistance(lat, lng, storeLat, storeLng);
+  
+      if (distance <= radius) {
+        if (filters.length === 0 || filterCheck(store)) {
+          store.distance = distance;
           results.push(store);
         }
       }
     }
-
-    results = results.sort(function (f1, f2) {
-      return f1.distance - f2.distance;
-    });
-
-    const slicedArray = results.slice(0, 50);
-    return slicedArray;
-  }
+  
+    results = results.sort((f1, f2) => f1.distance - f2.distance);
+  
+    return results.slice(0, 50);
+  }  
 
   function calcDistance(lat1, lng1, lat2, lng2) {
-    var R = 6371; // radius of the earth in km
-    var dLat = deg2rad(lat2 - lat1);
-    var dLon = deg2rad(lng2 - lng1);
-
-    var a =
+    const R = 6371; 
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lng2 - lng1);
+  
+    const a = 
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) *
-      Math.cos(deg2rad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c; // Distance in km
-
-    // convert to miles if needed
-    const result = unit === "mi" ? d : d * 0.621371;
-
-    return result;
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distanceKm = R * c; 
+  
+    return unit === "mi" ? distanceKm * 0.621371 : distanceKm;
   }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI / 180);
+  }  
 
   function filterCheck(store) {
     if (filters.length == 0) {
@@ -455,8 +443,6 @@ const Map = () => {
           scaledSize: new window.google.maps.Size(40, 40) 
         } : null;
   
-        // Log the markerIcon to check if the image is set correctly
-        console.log('Marker Icon:', markerIcon);
   
         const marker = new window.google.maps.Marker({
           position: { lat: Number(store.latitude), lng: Number(store.longitude) },
@@ -526,7 +512,6 @@ const Map = () => {
   useEffect(() => {
     if (googleMapsLoaded && !map) {
       const zoomLevel = parseInt(settings?.zoomLevel || zoom_level, 10);
-      console.log('Initializing map with zoom level:', zoomLevel);
 
       const mapOptions = {
         center: myMapCenter,
@@ -616,7 +601,6 @@ const Map = () => {
       mapRef.current = map;
     } else if (map) {
       const zoomLevel = parseInt(settings?.zoomLevel || zoom_level, 10);
-      console.log('Updating map zoom level to:', zoomLevel);
       map.setOptions({
         styles: mapThemes(settings?.mapTheme || mapThemeliquid),
         zoom: zoomLevel,
@@ -706,7 +690,7 @@ const Map = () => {
       lng: parseFloat(currentStore.getAttribute("data-lng")),
     };
 
-    disableZoomSearch(1000); // Implement disableZoomSearch function
+    disableZoomSearch(1000); 
     mapRef?.current?.setCenter(coordinates); // Use mapRef to access the map instance
     mapRef?.current?.setZoom(15); // Set your desired zoom level
 

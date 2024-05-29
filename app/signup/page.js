@@ -34,7 +34,6 @@ function SignUp() {
             setTimeout(() => {
               setSuccessMessage('');
             }, 3000);
-            console.log('Signup successful');
           } else {
             console.error('Signup failed');
           }

@@ -30,7 +30,6 @@ function SignIn() {
         const data = await response.json();
         localStorage.setItem('user', JSON.stringify({ email: formData.email, token: data.token }));
         const user = JSON.parse(localStorage.getItem('user'));
-        console.log("bhairav", user);
 
         setVerificationMessage("User verified successfully!"); 
         router.push('/dashboard');

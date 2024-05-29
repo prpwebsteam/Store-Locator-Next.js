@@ -13,13 +13,11 @@ export default async function handler(req, res) {
 
   try {
     if (storeId) {
-      console.log("Bhairav", storeId)
       // Ensure the storeId is a valid ObjectId before querying
       if (!ObjectId.isValid(storeId)) {
         return res.status(400).json({ message: 'Invalid store ID' });
       }
       const store = await db.collection('stores').findOne({ _id: new ObjectId(storeId) });
-      console.log("Bhairav-1", store)
       if (!store) {
         return res.status(404).json({ message: 'Store not found' });
       }

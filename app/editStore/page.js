@@ -8,7 +8,6 @@ const editStore = () => {
   const router = useRouter();
   const queryString = window?.location?.href?.split('?')[1]; 
   const storeId = queryString?.split('=')[0];
-  console.log("BBBBBBB", queryString, storeId)
   const initialStoreInfo = {
     name: '',
     searchAddress: '',
@@ -75,7 +74,6 @@ const editStore = () => {
       });
 
       if (response.ok) {
-        console.log('Store updated successfully');
         success_msg.innerHTML = response.message || 'Store updated successfully';
         setUpdateSuccess(true);
         setTimeout(()=>{
@@ -92,7 +90,6 @@ const editStore = () => {
     }
   };
 
-  console.log("VVVVVVVV", storeInfo)
 return (
   <>
   <Header2 />

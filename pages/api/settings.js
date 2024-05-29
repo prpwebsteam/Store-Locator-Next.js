@@ -30,12 +30,10 @@ export default async function handler(req, res) {
 
       const file = files.markerImage ? files.markerImage[0] : null;
       let markerImageUrl = null;
-      console.log("bhairav", file);
       if (file && file._writeStream && file._writeStream.path) {
         const fileName = path.basename(file._writeStream.path);
         markerImageUrl = `/uploads/${fileName}`;
       }
-      console.log("bhairav222", markerImageUrl);
 
 
       const formData = { ...fields, markerImage: markerImageUrl };

@@ -70,7 +70,6 @@ const CreateStore = () => {
       });
 
       if (response.ok) {
-        console.log('Store created successfully');
         setStoreInfo(initialStoreInfo);
       } else {
         console.error('Failed to create store');

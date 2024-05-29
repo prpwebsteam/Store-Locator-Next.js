@@ -36,7 +36,6 @@ const StoreList = () => {
   const handleEditStore = (store) => {
     const query = new URLSearchParams(store).toString();
     const storeId = query.split('=')[0];
-    console.log("pawan", storeId); 
     router.push(`/editStore?${storeId}`);
   };
 

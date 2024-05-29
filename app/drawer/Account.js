@@ -7,7 +7,6 @@ function Account() {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user, "bhairav")
     if (user) {
       setUserDetails({
         ...userDetails,
