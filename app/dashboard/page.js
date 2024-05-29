@@ -36,6 +36,7 @@ function Dashboard() {
 
   const selectContent = (content) => {
     setSelectedContent(content);
+    router.push(`/dashboard?content=${content}`, undefined, { shallow: true });
   };
 
   const generateEmbedCode = () => {
@@ -163,13 +164,13 @@ function Dashboard() {
 
         <div className="w-full scroll-bar min-h-screen transition-margin duration-300 ease-in-out">
           <div className='bg-white sticky max-h-28 h-full flex items-center px-10 justify-between'>
-            {/* <div className="relative flex items-center w-[40%]">
-              <input type='search' placeholder="Search" className='h-12 bg-[#F2F2F7] flex-1 px-4 border rounded-lg focus:outline-none'></input>
+            <div className="relative flex items-center w-[40%]">
+              <input type='search' placeholder="Search" className='h-10 bg-[#F2F2F7] flex-1 px-4 border rounded-lg focus:outline-none'></input>
               <svg className="absolute right-0 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
-            </div> */}
+            </div>
             <div className='flex flex-row items-center gap-2 px-4 rounded-md bg-[#0046B5] text-white font-bold py-[5px] md:py-2 text-sm border'>
               <button 
                 onClick={generateEmbedCode} 

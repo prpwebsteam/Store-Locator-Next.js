@@ -64,6 +64,7 @@ const StoreList = () => {
   const handleFilterStatusChange = (e) => {
     setFilterStatus(e.target.value);
   };
+
   const filteredStores = stores.filter(store =>
     ((store.name ? store.name.toLowerCase() : '').includes(searchTerm.toLowerCase()) ||
     (store.status ? store.status.toLowerCase() : '').includes(searchTerm.toLowerCase())) &&
@@ -129,7 +130,7 @@ const StoreList = () => {
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <CreateStore />
         </Modal>
-        <div className='w-auto mt-8 bg-white rounded-md py-4 mx-5'>
+        <div className='w-auto mt-8 bg-white rounded-md py-4 mx-5 overflow-x-auto'>
           <table className="border-collapse padding-tab w-full">
             <thead>
               <tr>
