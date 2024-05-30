@@ -299,9 +299,9 @@ const Map = () => {
   var lng = "";
 
   // if no defaults set use first store for map center
-  if ((lat == "" || lng == "") && stores.length > 0) {
-    lat = Number(stores[0].latitude);
-    lng = Number(stores[0].longitude);
+  if ((lat == "" || lng == "") && stores?.length > 0) {
+    lat = Number(stores[0]?.latitude);
+    lng = Number(stores[0]?.longitude);
   } else {
     lat = 40.7128;
     lng = 74.006;

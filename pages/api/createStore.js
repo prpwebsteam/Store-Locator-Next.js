@@ -24,14 +24,14 @@ export default async function handler(req, res) {
         email,
         website,
         fax,
-        isActive,  // Add isActive here to destructuring
+        isActive,  
       } = req.body;
 
       const db = await connectDB();
 
       if (id) {
         // Editing an existing store
-        const filter = { _id: id }; // Adjust this filter as necessary, for example, using ObjectId if using MongoDB
+        const filter = { _id: id };
         const updateDoc = {
           $set: {
             name,
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
             email,
             website,
             fax,
-            isActive  // Include isActive in the update document
+            isActive  
           },
         };
 
@@ -83,7 +83,7 @@ export default async function handler(req, res) {
           email,
           website,
           fax,
-          isActive  // Include isActive in the new store data structure
+          isActive: isActive !== undefined ? isActive : true
         };
 
         const result = await db.collection('stores').insertOne(newStore);

@@ -15,9 +15,9 @@ import { MdOutlineImportantDevices, MdOutlineIntegrationInstructions } from "rea
 import { FaRegUser } from "react-icons/fa6";
 import { GrPlan } from "react-icons/gr";
 import Image from 'next/image';
-import Logo from '../assests/Logo.png'; 
+import Logo from '../assests/Logo.png';
 import { PiSignOutFill } from "react-icons/pi";
-import Popup from '../components/Popup'; 
+import Popup from '../components/Popup';
 import Code from '../assests/coding.png';
 
 function Dashboard() {
@@ -31,7 +31,7 @@ function Dashboard() {
   const handleLogout = async () => {
     localStorage.removeItem('user');
     setIsLoggedIn(false);
-    router.push('/'); 
+    router.push('/');
   };
 
   const selectContent = (content) => {
@@ -41,7 +41,7 @@ function Dashboard() {
 
   const generateEmbedCode = () => {
     const currentUrl = window.location.origin;
-    const embedUrl = `${currentUrl}/embed`; 
+    const embedUrl = `${currentUrl}/embed`;
 
     const iframe = `<iframe src="${embedUrl}" width="600" height="400" frameborder="0" style="border:0; width: 100%; height: 100vh;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>`;
     setIframeCode(iframe);
@@ -70,26 +70,30 @@ function Dashboard() {
   useEffect(() => {
     const user = localStorage.getItem('user');
     if (!user) {
-      router.push('/signin'); 
+      router.push('/signin');
+      return;
     }
 
     const queryContent = router.query?.content;
     if (queryContent) {
       setSelectedContent(queryContent);
+    } else {
+      setSelectedContent('Stores');
+      router.push(`/dashboard?content=Stores`, undefined, { shallow: true });
     }
   }, [router]);
 
   return (
     <>
-      <div className='grid' style={{ gridTemplateColumns: '1fr 3fr', height: '100vh' }}>
+      <div className='grid' style={{ gridTemplateColumns: '30% 70%', height: '100vh' }}>
         <div
+          className='menu-div'
           style={{
             width: '100%',
-            height: '100vh',
             position: 'relative',
-            top: '0', 
+            top: '0',
             backgroundColor: '#0046B5',
-            overflowY: 'hidden',
+            overflowY: 'scroll',
             transition: '0.5s',
             paddingTop: '40px',
             color: 'white',
@@ -100,65 +104,67 @@ function Dashboard() {
               <Image src={Logo} alt="Logo" width={60} height={60} />
             </a>
           </div>
-          <div>
-            <a
-              onClick={() => selectContent('Stores')} 
-              className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Stores' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`} 
-            >
-              <IoStorefrontOutline className='w-7 h-[25px]' />
-              Stores
-            </a>
-            <a
-              onClick={() => selectContent('Guidelines')} 
-              className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Guidelines' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`} 
-            >
-              <PiNotepadLight className='w-7 h-[25px]' />
-              Guidelines
-            </a>
-            <a
-              onClick={() => selectContent('ImportExport')} 
-              className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'ImportExport' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`} 
-            >
-              <MdOutlineImportantDevices className='w-7 h-[25px]' />
-              Import/Export
-            </a>
-            <a
-              onClick={() => selectContent('Account')} 
-              className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Account' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
-            >
-              <FaRegUser className='w-7 h-[25px]' />
-              Account
-            </a>
-            <a
-              onClick={() => selectContent('Plans')} 
-              className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Plans' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
-            >
-              <GrPlan className='w-7 h-[25px]' />
-              Plans
-            </a>
-            <a
-              onClick={() => selectContent('Instructions')} 
-              className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Instructions' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
-            >
-              <MdOutlineIntegrationInstructions className='w-7 h-[25px]' />
-              Instructions
-            </a>
-            <a
-              onClick={() => selectContent('Settings')} 
-              className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Settings' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
-            >
-              <IoSettingsOutline className='w-7 h-[25px]' />
-              Settings
-            </a>
-          </div>
-          <div>
-            <a
-              onClick={handleLogout}  
-              className={`flex absolute bottom-6 flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer transition-colors duration-300`}
-            >
-              <PiSignOutFill className='w-7 h-[25px]' />
-              Signout
-            </a>
+          <div className='flex flex-col justify-between h-[87vh]'>
+            <div>
+              <a
+                onClick={() => selectContent('Stores')}
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Stores' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
+              >
+                <IoStorefrontOutline className='w-7 h-[25px]' />
+                Stores
+              </a>
+              <a
+                onClick={() => selectContent('Guidelines')}
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Guidelines' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
+              >
+                <PiNotepadLight className='w-7 h-[25px]' />
+                Guidelines
+              </a>
+              <a
+                onClick={() => selectContent('ImportExport')}
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'ImportExport' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
+              >
+                <MdOutlineImportantDevices className='w-7 h-[25px]' />
+                Import/Export
+              </a>
+              <a
+                onClick={() => selectContent('Account')}
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Account' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
+              >
+                <FaRegUser className='w-7 h-[25px]' />
+                Account
+              </a>
+              <a
+                onClick={() => selectContent('Plans')}
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Plans' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
+              >
+                <GrPlan className='w-7 h-[25px]' />
+                Plans
+              </a>
+              <a
+                onClick={() => selectContent('Instructions')}
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Instructions' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
+              >
+                <MdOutlineIntegrationInstructions className='w-7 h-[25px]' />
+                Instructions
+              </a>
+              <a
+                onClick={() => selectContent('Settings')}
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer ${selectedContent === 'Settings' ? 'bg-[#F2F2F7] text-[#0046B5]' : 'text-white '} transition-colors duration-300`}
+              >
+                <IoSettingsOutline className='w-7 h-[25px]' />
+                Settings
+              </a>
+            </div>
+            <div>
+              <a
+                onClick={handleLogout}
+                className={`flex flex-row gap-2 items-center ml-12 my-1 rounded-tl-lg rounded-bl-lg py-4 font-[500] px-4 cursor-pointer transition-colors duration-300`}
+              >
+                <PiSignOutFill className='w-7 h-[25px]' />
+                Signout
+              </a>
+            </div>
           </div>
         </div>
 
@@ -171,15 +177,15 @@ function Dashboard() {
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </div>
-            <div className='flex flex-row items-center gap-2 px-4 rounded-md bg-[#0046B5] text-white font-bold py-[5px] md:py-2 text-sm border'>
-              <button 
-                onClick={generateEmbedCode} 
+            <div className='flex flex-row items-center gap-2 px-4 h-10 rounded-md bg-[#0046B5] text-white font-bold py-[5px] md:py-2 text-sm border'>
+              <button
+                onClick={generateEmbedCode}
               >
                 Generate Embedded Code
               </button>
               <Image
                 src={Code}
-                alt="Coding" 
+                alt="Coding"
                 height={20}
               />
             </div>

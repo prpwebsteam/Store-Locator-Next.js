@@ -29,6 +29,7 @@ export default async function handler(req, res) {
     email,
     website,
     fax,
+    isActive,
   } = req.body;
 
   // Validate the ObjectId
@@ -56,6 +57,7 @@ export default async function handler(req, res) {
       email,
       website,
       fax,
+      isActive,
     },
   };
 
