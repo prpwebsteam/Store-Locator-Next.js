@@ -724,7 +724,6 @@ small {
 @media (max-width: 768px) {
   #map-style {
     flex-direction: column !important;
-    padding: 0px 20px;
   }
 }
 

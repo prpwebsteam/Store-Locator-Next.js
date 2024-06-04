@@ -520,7 +520,7 @@ const Map = () => {
       };
 
       // Create the map
-      const map = new window.google.maps.Map(mapRef.current, mapOptions);
+      const map = new window.google.maps.Map(mapRef?.current, mapOptions);
       setMap(map);
 
       // Load default stores and markers

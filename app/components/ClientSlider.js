@@ -5,6 +5,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import Profile from '../assests/profile.png'
 
 function NextArrow(props) {
     const { className, style, onClick } = props;
@@ -47,13 +48,13 @@ function PrevArrow(props) {
 
 const sampleClients = [
     {
-      image: 'https://via.placeholder.com/150', 
+      image: {Profile}, 
       name: 'Jane Doe',
       title: 'CEO',
       testimonial: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     },
     {
-      image: 'https://via.placeholder.com/150', 
+      image: {Profile}, 
       name: 'John Smith',
       title: 'Marketing Director',
       testimonial: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
