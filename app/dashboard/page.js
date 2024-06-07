@@ -19,6 +19,7 @@ import Logo from '../assests/Logo.png';
 import { PiSignOutFill } from "react-icons/pi";
 import Popup from '../components/Popup';
 import Code from '../assests/coding.png';
+import StripeSubscription from '../components/StripeSubscription';
 
 function Dashboard() {
   const [selectedContent, setSelectedContent] = useState('Stores');
@@ -27,6 +28,9 @@ function Dashboard() {
   const [showPopup, setShowPopup] = useState(false);
   const [iframeCode, setIframeCode] = useState('');
   const [scriptCode, setScriptCode] = useState('');
+  const [title, setTitle] = useState('');
+  const [price, setPrice] = useState('');
+  const [priceId, setPriceId] = useState('');
 
   const handleLogout = async () => {
     localStorage.removeItem('user');
@@ -37,6 +41,13 @@ function Dashboard() {
   const selectContent = (content) => {
     setSelectedContent(content);
     router.push(`/dashboard?content=${content}`, undefined, { shallow: true });
+  };
+
+  const selectContentWithData = (title, price, priceId, content) => {
+    setSelectedContent(content);
+    setTitle(title);
+    setPrice(price);
+    setPriceId(priceId);
   };
 
   const generateEmbedCode = () => {
@@ -191,13 +202,14 @@ function Dashboard() {
             </div>
           </div>
           <div className="bg-[#F2F2F7] w-full py-12 px-5 min-h-[100vh]">
-            {selectedContent === 'Plans' && <PlansContent />}
+            {selectedContent === 'Plans' && <PlansContent selectContentWithData={selectContentWithData}/>}
             {selectedContent === 'Stores' && <StoreList />}
             {selectedContent === 'Guidelines' && <Guidelines />}
             {selectedContent === 'Instructions' && <Instructions />}
             {selectedContent === 'ImportExport' && <ImportExport />}
             {selectedContent === 'Account' && <Account />}
             {selectedContent === 'Settings' && <Settings />}
+            {selectedContent === 'Subscribe' && <StripeSubscription title={title} price={price} priceId={priceId}/> }
           </div>
         </div>
       </div>

@@ -15,6 +15,53 @@ html {
   background: #f1f1f1;
 }
 
+/* SubscriptionForm.css */
+.card-element-wrapper {
+  margin-bottom: 20px;
+}
+
+.card-element {
+  display: block;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 16px;
+  width: 100%;
+}
+
+/* Separate lines for card number, CVC, and expiry date */
+.CardNumberElement {
+  margin-bottom: 10px;
+}
+.CardCvcElement {
+  margin-bottom: 10px;
+}
+.CardExpiryElement {
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+
 ::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 5px;

@@ -26,6 +26,7 @@ const Success = () => {
 
           if (response.ok) {
             const data = await response.json();
+            console.log('Session details:', data);
           } else {
             console.error('Failed to fetch session details');
           }
