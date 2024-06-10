@@ -57,7 +57,7 @@ const ImportExport = () => {
     })
     .then(response => response.json())
     .then(data => {
-      console.log('Success:', data);
+      console.log('Success:');
     })
     .catch((error) => {
       console.error('Error:', error);

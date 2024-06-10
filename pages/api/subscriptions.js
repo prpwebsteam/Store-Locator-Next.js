@@ -34,7 +34,6 @@ export default async function handler(req, res) {
       });
 
       const paymentIntent = subscription.latest_invoice.payment_intent;
-      console.log("paymentIntent:", paymentIntent);
 
       // Connect to MongoDB
       const db = await connectDB();

@@ -36,9 +36,6 @@ const StoreList = () => {
     setSelectedStore(null);
   };
 
-  useEffect(() => {
-    console.log("All stores:- ", stores)
-  }, [stores]);
 
   const handleEditStore = (store) => {
     const query = new URLSearchParams(store).toString();
