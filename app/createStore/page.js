@@ -24,10 +24,63 @@ const CreateStore = () => {
     email: '',
     website: '',
     fax: '',
-    isActive: true,  // Default to true
+    isActive: true,
   };
 
   const [storeInfo, setStoreInfo] = useState(initialStoreInfo);
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [stores, setStores] = useState([]);
+  const [freePlanActivated, setFreePlanActivated] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/getStores')
+      .then((response) => response.json())
+      .then((data) => {
+        setStores(data);
+      })
+      .catch((error) => {
+        console.error('Error fetching stores:', error);
+      });
+  }, []);
+
+  useEffect(()=>{
+    console.log("stores:- ",stores)
+  },[stores])
+
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      try {
+        const response = await fetch('/api/getSubscriptions');
+        if (!response.ok) {
+          throw new Error('Failed to fetch subscriptions');
+        }
+        const data = await response.json();
+        setSubscriptions(data.subscriptions);
+
+        // Check for free plan activation conditions
+        const allCanceledOrPendingCancellation = data.subscriptions.every(sub => sub.status === 'canceled' || sub.status === 'pending_cancelation');
+        console.log("allCanceledOrPendingCancellation:- ",allCanceledOrPendingCancellation)
+        if (allCanceledOrPendingCancellation || data.subscriptions.length === 0) {
+          console.log("set free");
+          setFreePlanActivated(true);
+        } else {
+          setFreePlanActivated(false);
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSubscriptions();
+  }, []);
+
+  useEffect(()=>{
+    console.log("subscriptions222:- ",subscriptions)
+  },[subscriptions])
 
   useEffect(() => {
     const fetchStoreDetails = async () => {
@@ -60,6 +113,29 @@ const CreateStore = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const planLimits = {
+      'price_1Ozbp5SHn1JO3w86Rml2JUb8': 121,
+      'price_1OzbqySHn1JO3w86QFNUIA4a': 1100,
+      'price_1OzbrSSHn1JO3w86TclSMZlE': 5000,
+    };
+
+    const currentStoreCount = stores.length;
+
+    let maxStoresAllowed = 0;
+    if (freePlanActivated) {
+      maxStoresAllowed = 5;
+    } else {
+      const activeSubscription = subscriptions.find(sub => sub.status === 'active');
+      if (activeSubscription) {
+        maxStoresAllowed = planLimits[activeSubscription.planId] || 0;
+      }
+    }
+
+    if (currentStoreCount >= maxStoresAllowed) {
+      alert('Plan limit reached. You cannot create more stores.');
+      return;
+    }
 
     try {
       const response = await fetch('/api/createStore', {
@@ -312,6 +388,11 @@ const CreateStore = () => {
         <div className="col-span-3 justify-center flex mt-8">
           <button onClick={handleButtonClick} className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black">Create Store</button>
         </div>
+        {freePlanActivated && (
+          <div className="mt-4 text-green-600">
+           You are using free tier!
+          </div>
+        )}
       </div>
     </>
   );

@@ -4,6 +4,8 @@ import * as XLSX from 'xlsx';
 const ImportExport = () => {
   const [stores, setStores] = useState([]);
   const [fileName, setFileName] = useState('Import Excel File');
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [freePlanActivated, setFreePlanActivated] = useState(false);
 
   useEffect(() => {
     fetch('/api/getStores')
@@ -16,7 +18,37 @@ const ImportExport = () => {
       });
   }, []);
 
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      try {
+        const response = await fetch('/api/getSubscriptions');
+        if (!response.ok) {
+          throw new Error('Failed to fetch subscriptions');
+        }
+        const data = await response.json();
+        setSubscriptions(data.subscriptions);
+
+        // Check for free plan activation conditions
+        const allCanceledOrPendingCancellation = data.subscriptions.every(sub => sub.status === 'canceled' || sub.status === 'pending_cancelation');
+        if (allCanceledOrPendingCancellation || data.subscriptions.length === 0) {
+          setFreePlanActivated(true);
+        } else {
+          setFreePlanActivated(false);
+        }
+      } catch (error) {
+        console.error('Error fetching subscriptions:', error);
+      }
+    };
+
+    fetchSubscriptions();
+  }, []);
+
   const handleExport = () => {
+    if (freePlanActivated) {
+      alert('You cannot export stores on a free plan.');
+      return;
+    }
+
     if (!stores || !stores.length) {
       console.error('No stores data available for export.');
       return;
@@ -29,6 +61,11 @@ const ImportExport = () => {
   };
 
   const handleImport = (event) => {
+    if (freePlanActivated) {
+      alert('You cannot import stores on a free plan.');
+      return;
+    }
+
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -92,7 +129,7 @@ const ImportExport = () => {
         <div className='flex flex-row text-center w-full justify-between gap-4 py-8 px-5'>
           <div className='bg-white w-1/2 rounded-md flex py-8 px-8 flex-col gap-4'>
             <p className='text-black text-[16px] font-semibold pb-4'>Bulk Import</p>
-            <div className='border-dashed border-2 border-gray-300 p-24 rounded-lg'>
+            <div className='border-dashed border-2 border-gray-300 p-24 rounded-lg flex flex-col items-center'>
               <input
                 type="file"
                 accept=".xlsx, .xls"
@@ -102,9 +139,9 @@ const ImportExport = () => {
               />
               <label
                 htmlFor="file"
-                className="bg-[#0040A9] font-bold text-white py-2 px-2 rounded hover:bg-[#e6edf8] hover:text-black cursor-pointer flex justify-center items-center"
+                className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black cursor-pointer flex justify-center items-center"
               >
-                Add File
+                {fileName}
               </label>
               <p className='text-[#505050] text-sm mt-4 '>Accept CSV File</p>
             </div>

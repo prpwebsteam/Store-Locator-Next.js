@@ -5,7 +5,7 @@ import PlansContent from '../drawer/PlansContent';
 import StoreList from '../drawer/StoreList';
 import Guidelines from '../drawer/Guidelines';
 import Instructions from '../drawer/Instructions';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Account from '../drawer/Account';
 import Settings from '../drawer/Settings';
 import ImportExport from '../drawer/Import-Export';
@@ -24,6 +24,7 @@ import StripeSubscription from '../components/StripeSubscription';
 function Dashboard() {
   const [selectedContent, setSelectedContent] = useState('Stores');
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [iframeCode, setIframeCode] = useState('');
@@ -85,14 +86,14 @@ function Dashboard() {
       return;
     }
 
-    const queryContent = router.query?.content;
+    const queryContent = searchParams.get('content');
     if (queryContent) {
       setSelectedContent(queryContent);
     } else {
       setSelectedContent('Stores');
       router.push(`/dashboard?content=Stores`, undefined, { shallow: true });
     }
-  }, [router]);
+  }, [router, searchParams]);
 
   return (
     <>
@@ -181,13 +182,6 @@ function Dashboard() {
 
         <div className="w-full scroll-bar min-h-screen transition-margin duration-300 ease-in-out">
           <div className='bg-white sticky max-h-28 h-full flex items-center px-10 justify-between'>
-            {/* <div className="relative flex items-center w-[40%]">
-              <input type='search' placeholder="Search" className='h-10 bg-[#F2F2F7] flex-1 px-4 border rounded-lg focus:outline-none'></input>
-              <svg className="absolute right-0 mr-2 h-5 w-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </div> */}
             <div className='flex flex-row items-center gap-2 px-4 h-10 rounded-md bg-[#0046B5] text-white font-bold py-[5px] md:py-2 text-sm border'>
               <button
                 onClick={generateEmbedCode}
@@ -202,14 +196,14 @@ function Dashboard() {
             </div>
           </div>
           <div className="bg-[#F2F2F7] w-full py-12 px-5 min-h-[100vh]">
-            {selectedContent === 'Plans' && <PlansContent selectContentWithData={selectContentWithData}/>}
+            {selectedContent === 'Plans' && <PlansContent selectContentWithData={selectContentWithData} />}
             {selectedContent === 'Stores' && <StoreList />}
             {selectedContent === 'Guidelines' && <Guidelines />}
             {selectedContent === 'Instructions' && <Instructions />}
             {selectedContent === 'ImportExport' && <ImportExport />}
             {selectedContent === 'Account' && <Account />}
             {selectedContent === 'Settings' && <Settings />}
-            {selectedContent === 'Subscribe' && <StripeSubscription title={title} price={price} priceId={priceId}/> }
+            {selectedContent === 'Subscribe' && <StripeSubscription title={title} price={price} priceId={priceId} />}
           </div>
         </div>
       </div>

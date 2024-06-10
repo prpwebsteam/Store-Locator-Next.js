@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 function Account() {
+    const router = useRouter();
+
     const [userDetails, setUserDetails] = useState({
         email: '',
     });
@@ -27,7 +30,6 @@ function Account() {
         fetchSubscriptions();
     }, []);
 
-
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
@@ -40,6 +42,16 @@ function Account() {
 
     const activeSubscriptions = subscriptions.filter(sub => sub.status === 'active');
     const accountStatus = activeSubscriptions.length > 0 ? 'Active' : 'Inactive';
+
+    const planStoreLimits = {
+        'price_1Ozbp5SHn1JO3w86Rml2JUb8': 121,
+        'price_1OzbqySHn1JO3w86QFNUIA4a': 1100,
+        'price_1OzbrSSHn1JO3w86TclSMZlE': 5000,
+    };
+
+    const getStoreLimit = (planId) => {
+        return planStoreLimits[planId] || 0;
+    };
 
     return (
         <>
@@ -89,14 +101,17 @@ function Account() {
                         </div>
 
                         {activeSubscriptions.length === 0 && (
-                            <button className="bg-transparent hover:bg-[#0046B5] text-[#0046B5] hover:text-white border border-[#0046B5] font-bold py-2 px-4 rounded-md">
+                            <button
+                                className="bg-transparent hover:bg-[#0046B5] text-[#0046B5] hover:text-white border border-[#0046B5] font-bold py-2 px-4 rounded-md"
+                                onClick={() => router.push('/dashboard?content=Plans')}
+                            >
                                 Upgrade Plan
                             </button>
                         )}
                     </div>
                 </div>
             </div>
-            {activeSubscriptions.length > 0 && (
+            {activeSubscriptions.length > 0 ? (
                 <div className="bg-white rounded-lg mx-5 p-6 w-64">
                     <div className="text-sm mb-2 text-gray-700">Current Plan: {activeSubscriptions[0].title}</div>
                     <div className="text-black font-bold text-lg mb-6">{activeSubscriptions[0].price}</div>
@@ -106,7 +121,7 @@ function Account() {
                                 <svg className="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                                 </svg>
-                                Up to 5000 Stores
+                                Up to {getStoreLimit(activeSubscriptions[0].planId)} Stores
                             </li>
                             <li className="flex items-center mb-2">
                                 <svg className="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -125,6 +140,57 @@ function Account() {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                                 </svg>
                                 6 Map Themes
+                            </li>
+                            <li className="flex items-center mb-2">
+                                <svg className="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Search and filters
+                            </li>
+                            <li className="flex items-center mb-2">
+                                <svg className="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Custom map icon
+                            </li>
+                            <li className="flex items-center mb-2">
+                                <svg className="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Edit from theme customizer
+                            </li>
+                            <li className="flex items-center mb-2">
+                                <svg className="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Search Nearby Stores
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            ) : (
+                <div className="bg-white rounded-lg mx-5 p-6 w-64">
+                    <div className="text-sm mb-2 text-gray-700">Free Tier Plan</div>
+                    <div className="text-black font-bold text-lg mb-6">Free</div>
+                    <div className="text-sm text-gray-600">
+                        <ul>
+                            <li className="flex items-center mb-2">
+                                <svg className="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Up to 5 Stores
+                            </li>
+                            <li className="flex items-center mb-2">
+                                <svg className="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Up to 3 Layouts
+                            </li>
+                            <li className="flex items-center mb-2">
+                                <svg className="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Up to 6 Map Themes
                             </li>
                             <li className="flex items-center mb-2">
                                 <svg className="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -15,20 +15,21 @@ export default async function handler(req, res) {
       const canceledSubscription = await stripe.subscriptions.update(subscriptionId, {
         cancel_at_period_end: true,
       });
+
       // Update the subscription status in the database
       const result = await db.collection('subscriptions').updateOne(
         { subscriptionId },
-        { $set: { status: 'canceled' } }
+        { $set: { status: 'pending_cancelation' } }
       );
 
       if (!result.matchedCount) {
         throw new Error('Subscription not found in database');
       }
 
-      return res.status(200).json({ message: 'Subscription canceled successfully', canceledSubscription });
+      return res.status(200).json({ message: 'Subscription cancellation requested successfully', canceledSubscription });
     } catch (error) {
       console.error('Error canceling subscription:', error);
-      return res.status(500).json({ message: 'Failed to cancel subscription', error: error.message });
+      return res.status(500).json({ message: 'Failed to request subscription cancellation', error: error.message });
     }
   } else {
     return res.status(405).json({ message: 'Method not allowed' });

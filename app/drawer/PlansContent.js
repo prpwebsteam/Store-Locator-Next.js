@@ -11,6 +11,7 @@ function PlansContent({ selectContentWithData }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expiryDetails, setExpiryDetails] = useState([]);
+  const [freePlanActivated, setFreePlanActivated] = useState(false);
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
@@ -21,6 +22,13 @@ function PlansContent({ selectContentWithData }) {
         }
         const data = await response.json();
         setSubscriptions(data.subscriptions);
+
+        const allCanceledOrPendingCancellation = data.subscriptions.every(sub => sub.status === 'canceled' || sub.status === 'pending_cancelation');
+        if (allCanceledOrPendingCancellation || data.subscriptions.length === 0) {
+          setFreePlanActivated(true);
+        } else {
+          setFreePlanActivated(false);
+        }
       } catch (error) {
         setError(error.message);
       } finally {
@@ -113,7 +121,7 @@ function PlansContent({ selectContentWithData }) {
       // Update the subscriptions state
       setSubscriptions((prevSubscriptions) =>
         prevSubscriptions.map((sub) =>
-          sub.subscriptionId === subscriptionId ? { ...sub, status: 'canceled' } : sub
+          sub.subscriptionId === subscriptionId ? { ...sub, status: 'pending_cancelation' } : sub
         )
       );
     } catch (error) {
@@ -128,7 +136,8 @@ function PlansContent({ selectContentWithData }) {
       price: 'Free',
       pid: 0,
       features: [
-        '5 Layouts',
+        '5 Stores',
+        '3 Layouts',
         '6 Map Themes',
         'Search and filters',
         'Custom map icon',
@@ -145,7 +154,7 @@ function PlansContent({ selectContentWithData }) {
       features: [
         'Up to 121 Stores',
         'Spreadsheet bulk import/export',
-        '5 Layouts',
+        '3 Layouts',
         '6 Map Themes',
         'Search and filters',
         'Custom map icon',
@@ -162,7 +171,7 @@ function PlansContent({ selectContentWithData }) {
       features: [
         'Up to 1100 Stores',
         'Spreadsheet bulk import/export',
-        '5 Layouts',
+        '3 Layouts',
         '6 Map Themes',
         'Search and filters',
         'Custom map icon',
@@ -179,7 +188,7 @@ function PlansContent({ selectContentWithData }) {
       features: [
         'Up to 5000 Stores',
         'Spreadsheet bulk import/export',
-        '5 Layouts',
+        '3 Layouts',
         '6 Map Themes',
         'Search and filters',
         'Custom map icon',
@@ -209,10 +218,15 @@ function PlansContent({ selectContentWithData }) {
           >
             Check Plan Expiry
           </button>
+          {freePlanActivated && (
+            <div className="mb-4 text-green-600">
+              Free plan activated automatically.
+            </div>
+          )}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
             {pricingTiers.map((tier, index) => {
-              const activeSubscriptions = subscriptions.filter(sub => sub.planId === tier.priceId && sub.status === 'active');
-              const isActivated = activeSubscriptions.length > 0;
+              const activeSubscriptions = subscriptions.filter(sub => sub.planId === tier.priceId && (sub.status === 'active' || sub.status === 'pending_cancelation'));
+              const isActivated = activeSubscriptions.length > 0 || (tier.title === 'Free' && freePlanActivated);
               const expiryDetail = expiryDetails.find(detail => detail.id === activeSubscriptions[0]?.subscriptionId);
 
               return (
@@ -224,10 +238,14 @@ function PlansContent({ selectContentWithData }) {
                       <li key={featureIndex} className="text-sm">{feature}</li>
                     ))}
                   </ul>
-                  {isActivated ? (
+                  {tier.title === 'Free' ? (
+                    <button className="mt-auto bg-green-700 hover:bg-green-500 text-white rounded-lg font-bold">
+                      
+                    </button>
+                  ) : isActivated ? (
                     <>
                       <button className="mt-auto bg-green-700 hover:bg-green-500 text-white px-4 py-2 rounded-lg font-bold">
-                        Activated
+                        {activeSubscriptions[0]?.status === 'pending_cancelation' ? 'Pending Cancellation' : 'Activated'}
                       </button>
                       {expiryDetail && (
                         <p className="text-sm mt-2 text-gray-600">
@@ -236,12 +254,14 @@ function PlansContent({ selectContentWithData }) {
                             `Status: ${expiryDetail.status}`}
                         </p>
                       )}
-                      <button
-                        className="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold"
-                        onClick={() => cancelSubscription(activeSubscriptions[0].subscriptionId)}
-                      >
-                        Cancel Subscription
-                      </button>
+                      {activeSubscriptions[0]?.status !== 'pending_cancelation' && (
+                        <button
+                          className="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold"
+                          onClick={() => cancelSubscription(activeSubscriptions[0].subscriptionId)}
+                        >
+                          Cancel Subscription
+                        </button>
+                      )}
                     </>
                   ) : (
                     <button className="mt-auto bg-[#0046B5] hover:bg-[#F2F2F7] text-white hover:text-black px-4 py-2 rounded-lg font-bold"

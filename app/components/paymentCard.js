@@ -59,7 +59,8 @@ function PaymentCard() {
       title: 'Free',
       price: 'Free',
       features: [
-        '5 Layouts',
+        '5 Stores',
+        '3 Layouts',
         '6 Map Themes',
         'Search and filters',
         'Custom map icon',
@@ -74,7 +75,7 @@ function PaymentCard() {
       features: [
         'Up to 121 Stores',
         'Spreadsheet bulk import/export',
-        '5 Layouts',
+        '3 Layouts',
         '6 Map Themes',
         'Search and filters',
         'Custom map icon',
@@ -89,7 +90,7 @@ function PaymentCard() {
       features: [
         'Up to 1100 Stores',
         'Spreadsheet bulk import/export',
-        '5 Layouts',
+        '3 Layouts',
         '6 Map Themes',
         'Search and filters',
         'Custom map icon',
@@ -104,7 +105,7 @@ function PaymentCard() {
       features: [
         'Up to 5000 Stores',
         'Spreadsheet bulk import/export',
-        '5 Layouts',
+        '3 Layouts',
         '6 Map Themes',
         'Search and filters',
         'Custom map icon',
