@@ -1,58 +1,27 @@
 'use client'
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
+import { useRouter } from 'next/navigation';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 function PaymentCard() {
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-      const handleCheckout = async (priceId) => {
-        const stripe = await stripePromise;
-        if (!stripe) {
-          console.error('Stripe.js has not loaded yet.');
-          return;
-        }
-      
-        const response = await fetch('/api/payment/create-checkout-session', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ priceId }),
-        });
-      
-        if (response.ok) {
-          const session = await response.json();
-          const result = await stripe.redirectToCheckout({
-            sessionId: session.sessionId,
-          });
-      
-          if (result.error) {
-            console.error(result.error.message);
-          } else {
-            // Return the sessionId on successful payment
-            return session.sessionId;
-          }
-        } else {
-          const error = await response.json();
-          console.error('Error during session creation:', error);
-        }
-      };
-      
-      const redirectToUrl = async (priceId) => {
-        if (!priceId) {
-            alert('Free tier selected');
-        } else if (priceId.startsWith('http')) {
-            window.location.href = priceId;
-        } else {
-            const sessionId = await handleCheckout(priceId);
-            if (sessionId) {
-                const paymentSuccessfulId = sessionId;
-                console.log('Payment Successful ID:', paymentSuccessfulId);
-            }
-        }
-      };
-    
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    setIsLoggedIn(!!userData); 
+  }, []);
+
+  const redirectToUrl = () => {
+    if (!isLoggedIn) {
+      router.push('/signup'); 
+    } else {
+      router.push('/dashboard?content=Plans'); 
+    }
+  };
 
   const pricingTiers = [
     {
@@ -115,37 +84,36 @@ function PaymentCard() {
     },
   ];
 
-
   return (
-    <div id="payment-card" className="flex flex-col items-center max-w-[1440px] mx-auto my-12 p-4 lg:p-8 gap-2 lg:gap-8 bg-white">      
+    <div id="payment-card" className="flex flex-col items-center max-w-[1440px] mx-auto my-12 p-4 lg:p-8 gap-2 lg:gap-8 bg-white">
       <div className='px-4 mt-8 flex flex-col gap-2 mb-8 items-center'>
         <strong className='text-[48px]'>Pricing Plan</strong>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-          {pricingTiers.map((tier, index) => (
-            <div key={index} className="shadow-xl hover:shadow-2xl flex flex-col justify-between gap-6 rounded-lg bg-white">
-              <div className='bg-[#D9E8FF] hover:bg-[#0040A9] hover:text-white p-6 rounded-t-lg'>
-                <h3 className="text-[16px] font-semibold">{tier.title}</h3>
-                <p className="text-[24px] font-bold">{tier.price}</p>
-              </div>
-              <div>
-                <ul className="list-disc pl-6">
-                  {tier.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="text-sm px-6 py-2 list-none ml-[-20px]">{feature}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className='p-6'>
-                <button 
-                    className="mt-auto rounded-md bg-white text-black border border-[#0040A9] hover:bg-[#0040A9] hover:text-white px-6 py-2 hover:shadow-xl font-bold"
-                    onClick={() => redirectToUrl(tier.priceId)}
-                >
-                    Buy Now
-                </button>
-              </div>
+        {pricingTiers.map((tier, index) => (
+          <div key={index} className="shadow-xl hover:shadow-2xl flex flex-col justify-between gap-6 rounded-lg bg-white">
+            <div className='bg-[#D9E8FF] hover:bg-[#0040A9] hover:text-white p-6 rounded-t-lg'>
+              <h3 className="text-[16px] font-semibold">{tier.title}</h3>
+              <p className="text-[24px] font-bold">{tier.price}</p>
             </div>
-          ))}
-        </div>
+            <div>
+              <ul className="list-disc pl-6">
+                {tier.features.map((feature, featureIndex) => (
+                  <li key={featureIndex} className="text-sm px-6 py-2 list-none ml-[-20px]">{feature}</li>
+                ))}
+              </ul>
+            </div>
+            <div className='p-6'>
+              <button 
+                className="mt-auto rounded-md bg-white text-black border border-[#0040A9] hover:bg-[#0040A9] hover:text-white px-6 py-2 hover:shadow-xl font-bold"
+                onClick={() => redirectToUrl(tier.priceId)}
+              >
+                Buy Now
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

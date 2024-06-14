@@ -8,58 +8,58 @@ import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import Profile from '../assests/profile.png'
 
 function NextArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          display: "block !important",
-          backgroundColor: "#fff !important",
-          borderRadius: "100% !important",
-          padding: "5px !important",
-          zIndex: 2
-        }}
-        onClick={onClick}
-      >
-        <FaArrowRight size={20} color="#000" />
-      </div>
-    );
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        display: "block !important",
+        backgroundColor: "#fff !important",
+        borderRadius: "100% !important",
+        padding: "5px !important",
+        zIndex: 2
+      }}
+      onClick={onClick}
+    >
+      <FaArrowRight size={20} color="#000" />
+    </div>
+  );
 }
-  
+
 function PrevArrow(props) {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          display: "block !important",
-          backgroundColor: "#fff !important",
-          borderRadius: "100% !important",
-          padding: "5px !important",
-          zIndex: 2
-        }}
-        onClick={onClick}
-      >
-        <FaArrowLeft size={20} color="#000" />
-      </div>
-    );
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        display: "block !important",
+        backgroundColor: "#fff !important",
+        borderRadius: "100% !important",
+        padding: "5px !important",
+        zIndex: 2
+      }}
+      onClick={onClick}
+    >
+      <FaArrowLeft size={20} color="#000" />
+    </div>
+  );
 }
-  
+
 
 const sampleClients = [
-    {
-      image: {Profile}, 
-      name: 'Jane Doe',
-      title: 'CEO',
-      testimonial: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      image: {Profile}, 
-      name: 'John Smith',
-      title: 'Marketing Director',
-      testimonial: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-  ];
+  {
+    image: { Profile },
+    name: 'Jane Doe',
+    title: 'CEO',
+    testimonial: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },
+  {
+    image: { Profile },
+    name: 'John Smith',
+    title: 'Marketing Director',
+    testimonial: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },
+];
 
 const ClientSlider = ({ clients = sampleClients }) => {
   const settings = {
@@ -118,7 +118,7 @@ const styles = {
     borderRadius: '50%',
     marginBottom: '1rem',
     width: '80px',
-    height: '80px', 
+    height: '80px',
   },
   testimonial: {
     fontSize: '1rem',

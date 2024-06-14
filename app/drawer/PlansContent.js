@@ -219,8 +219,8 @@ function PlansContent({ selectContentWithData }) {
             Check Plan Expiry
           </button>
           {freePlanActivated && (
-            <div className="mb-4 text-green-600">
-              Free plan activated automatically.
+            <div className="mb-4 text-black bg-[#fed000] font-bold px-6 py-2 rounded-[10px]">
+              You are using free tier!
             </div>
           )}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">

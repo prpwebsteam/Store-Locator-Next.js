@@ -177,8 +177,8 @@ const StoreList = () => {
                       className='w-4 mt-2 h-4 text-blue-600 bg-gray-100 border-[E1E1E1] rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                     />
                   </td>
-                  <td className="text-left px-4 pt-3 pb-3 cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>{store.name}</td>
-                  <td className="text-left px-4 pt-3 pb-3 cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>
+                  <td className="text-left px-4 pt-3 pb-3 text-nowrap cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>{store.name}</td>
+                  <td className="text-left px-4 pt-3 pb-3 text-nowrap cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>
                     <span
                       className={`font-bold py-1 px-4 rounded-3xl ${store.isActive ? 'bg-[#0040A9] text-white' : 'bg-red-500 text-white'
                         }`}
@@ -186,11 +186,11 @@ const StoreList = () => {
                       {store.isActive ? 'Active' : 'Inactive'}
                     </span>
                   </td>
-                  <td className="text-left px-4 pt-3 pb-3 cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>
+                  <td className="text-left px-4 pt-3 text-nowrap pb-3 cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>
                     {truncateAddress(`${store.addressLine1}, ${store.addressLine2}, ${store.city}, ${store.stateProvince}, ${store.country}`)}
                   </td>
-                  <td className="text-left px-4 pt-3 pb-3 cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>{store.phone}</td>
-                  <td className="text-left pl-4 pr-8 pt-3 pb-3 cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>{store.postalCode}</td>
+                  <td className="text-left px-4 pt-3 pb-3 text-nowrap cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>{store.phone}</td>
+                  <td className="text-left pl-4 pr-8 pt-3 text-nowrap pb-3 cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>{store.postalCode}</td>
                 </tr>
               ))
             )}

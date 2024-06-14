@@ -7,8 +7,13 @@ html {
 }
 
 ::-webkit-scrollbar {
+  width: 0px;
+  height: 5px; 
+}
+
+#store-list::-webkit-scrollbar {
   width: 5px;
-  height: 2px; 
+  height: 0px; 
 }
 
 ::-webkit-scrollbar-track {
@@ -64,7 +69,12 @@ html {
 
 ::-webkit-scrollbar-thumb {
   background: #888;
-  border-radius: 5px;
+  border-radius: 0px;
+}
+
+#store-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 0px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -657,7 +667,7 @@ small {
 
 #store-list ul li {
   border-top: 0.5px dashed #ddd;
-  padding: 15px 0;
+  padding: 15px 5px;
 }
 
 #map .pw-popup-h4 {
