@@ -192,7 +192,7 @@ const Map = () => {
   
       const nearbyStores = findStores(coordinates.lat, coordinates.lng, radius);
   
-      if (nearbyStores.length > 0) {
+      if (nearbyStores?.length > 0) {
         renderStores(nearbyStores);
       } else {
         renderStores([]); 
@@ -358,7 +358,7 @@ const Map = () => {
   function findStores(lat, lng, radius) {
     var results = [];
   
-    for (let i = 0; i < stores.length; i++) {
+    for (let i = 0; i < stores?.length; i++) {
       var store = stores[i];
       var storeLat = Number(store.latitude);
       var storeLng = Number(store.longitude);
@@ -366,7 +366,7 @@ const Map = () => {
       var distance = calcDistance(lat, lng, storeLat, storeLng);
   
       if (distance <= radius) {
-        if (filters.length === 0 || filterCheck(store)) {
+        if (filters?.length === 0 || filterCheck(store)) {
           store.distance = distance;
           results.push(store);
         }
@@ -399,7 +399,7 @@ const Map = () => {
   }  
 
   function filterCheck(store) {
-    if (filters.length == 0) {
+    if (filters?.length == 0) {
       return true;
     } else if (
       store.tags.indexOf(",") == -1 &&
@@ -410,7 +410,7 @@ const Map = () => {
       var tags = store.tags.split(",");
       var match = false;
 
-      for (var i = 0; i < tags.length; i++) {
+      for (var i = 0; i < tags?.length; i++) {
         var tag = tags[i].toLowerCase().trim();
 
         if ($.inArray(tag, filters) != -1) {
@@ -436,7 +436,7 @@ const Map = () => {
 
 
   useEffect(() => {
-    if (googleMapsLoaded && map && stores.length > 0) {
+    if (googleMapsLoaded && map && stores?.length > 0) {
       const newMarkers = stores.map((store, index) => {
         const markerIcon = settings?.markerImage ? {
           url: settings.markerImage,
@@ -767,7 +767,7 @@ const Map = () => {
             </div>
           </div>
         </li>`;
-      } else if (stores.length === 0) {
+      } else if (stores?.length === 0) {
         storeWrapper.innerHTML = `<li>
           <div class="pw-group-field">
             <div class="pw-list-map-icon">
@@ -831,7 +831,7 @@ const Map = () => {
     }
   }
 
-  if (stores.length > 0) {
+  if (stores?.length > 0) {
     renderStores(stores);
   }
 

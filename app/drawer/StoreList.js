@@ -72,7 +72,7 @@ const StoreList = () => {
     ((store.name ? store.name.toLowerCase() : '').includes(searchTerm.toLowerCase()) ||
       (store.status ? store.status.toLowerCase() : '').includes(searchTerm.toLowerCase())) &&
     (!filterStatus || (filterStatus === 'Active' && store.isActive) || (filterStatus === 'Inactive' && !store.isActive))
-  );  
+  );
 
   const truncateAddress = (address) => {
     const maxLength = 50;
@@ -166,6 +166,14 @@ const StoreList = () => {
                   </div>
                 </td>
               </tr>
+            ) : filteredStores.length === 0 ? (
+              <tr>
+                <td colSpan="6">
+                  <div className="flex justify-center items-center h-12">
+                    <p>No entry found</p>
+                  </div>
+                </td>
+              </tr>
             ) : (
               currentEntries.map((store) => (
                 <tr key={store._id}>
@@ -180,8 +188,7 @@ const StoreList = () => {
                   <td className="text-left px-4 pt-3 pb-3 text-nowrap cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>{store.name}</td>
                   <td className="text-left px-4 pt-3 pb-3 text-nowrap cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>
                     <span
-                      className={`font-bold py-1 px-4 rounded-3xl ${store.isActive ? 'bg-[#0040A9] text-white' : 'bg-red-500 text-white'
-                        }`}
+                      className={`font-bold py-1 px-4 rounded-3xl ${store.isActive ? 'bg-[#0040A9] text-white' : 'bg-red-500 text-white'}`}
                     >
                       {store.isActive ? 'Active' : 'Inactive'}
                     </span>
@@ -197,7 +204,7 @@ const StoreList = () => {
           </tbody>
         </table>
       </div>
-      <p className='mx-5 mt-2'>*Note:- Click on the store to edit it</p>
+      <p className='mx-5 mt-2'><span className='text-red-500 font-bold'>*Note:-</span> Click on the store to edit or inactive it.</p>
       <div>
         <ul className="pagination flex flex-row gap-1 justify-center mt-4">
           <li onClick={goToPreviousPage} className={currentPage === 1 ? 'disabled' : ''}>

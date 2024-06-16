@@ -1,7 +1,14 @@
+// pages/dashboard.js
 'use client'
-import React, { useEffect, useState, Suspense } from 'react';
-import dynamic from 'next/dynamic';
+import React, { useEffect, useState } from 'react';
+import PlansContent from '../drawer/PlansContent';
+import StoreList from '../drawer/StoreList';
+import Guidelines from '../drawer/Guidelines';
+import Instructions from '../drawer/Instructions';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Account from '../drawer/Account';
+import Settings from '../drawer/Settings';
+import ImportExport from '../drawer/Import-Export';
 import { IoStorefrontOutline, IoSettingsOutline } from "react-icons/io5";
 import { PiNotepadLight } from "react-icons/pi";
 import { MdOutlineImportantDevices, MdOutlineIntegrationInstructions } from "react-icons/md";
@@ -13,15 +20,6 @@ import { PiSignOutFill } from "react-icons/pi";
 import Popup from '../components/Popup';
 import Code from '../assests/coding.png';
 import StripeSubscription from '../components/StripeSubscription';
-
-// Dynamic imports for heavy components
-const PlansContent = dynamic(() => import('../drawer/PlansContent'), { suspense: true });
-const StoreList = dynamic(() => import('../drawer/StoreList'), { suspense: true });
-const Guidelines = dynamic(() => import('../drawer/Guidelines'), { suspense: true });
-const Instructions = dynamic(() => import('../drawer/Instructions'), { suspense: true });
-const Account = dynamic(() => import('../drawer/Account'), { suspense: true });
-const Settings = dynamic(() => import('../drawer/Settings'), { suspense: true });
-const ImportExport = dynamic(() => import('../drawer/Import-Export'), { suspense: true });
 
 function Dashboard() {
   const [selectedContent, setSelectedContent] = useState('Stores');
@@ -198,16 +196,14 @@ function Dashboard() {
             </div>
           </div>
           <div className="bg-[#F2F2F7] w-full py-12 px-5 min-h-[100vh]">
-            <Suspense fallback={<div>Loading...</div>}>
-              {selectedContent === 'Plans' && <PlansContent selectContentWithData={selectContentWithData} />}
-              {selectedContent === 'Stores' && <StoreList />}
-              {selectedContent === 'Guidelines' && <Guidelines />}
-              {selectedContent === 'Instructions' && <Instructions />}
-              {selectedContent === 'ImportExport' && <ImportExport />}
-              {selectedContent === 'Account' && <Account />}
-              {selectedContent === 'Settings' && <Settings />}
-              {selectedContent === 'Subscribe' && <StripeSubscription title={title} price={price} priceId={priceId} />}
-            </Suspense>
+            {selectedContent === 'Plans' && <PlansContent selectContentWithData={selectContentWithData} />}
+            {selectedContent === 'Stores' && <StoreList />}
+            {selectedContent === 'Guidelines' && <Guidelines />}
+            {selectedContent === 'Instructions' && <Instructions />}
+            {selectedContent === 'ImportExport' && <ImportExport />}
+            {selectedContent === 'Account' && <Account />}
+            {selectedContent === 'Settings' && <Settings />}
+            {selectedContent === 'Subscribe' && <StripeSubscription title={title} price={price} priceId={priceId} />}
           </div>
         </div>
       </div>
