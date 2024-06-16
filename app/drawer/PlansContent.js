@@ -12,6 +12,8 @@ function PlansContent({ selectContentWithData }) {
   const [error, setError] = useState(null);
   const [expiryDetails, setExpiryDetails] = useState([]);
   const [freePlanActivated, setFreePlanActivated] = useState(false);
+  const [isHandlingCheckout, setIsHandlingCheckout] = useState(false);
+  const [isCancelingSubscription, setIsCancelingSubscription] = useState({});
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
@@ -40,9 +42,11 @@ function PlansContent({ selectContentWithData }) {
   }, []);
 
   const handleCheckout = async (priceId) => {
+    setIsHandlingCheckout(true);
     const stripe = await stripePromise;
     if (!stripe) {
       console.error('Stripe.js has not loaded yet.');
+      setIsHandlingCheckout(false);
       return;
     }
 
@@ -67,6 +71,7 @@ function PlansContent({ selectContentWithData }) {
       const error = await response.json();
       console.error('Error during session creation:', error);
     }
+    setIsHandlingCheckout(false);
   };
 
   const redirectToUrl = async (priceId) => {
@@ -103,6 +108,7 @@ function PlansContent({ selectContentWithData }) {
   };
 
   const cancelSubscription = async (subscriptionId) => {
+    setIsCancelingSubscription((prev) => ({ ...prev, [subscriptionId]: true }));
     try {
       const response = await fetch('/api/cancelSubscription', {
         method: 'POST',
@@ -127,6 +133,8 @@ function PlansContent({ selectContentWithData }) {
     } catch (error) {
       console.error('Error canceling subscription:', error);
       setError(error.message);
+    } finally {
+      setIsCancelingSubscription((prev) => ({ ...prev, [subscriptionId]: false }));
     }
   };
 
@@ -240,7 +248,7 @@ function PlansContent({ selectContentWithData }) {
                   </ul>
                   {tier.title === 'Free' ? (
                     <button className="mt-auto bg-green-700 hover:bg-green-500 text-white rounded-lg font-bold">
-                      
+
                     </button>
                   ) : isActivated ? (
                     <>
@@ -257,17 +265,27 @@ function PlansContent({ selectContentWithData }) {
                       {activeSubscriptions[0]?.status !== 'pending_cancelation' && (
                         <button
                           className="mt-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold"
-                          onClick={() => cancelSubscription(activeSubscriptions[0].subscriptionId)}
+                          onClick={() => {
+                            if (!isCancelingSubscription[activeSubscriptions[0].subscriptionId]) {
+                              cancelSubscription(activeSubscriptions[0].subscriptionId);
+                            }
+                          }}
                         >
-                          Cancel Subscription
+                          {isCancelingSubscription[activeSubscriptions[0].subscriptionId] ? 'Canceling...' : 'Cancel Subscription'}
                         </button>
                       )}
                     </>
                   ) : (
-                    <button className="mt-auto bg-[#0046B5] hover:bg-[#F2F2F7] text-white hover:text-black px-4 py-2 rounded-lg font-bold"
-                      onClick={() => selectContentWithData(tier.title, tier.price, tier.priceId, 'Subscribe')}
+                    <button
+                      className="mt-auto bg-[#0046B5] hover:bg-[#F2F2F7] text-white hover:text-black px-4 py-2 rounded-lg font-bold"
+                      onClick={() => {
+                        if (!isHandlingCheckout) {
+                          selectContentWithData(tier.title, tier.price, tier.priceId, 'Subscribe');
+                          handleCheckout(tier.priceId);
+                        }
+                      }}
                     >
-                      Upgrade
+                      {isHandlingCheckout ? 'Processing...' : 'Upgrade'}
                     </button>
                   )}
                 </div>

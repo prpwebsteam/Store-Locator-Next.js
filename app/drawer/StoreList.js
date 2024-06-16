@@ -72,7 +72,7 @@ const StoreList = () => {
     ((store.name ? store.name.toLowerCase() : '').includes(searchTerm.toLowerCase()) ||
       (store.status ? store.status.toLowerCase() : '').includes(searchTerm.toLowerCase())) &&
     (!filterStatus || (filterStatus === 'Active' && store.isActive) || (filterStatus === 'Inactive' && !store.isActive))
-  );  
+  );
 
   const truncateAddress = (address) => {
     const maxLength = 50;
@@ -96,9 +96,9 @@ const StoreList = () => {
   return (
     <div>
       <div className='flex flex-row gap-8 px-5 items-center justify-between'>
-        <div className='flex gap-4 w-full justify-between'>
-          <div className="flex items-center gap-4 w-[70%]">
-            <div className="relative flex items-center w-[60%]">
+        <div className='flex flex-col sm:flex-row gap-4 w-full justify-between'>
+          <div className="flex flex-col w-full sm:flex-row items-center gap-4 sm:w-[70%]">
+            <div className="relative flex w-full items-center sm:w-[60%]">
               <input type='search' placeholder="Search..."
                 value={searchTerm}
                 onChange={handleSearchChange} className='h-[2.5rem] bg-[#fff] flex-1 px-4 border rounded-md focus:outline-none'></input>
@@ -107,11 +107,11 @@ const StoreList = () => {
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </div>
-            <div>
+            <div className='w-full sm:max-w-[200px]'>
               <select
                 onChange={handleFilterStatusChange}
                 value={filterStatus}
-                className="h-[2.5rem] select select-bordered border focus:outline-none select-primary bg-white px-4 py-1 max-w-[200px] rounded"
+                className="h-[2.5rem] select select-bordered border focus:outline-none select-primary w-full bg-white px-4 py-1 sm:max-w-[200px] rounded"
               >
                 <option value="" disabled>Select option</option>
                 <option value="">All Stores</option>
@@ -120,7 +120,7 @@ const StoreList = () => {
               </select>
             </div>
           </div>
-          <div className='flex gap-4 justify-end w-[30%]'>
+          <div className='flex gap-4 sm:justify-end w-full sm:w-[30%]'>
             <button
               type="button"
               className="bg-transparent font-bold text-[#0040A9] border border-[#0040A9] py-2 px-4 rounded hover:bg-[#0040A9] hover:text-white"
@@ -142,7 +142,7 @@ const StoreList = () => {
               </td>
             </tr>
             <tr className="border-b px-8 border-[E1E1E1]">
-              <th className=' px-8'>
+              <th className='flex justify-start px-8'>
                 <input
                   type="checkbox"
                   checked={selectAll}
@@ -166,6 +166,14 @@ const StoreList = () => {
                   </div>
                 </td>
               </tr>
+            ) : filteredStores.length === 0 ? (
+              <tr>
+                <td colSpan="6">
+                  <div className="flex justify-center items-center h-12">
+                    <p>No entry found</p>
+                  </div>
+                </td>
+              </tr>
             ) : (
               currentEntries.map((store) => (
                 <tr key={store._id}>
@@ -180,8 +188,7 @@ const StoreList = () => {
                   <td className="text-left px-4 pt-3 pb-3 text-nowrap cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>{store.name}</td>
                   <td className="text-left px-4 pt-3 pb-3 text-nowrap cursor-pointer border-b border-[E1E1E1]" style={{ verticalAlign: 'middle' }} onClick={() => handleEditStore(store._id)}>
                     <span
-                      className={`font-bold py-1 px-4 rounded-3xl ${store.isActive ? 'bg-[#0040A9] text-white' : 'bg-red-500 text-white'
-                        }`}
+                      className={`font-bold py-1 px-4 rounded-3xl ${store.isActive ? 'bg-[#0040A9] text-white' : 'bg-red-500 text-white'}`}
                     >
                       {store.isActive ? 'Active' : 'Inactive'}
                     </span>
@@ -197,7 +204,7 @@ const StoreList = () => {
           </tbody>
         </table>
       </div>
-      <p className='mx-5 mt-2'>*Note:- Click on the store to edit it</p>
+      <p className='mx-5 mt-2'><span className='text-red-500 font-bold'>*Note:-</span> Click on the store to edit or inactive it.</p>
       <div>
         <ul className="pagination flex flex-row gap-1 justify-center mt-4">
           <li onClick={goToPreviousPage} className={currentPage === 1 ? 'disabled' : ''}>

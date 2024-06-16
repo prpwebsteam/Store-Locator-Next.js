@@ -12,7 +12,7 @@ function SignIn() {
     password: '',
   });
   const router = useRouter();
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [verificationMessage, setVerificationMessage] = useState(''); 
 
   const handleChange = (e) => {
@@ -22,6 +22,7 @@ function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     try {
       const response = await fetch(`/api/verify?email=${formData.email}&password=${formData.password}`);
@@ -39,6 +40,8 @@ function SignIn() {
     } catch (error) {
       console.error('Sign-in Error:', error);
       setVerificationMessage('Internal Server Error'); // Set an error message
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -80,7 +83,7 @@ function SignIn() {
           className="bg-[#0040A9] text-white rounded-md px-8 py-2 my-4 font-bold"
           type="submit"
         >
-          Sign In
+          {isSubmitting ? 'Signing In...' : 'Sign In'}
         </button>
         {verificationMessage && (
           <p className="my-4 text-green-500">{verificationMessage}</p>

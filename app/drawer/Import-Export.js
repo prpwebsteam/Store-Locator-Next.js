@@ -6,6 +6,8 @@ const ImportExport = () => {
   const [fileName, setFileName] = useState('Import Excel File');
   const [subscriptions, setSubscriptions] = useState([]);
   const [freePlanActivated, setFreePlanActivated] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
     fetch('/api/getStores')
@@ -54,10 +56,18 @@ const ImportExport = () => {
       return;
     }
 
-    const ws = XLSX.utils.json_to_sheet(stores);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Stores");
-    XLSX.writeFile(wb, "stores.xlsx");
+    setIsExporting(true);
+
+    try {
+      const ws = XLSX.utils.json_to_sheet(stores);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Stores");
+      XLSX.writeFile(wb, "stores.xlsx");
+    } catch (error) {
+      console.error('Error exporting stores:', error);
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   const handleImport = (event) => {
@@ -68,6 +78,8 @@ const ImportExport = () => {
 
     const file = event.target.files[0];
     const reader = new FileReader();
+    setIsImporting(true);
+
     reader.onload = (e) => {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: 'array' });
@@ -76,29 +88,36 @@ const ImportExport = () => {
       const json = XLSX.utils.sheet_to_json(worksheet);
       sendJsonToServer(json);
     };
+
     reader.readAsArrayBuffer(file);
     if (file) {
       setFileName(file.name);
     } else {
       setFileName('No file chosen');
+      setIsImporting(false);
     }
   };
 
-  const sendJsonToServer = (jsonData) => {
-    fetch('/api/saveExcelData', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(jsonData),
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:');
-    })
-    .catch((error) => {
+  const sendJsonToServer = async (jsonData) => {
+    try {
+      const response = await fetch('/api/saveExcelData', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jsonData),
+      });
+
+      if (response.ok) {
+        console.log('Success:');
+      } else {
+        console.error('Failed to save Excel data');
+      }
+    } catch (error) {
       console.error('Error:', error);
-    });
+    } finally {
+      setIsImporting(false);
+    }
   };
 
   const handleDownloadTemplate = () => {
@@ -118,9 +137,9 @@ const ImportExport = () => {
               Download a sample file to bulk import the stores.
             </p>
           </div>
-          
+
           <button
-            onClick={handleDownloadTemplate} 
+            onClick={handleDownloadTemplate}
             className="hover:bg-[#0040A9] font-bold border border-[#0040A9] text-[12px] hover:text-white py-2 px-4 rounded bg-transparent text-[#0040A9]"
           >
             Download Excel Format
@@ -141,7 +160,7 @@ const ImportExport = () => {
                 htmlFor="file"
                 className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black cursor-pointer flex justify-center items-center"
               >
-                {fileName}
+                {isImporting ? 'Importing...' : fileName}
               </label>
               <p className='text-[#505050] text-sm mt-4 '>Accept CSV File</p>
             </div>
@@ -151,11 +170,11 @@ const ImportExport = () => {
             <div className='p-24'>
               <button
                 onClick={handleExport}
-                className="bg-[#0040A9] font-bold text-white  py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black"
-              > 
-                Export Stores
+                className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black"
+              >
+                {isExporting ? 'Exporting...' : 'Export Stores'}
               </button>
-            </div>          
+            </div>
           </div>
         </div>
       </div>

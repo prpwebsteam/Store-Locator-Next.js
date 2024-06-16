@@ -26,11 +26,12 @@ const editStore = () => {
     email: '',
     website: '',
     fax: '',
-    isActive: false, 
+    isActive: false,
   };
   const [storeInfo, setStoreInfo] = useState(initialStoreInfo);
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [updateError, setUpdateError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     router.refresh();
@@ -63,6 +64,7 @@ const editStore = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     let success_msg = document.getElementById("update-msg");
 
     try {
@@ -88,6 +90,8 @@ const editStore = () => {
     } catch (error) {
       console.error('Error:', error);
       setUpdateError('An error occurred while updating the store');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -317,7 +321,9 @@ const editStore = () => {
             </label>
           </div>
           <div className="col-span-2">
-            <button type="submit" className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black">Update Store</button>
+            <button type="submit" className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black">
+              {isSubmitting ? 'Updating...' : 'Update Store'}
+            </button>
           </div>
         </form>
         <div id="update-msg"></div>

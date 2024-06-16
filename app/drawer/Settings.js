@@ -218,7 +218,7 @@ const Settings = () => {
           </div>
         </form>
         <div className='flex justify-start'>
-          <button className='mt-8 bg-[#0040A9] text-white px-8 py-2 rounded-md' 
+          <button className='mt-8 bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black' 
           disabled={loadSetting}
           onClick={handleSubmit}>
             {loadSetting ? 'Saving...' : 'Save'}

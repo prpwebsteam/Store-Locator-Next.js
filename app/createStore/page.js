@@ -33,6 +33,7 @@ const CreateStore = () => {
   const [error, setError] = useState(null);
   const [stores, setStores] = useState([]);
   const [freePlanActivated, setFreePlanActivated] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     fetch('/api/getStores')
@@ -44,10 +45,6 @@ const CreateStore = () => {
         console.error('Error fetching stores:', error);
       });
   }, []);
-
-  useEffect(()=>{
-    console.log("stores:- ",stores)
-  },[stores])
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
@@ -61,7 +58,7 @@ const CreateStore = () => {
 
         // Check for free plan activation conditions
         const allCanceledOrPendingCancellation = data.subscriptions.every(sub => sub.status === 'canceled' || sub.status === 'pending_cancelation');
-        console.log("allCanceledOrPendingCancellation:- ",allCanceledOrPendingCancellation)
+        console.log("allCanceledOrPendingCancellation:- ", allCanceledOrPendingCancellation)
         if (allCanceledOrPendingCancellation || data.subscriptions.length === 0) {
           console.log("set free");
           setFreePlanActivated(true);
@@ -78,9 +75,6 @@ const CreateStore = () => {
     fetchSubscriptions();
   }, []);
 
-  useEffect(()=>{
-    console.log("subscriptions222:- ",subscriptions)
-  },[subscriptions])
 
   useEffect(() => {
     const fetchStoreDetails = async () => {
@@ -113,6 +107,7 @@ const CreateStore = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     const planLimits = {
       'price_1Ozbp5SHn1JO3w86Rml2JUb8': 121,
@@ -134,6 +129,7 @@ const CreateStore = () => {
 
     if (currentStoreCount >= maxStoresAllowed) {
       alert('Plan limit reached. You cannot create more stores.');
+      setIsSubmitting(false);
       return;
     }
 
@@ -153,6 +149,8 @@ const CreateStore = () => {
       }
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -163,6 +161,11 @@ const CreateStore = () => {
   return (
     <>
       <div className="sm:px-12 py-12 px-4 max-w-[1440px] mx-auto">
+        {freePlanActivated && (
+          <div className="mb-4 text-black bg-[#fed000] font-bold px-6 py-2 rounded-[10px]">
+            You are using free tier!
+          </div>
+        )}
         <h2 className="mb-8 font-bold text-xl">Create a Store</h2>
         <form id="create-store-form" onSubmit={handleSubmit} className="sm:grid sm:grid-cols-3 gap-8 flex flex-col">
           <div className="col-span-1">
@@ -386,13 +389,10 @@ const CreateStore = () => {
           </div>
         </form>
         <div className="col-span-3 justify-center flex mt-8">
-          <button onClick={handleButtonClick} className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black">Create Store</button>
+          <button onClick={handleButtonClick} className="bg-[#0040A9] font-bold text-white py-2 px-4 rounded hover:bg-[#e6edf8] hover:text-black">
+            {isSubmitting ? 'Creating...' : 'Create Store'}
+          </button>
         </div>
-        {freePlanActivated && (
-          <div className="mt-4 text-green-600">
-           You are using free tier!
-          </div>
-        )}
       </div>
     </>
   );

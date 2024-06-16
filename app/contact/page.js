@@ -1,19 +1,18 @@
-'use client'
-import Link from 'next/link';
+'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Header2 from '../components/Header2';
 import Footer from '../components/Footer';
 
-function SignUp() {
+export default function ContactUs() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        phone: '',
-        password: '',
-        confirmPassword: '',
+        query: '',
     });
-    const [successMessage, setSuccessMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [message, setMessage] = useState('');
+    const router = useRouter();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -23,25 +22,34 @@ function SignUp() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+        console.log("formData:-",formData)
+
         try {
-            const response = await fetch('/api/signup', {
+            const response = await fetch('/api/contact', {
                 method: 'POST',
                 body: JSON.stringify(formData),
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
-
+            console.log("response:-",response)
             if (response.status === 200) {
-                setSuccessMessage('Signup successfully!');
+                setMessage('Your query has been sent successfully!');
+                setFormData({
+                    name: '',
+                    email: '',
+                    query: '',
+                });
                 setTimeout(() => {
-                    setSuccessMessage('');
+                    setMessage('');
+                    router.push('/');
                 }, 3000);
             } else {
-                console.error('Signup failed');
+                setMessage('Failed to send your query. Please try again.');
             }
         } catch (error) {
-            console.error('Signup Error:', error);
+            console.error('Error:', error);
+            setMessage('An error occurred. Please try again.');
         } finally {
             setIsSubmitting(false);
         }
@@ -50,8 +58,8 @@ function SignUp() {
     return (
         <>
             <Header2 />
-            <div className="flex flex-col items-center justify-center py-10 min-h-[100vh] overflow-hidden bg-white">
-                <h2 className="text-2xl font-bold py-4">Sign Up</h2>
+            <div className="flex flex-col items-center justify-center py-10 min-h-[100vh] bg-white">
+                <h2 className="text-2xl font-bold py-4">Contact Us</h2>
                 <form onSubmit={handleSubmit} className="flex flex-col items-center w-[90%] md:w-[45%]">
                     <div className="input-wrapper w-full">
                         <label htmlFor="name" className="block">Name:</label>
@@ -78,52 +86,21 @@ function SignUp() {
                         />
                     </div>
                     <div className="input-wrapper w-full">
-                        <label htmlFor="phone" className="block">Phone:</label>
-                        <input
-                            type="tel"
-                            id="phone"
-                            name="phone"
-                            value={formData.phone}
+                        <label htmlFor="query" className="block">Query:</label>
+                        <textarea
+                            id="query"
+                            name="query"
+                            value={formData.query}
                             onChange={handleChange}
                             className="border border-gray-300 rounded-md px-5 py-2 my-2 w-full"
                             required
-                        />
+                        ></textarea>
                     </div>
-                    <div className="input-wrapper w-full">
-                        <label htmlFor="password" className="block">Password:</label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            className="border border-gray-300 rounded-md px-5 py-2 my-2 w-full"
-                            required
-                        />
-                    </div>
-                    <div className="input-wrapper w-full">
-                        <label htmlFor="confirmPassword" className="block">Confirm Password:</label>
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            value={formData.confirmPassword}
-                            onChange={handleChange}
-                            className="border border-gray-300 rounded-md px-5 py-2 my-2 w-full"
-                            required
-                        />
-                    </div>
-                    <p className="my-2">
-                        Already have an account?{' '}
-                        <Link href="/signin" className="text-blue-500">
-                            Sign in
-                        </Link>
-                    </p>
                     <button className="bg-[#0040A9] text-white rounded-md px-8 py-2 my-4 font-bold" type="submit">
-                        {isSubmitting ? 'Signing Up...' : 'Sign Up'}
+                        {isSubmitting ? 'Sending...' : 'Send'}
                     </button>
-                    {successMessage && (
-                        <p className="text-green-500 my-4">{successMessage}</p>
+                    {message && (
+                        <p className="my-4 text-green-500">{message}</p>
                     )}
                 </form>
             </div>
@@ -131,5 +108,3 @@ function SignUp() {
         </>
     );
 }
-
-export default SignUp;
